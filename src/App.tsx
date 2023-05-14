@@ -1,5 +1,6 @@
 import './App.css';
-import PublicLayout from './layout/PublicLayout';
+
+import PublicLayout from '@layout/PublicLayout';
 
 const App = () => {
     return <PublicLayout />;
