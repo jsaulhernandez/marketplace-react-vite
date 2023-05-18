@@ -1,5 +1,5 @@
 import useAxios from '@hooks/useAxios.hook';
-import './App.css';
+import './style.css';
 
 import PublicLayout from '@layout/PublicLayout';
 import { useEffect } from 'react';
