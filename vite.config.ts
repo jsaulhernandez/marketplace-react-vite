@@ -17,6 +17,7 @@ export default defineConfig({
             '@interfaces': resolve(__dirname, './src/interfaces'),
             '@utils': resolve(__dirname, './src/utils'),
             '@reducers': resolve(__dirname, './src/reducers'),
+            '@constants': resolve(__dirname, './src/constants'),
         },
     },
     plugins: [react()],

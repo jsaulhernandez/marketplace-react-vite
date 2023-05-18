@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "ESNext",
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
         "module": "ESNext",
         "skipLibCheck": true,
 
@@ -23,7 +23,8 @@
             "@pages/*": ["src/pages/*"],
             "@interfaces/*": ["src/interfaces/*"],
             "@utils/*": ["src/utils/*"],
-            "@reducers/*": ["src/reducers/*"]
+            "@reducers/*": ["src/reducers/*"],
+            "@constants/*": ["src/constants/*"]
         },
 
         /* Linting */
