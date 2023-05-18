@@ -16,6 +16,7 @@ export default defineConfig({
             '@layout': resolve(__dirname, './src/layout'),
             '@interfaces': resolve(__dirname, './src/interfaces'),
             '@utils': resolve(__dirname, './src/utils'),
+            '@reducers': resolve(__dirname, './src/reducers'),
         },
     },
     plugins: [react()],

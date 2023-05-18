@@ -22,7 +22,8 @@
             "@layout/*": ["src/layout/*"],
             "@pages/*": ["src/pages/*"],
             "@interfaces/*": ["src/interfaces/*"],
-            "@utils/*": ["src/utils/*"]
+            "@utils/*": ["src/utils/*"],
+            "@reducers/*": ["src/reducers/*"]
         },
 
         /* Linting */
