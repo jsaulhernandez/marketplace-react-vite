@@ -5,6 +5,10 @@
     --secondary-color: #ffffff;
     --tertiary-color: #fcfbfc;
     --quaternary-color: #efefef;
+
+    --primary-text-color: #000000;
+    --secondary-text-color: #7a7e83;
+    --tertiary-text-color: #525960;
 }
 
 * {
@@ -308,4 +312,27 @@
 
 .ml-1 {
     margin-left: 10px;
+}
+
+.kp-item-column,
+.kp-item-row {
+    display: flex;
+    width: 100%;
+}
+
+.kp-item-column {
+    flex-direction: column;
+}
+
+.kp-item-row {
+    flex-direction: row;
+}
+
+.kp-item-column label,
+.kp-item-row label {
+    width: 100%;
+    font-weight: 700 !important;
+    line-height: 21px;
+    color: var(--tertiary-text-color);
+    margin-right: 15px;
 }
