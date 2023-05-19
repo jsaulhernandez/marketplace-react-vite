@@ -1,21 +1,12 @@
-import useAxios from '@hooks/useAxios.hook';
+import { useRoutes } from 'react-router-dom';
+
 import './style.css';
 
-import PublicLayout from '@layout/PublicLayout';
-import { useEffect } from 'react';
+import { Routes } from './routes';
 
 const App = () => {
-    const [state, fetch] = useAxios();
-
-    useEffect(() => {
-        fetch('/category/web');
-    }, []);
-
-    useEffect(() => {
-        console.log('state', state);
-    }, [state]);
-
-    return <PublicLayout />;
+    const routes = useRoutes(Routes);
+    return routes;
 };
 
 export default App;
