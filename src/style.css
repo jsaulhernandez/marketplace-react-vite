@@ -20,7 +20,7 @@
 
     /*FIREFOX*/
     scrollbar-width: auto;
-    scrollbar-color: var(--primary-color) var(--tertiary-color);
+    scrollbar-color: var(--secondary-text-color) var(--tertiary-color);
 }
 
 #root {
