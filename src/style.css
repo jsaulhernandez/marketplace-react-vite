@@ -326,6 +326,7 @@
 
 .kp-item-row {
     flex-direction: row;
+    align-items: center;
 }
 
 .kp-item-column label,
