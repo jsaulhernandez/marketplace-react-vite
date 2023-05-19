@@ -3,6 +3,8 @@ import { FC } from 'react';
 import styled, { css } from 'styled-components';
 
 type textType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p';
+type decoration = 'line-through' | 'underline' | 'overline';
+type decorationColor = 'red' | 'grey' | 'black';
 
 export interface KPTextProps {
     text: string;
@@ -11,6 +13,8 @@ export interface KPTextProps {
     fontSize?: number;
     fontWeight?: number;
     letterSpacing?: number;
+    textDecoration?: decoration;
+    textDecorationColor?: decorationColor;
     margin?: number;
     marginTop?: number;
     marginRight?: number;
@@ -60,6 +64,16 @@ const getMargin = (margin?: number) => {
     return '0';
 };
 
+const getTextDecoration = (textDecoration?: string) => {
+    if (textDecoration) return textDecoration;
+    return 'none';
+};
+
+const getTextDecorationColor = (textDecorationColor?: string) => {
+    if (textDecorationColor) return textDecorationColor;
+    return 'none';
+};
+
 const styles = css<Omit<KPTextProps, 'onClick' | 'className' | 'text'>>`
     color: ${({ textColor }) => getTextColor(textColor)};
     font-size: ${({ fontSize }) => getFontSize(fontSize)};
@@ -70,6 +84,9 @@ const styles = css<Omit<KPTextProps, 'onClick' | 'className' | 'text'>>`
     margin-right: ${({ marginRight }) => getMargin(marginRight)};
     margin-bottom: ${({ marginBottom }) => getMargin(marginBottom)};
     margin-left: ${({ marginLeft }) => getMargin(marginLeft)};
+    text-decoration: ${({ textDecoration }) => getTextDecoration(textDecoration)};
+    text-decoration-color: ${({ textDecorationColor }) =>
+        getTextDecorationColor(textDecorationColor)};
 `;
 
 const H1Wrapper = styled.h1`
