@@ -35,7 +35,7 @@ const Wrapper = styled.div`
     overflow: hidden;
 
     .container {
-        padding: 2% 4%;
+        padding: 2% 3%;
         background-color: var(--tertiary-color);
         min-height: ${() => `calc(100vh - ${HEADER_HEIGHT})`};
     }
