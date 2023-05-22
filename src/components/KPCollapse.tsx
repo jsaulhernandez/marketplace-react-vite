@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Collapse } from 'antd';
-import { CaretRightOutlined } from '@ant-design/icons';
+import { LeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPText from './KPText';
@@ -22,7 +22,7 @@ const KPCollapse: FC<KPCollapseProps> = (props) => {
             defaultActiveKey={[props.identifier]}
             expandIconPosition="right"
             expandIcon={({ isActive }) => (
-                <CaretRightOutlined className="hand" rotate={isActive ? 90 : -90} />
+                <LeftOutlined className="hand" rotate={isActive ? 90 : -90} />
             )}
         >
             <Panel
