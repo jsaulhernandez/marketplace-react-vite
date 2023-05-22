@@ -21,17 +21,17 @@ export default defineConfig({
         },
     },
     plugins: [react()],
-    // css: {
-    //     preprocessorOptions: {
-    //         less: {
-    //             modifyVars: {
-    //                 'primary-color': '#d39000',
-    //                 'link-color': '#001a70',
-    //                 'border-radius-base': '4px',
-    //                 'error-color': '#ff859c',
-    //             },
-    //             javascriptEnabled: true,
-    //         },
-    //     },
-    // },
+    css: {
+        preprocessorOptions: {
+            less: {
+                modifyVars: {
+                    'primary-color': '#0d67dd',
+                    // 'link-color': '#001a70',
+                    // 'border-radius-base': '4px',
+                    // 'error-color': '#ff859c',
+                },
+                javascriptEnabled: true,
+            },
+        },
+    },
 });

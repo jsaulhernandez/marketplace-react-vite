@@ -314,6 +314,22 @@
     margin-left: 10px;
 }
 
+.g-20 {
+    gap: 20px;
+}
+
+.g-15 {
+    gap: 15px;
+}
+
+.g-10 {
+    gap: 10px;
+}
+
+.g-5 {
+    gap: 5px;
+}
+
 .kp-item-column,
 .kp-item-row {
     display: flex;
