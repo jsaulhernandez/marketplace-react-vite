@@ -14,12 +14,17 @@ export interface KPItemFilterProps {
     label?: string;
     value?: string;
     active?: boolean;
+    className?: string;
 }
 
 const KPItemFilter: FC<KPItemFilterProps> = (props) => {
     if (props.type === 'tag')
         return (
-            <TagWrapper className="flex items-center g-10 p-1">
+            <TagWrapper
+                className={`flex items-center g-10 p-1 ${
+                    props.className ? props.className : ''
+                }`}
+            >
                 <KPText text="Hola como estas xdxd" />
                 <CloseCircleOutlined
                     className="hand closable"
@@ -31,16 +36,20 @@ const KPItemFilter: FC<KPItemFilterProps> = (props) => {
     if (props.type === 'amount')
         return (
             <Amount
-                className="flex items-center p-1 hand"
-                onClick={() => props.onClick && props.onClick()}
-                active={true}
+                className={`flex items-center justify-center p-1 hand ${
+                    props.className ? props.className : ''
+                }`}
+                onClick={() => props.onClick && props.onClick(props.value)}
+                active={props.active}
             >
-                <KPText text="$100 - $200" fontWeight={500} />
+                <KPText text={props.label ?? ''} fontWeight={500} fontSize={12} />
             </Amount>
         );
 
     return (
-        <Category className="flex items-center g-10">
+        <Category
+            className={`flex items-center g-10 ${props.className ? props.className : ''}`}
+        >
             <Checkbox
                 onChange={(e) => props.onClick && props.onClick(e.target.checked)}
             />
