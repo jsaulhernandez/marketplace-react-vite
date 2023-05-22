@@ -84,6 +84,15 @@ const Amount = styled.div<{
         color: ${({ active }) =>
             active ? 'var(--primary-color)' : 'var(--secondary-text-color)'};
     }
+
+    &:hover {
+        border-color: var(--primary-color);
+        background-color: #cee1f9;
+
+        p {
+            color: var(--primary-color);
+        }
+    }
 `;
 
 export default KPItemFilter;
