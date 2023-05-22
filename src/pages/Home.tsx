@@ -1,25 +1,65 @@
 import { Select } from 'antd';
+import { DollarCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPPagination from '@components/KPPagination';
 import KPText from '@components/KPText';
 import KPProduct from '@components/producst/KPProduct';
+import KPItemFilter from '@components/KPItemFilter';
+import KPCollapse from '@components/KPCollapse';
+import { PRICES_FILTERS } from '@constants/Constants.constanst';
+import KPInput from '@components/KPInput';
 
 const Home = () => {
     return (
         <Wrapper className="flex flex-row wp-100">
-            <div className="Home_item flex flex-column p-1">
-                <KPText
-                    text="Filtros"
-                    fontWeight={700}
-                    fontSize={16}
-                    textColor="--primary-text-color"
-                />
+            <div className="Home_item flex flex-column">
+                <div className="Home_item-filters wp-100 p-2 flex flex-column g-15">
+                    <KPText
+                        text="Filtros"
+                        fontWeight={700}
+                        fontSize={16}
+                        textColor="--primary-text-color"
+                    />
+
+                    <KPCollapse identifier="categories" name="Categorías">
+                        <KPItemFilter label="AirPods" />
+                        <KPItemFilter label="iPad" />
+                        <KPItemFilter label="Macbook" />
+                    </KPCollapse>
+
+                    <KPCollapse identifier="prices" name="Precios">
+                        <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
+                            <KPInput
+                                placeholder="Minímo"
+                                addonBefore={<DollarCircleOutlined />}
+                            />
+                            <KPInput
+                                placeholder="Máximo"
+                                addonBefore={<DollarCircleOutlined />}
+                            />
+                            {PRICES_FILTERS.map((p, i) => (
+                                <KPItemFilter
+                                    className="item"
+                                    label={p}
+                                    value={p}
+                                    key={i}
+                                    type="amount"
+                                />
+                            ))}
+                        </div>
+                    </KPCollapse>
+
+                    <KPCollapse identifier="pays" name="Pagos">
+                        <KPItemFilter label="Paypal" />
+                        <KPItemFilter label="Gopay" />
+                    </KPCollapse>
+                </div>
             </div>
 
             <div className="Home_item flex flex-column p-1">
-                <div className="Home_item-filters flex flex-row justify-between items-center flex-wrap">
-                    <div className="Home_item-filters-page flex flex-row flex-wrap">
+                <div className="Home_item-pagination flex flex-row justify-between items-center flex-wrap">
+                    <div className="Home_item-pagination-data flex flex-row flex-wrap g-5">
                         <KPPagination />
 
                         <div className="flex flex-row">
@@ -27,13 +67,13 @@ const Home = () => {
                             &nbsp;
                             <KPText
                                 text="search"
-                                className="Home_item-filters-page-search-for"
+                                className="Home_item-pagination-data-search-for"
                                 fontWeight={700}
                             />
                         </div>
                     </div>
 
-                    <div className="Home_item-filters-sort">
+                    <div className="Home_item-pagination-sort">
                         <div className="kp-item-row">
                             <label>Ordenar por:</label>
                             <Select className="select" defaultValue="desc">
@@ -44,10 +84,11 @@ const Home = () => {
                     </div>
                 </div>
 
+                <div className="Home_item-filters-container flex flex-row flex-wrap mt-1 mb-1 g-10">
+                    <KPItemFilter type="tag" label="Macbook" />
+                </div>
+
                 <div className="Home_item-container flex flex-row flex-wrap wp-100">
-                    <KPProduct className="Home_item-container-item" />
-                    <KPProduct className="Home_item-container-item" />
-                    <KPProduct className="Home_item-container-item" />
                     <KPProduct className="Home_item-container-item" />
                     <KPProduct className="Home_item-container-item" />
                     <KPProduct className="Home_item-container-item" />
@@ -65,19 +106,21 @@ const Wrapper = styled.div`
 
         &:first-child {
             width: 20%;
-            background-color: var(--secondary-color);
-            min-height: 300px;
-            border: 2px solid var(--quaternary-color);
-            border-radius: 10px;
         }
     }
 
-    .Home_item-filters-page {
-        gap: 5px;
+    .Home_item-filters {
+        background-color: var(--secondary-color);
+        border: 2px solid var(--quaternary-color);
+        border-radius: 10px;
+    }
 
-        .Home_item-filters-page-search-for {
-            color: var(--primary-color);
-        }
+    .Home_item-filters-prices .item {
+        width: calc(100% / 2 - 5px);
+    }
+
+    .Home_item-pagination-data .Home_item-pagination-data-search-for {
+        color: var(--primary-color);
     }
 
     .select {

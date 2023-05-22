@@ -1,4 +1,8 @@
+import { Button, Space } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+
+import KPInput from '@components/KPInput';
 
 const Header = () => {
     return (
@@ -8,7 +12,13 @@ const Header = () => {
                     <img src="/" alt="img" />
                 </div>
                 <div className="Header-items-search">
-                    <input />
+                    <Space.Compact>
+                        <KPInput
+                            prefix={<SearchOutlined />}
+                            placeholder="Buscar Macbook pro....."
+                        />
+                        <Button type="primary">Submit</Button>
+                    </Space.Compact>
                 </div>
                 <div className="Header-items-session">items</div>
             </div>
