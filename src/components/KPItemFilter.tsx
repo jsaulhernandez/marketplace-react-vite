@@ -11,7 +11,7 @@ type typeFilter = 'category' | 'amount' | 'tag';
 export interface KPItemFilterProps {
     type?: typeFilter;
     onClick?: (value?: string | boolean) => void;
-    label?: string;
+    label: string;
     value?: string;
     active?: boolean;
     className?: string;
@@ -25,7 +25,7 @@ const KPItemFilter: FC<KPItemFilterProps> = (props) => {
                     props.className ? props.className : ''
                 }`}
             >
-                <KPText text="Hola como estas xdxd" />
+                <KPText text={props.label} />
                 <CloseCircleOutlined
                     className="hand closable"
                     onClick={() => props.onClick && props.onClick()}
@@ -53,7 +53,7 @@ const KPItemFilter: FC<KPItemFilterProps> = (props) => {
             <Checkbox
                 onChange={(e) => props.onClick && props.onClick(e.target.checked)}
             />
-            <KPText text="AirPods" />
+            <KPText text={props.label} />
         </Category>
     );
 };
