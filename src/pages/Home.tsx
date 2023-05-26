@@ -1,16 +1,55 @@
-import { Select } from 'antd';
+import { useEffect } from 'react';
+
+import { Form, Radio, Select } from 'antd';
+import { useForm } from 'antd/es/form/Form';
 import { DollarCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPPagination from '@components/KPPagination';
 import KPText from '@components/KPText';
-import KPProduct from '@components/producst/KPProduct';
+import KPProduct from '@components/products/KPProduct';
 import KPItemFilter from '@components/KPItemFilter';
 import KPCollapse from '@components/KPCollapse';
-import { PRICES_FILTERS } from '@constants/Constants.constanst';
 import KPInput from '@components/KPInput';
 
+import { PRICES_FILTERS } from '@constants/Constants.constanst';
+
+import useAxios from '@hooks/useAxios.hook';
+
+import { CategoryModel } from '@interfaces/Category.model';
+import { PayMethodModel } from '@interfaces/PayMethod.model';
+
+interface FormFilters {
+    category: string;
+    startPrice: string;
+    endPrice: string;
+    method: string;
+}
+
 const Home = () => {
+    const [stateCategories, fetchCategories] = useAxios<CategoryModel[]>();
+    const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
+    const [form] = useForm<FormFilters>();
+
+    useEffect(() => {
+        getCategories();
+        getPayMethods();
+    }, []);
+
+    const getCategories = () => {
+        fetchCategories({
+            method: 'GET',
+            path: '/category/web/active',
+        });
+    };
+
+    const getPayMethods = () => {
+        fetchPayMethods({
+            method: 'GET',
+            path: '/pay-method/web/active',
+        });
+    };
+
     return (
         <Wrapper className="flex flex-row wp-100">
             <div className="Home_item flex flex-column">
@@ -22,38 +61,57 @@ const Home = () => {
                         textColor="--primary-text-color"
                     />
 
-                    <KPCollapse identifier="categories" name="Categorías">
-                        <KPItemFilter label="AirPods" />
-                        <KPItemFilter label="iPad" />
-                        <KPItemFilter label="Macbook" />
-                    </KPCollapse>
+                    <Form
+                        form={form}
+                        autoComplete="off"
+                        className="flex flex-column g-15"
+                    >
+                        <KPCollapse identifier="categories" name="Categorías">
+                            <Form.Item name="category">
+                                <Radio.Group className="flex flex-column g-10">
+                                    {stateCategories.data?.map((c) => (
+                                        <KPItemFilter label={c.name} value={c.id} />
+                                    ))}
+                                </Radio.Group>
+                            </Form.Item>
+                        </KPCollapse>
 
-                    <KPCollapse identifier="prices" name="Precios">
-                        <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
-                            <KPInput
-                                placeholder="Minímo"
-                                addonBefore={<DollarCircleOutlined />}
-                            />
-                            <KPInput
-                                placeholder="Máximo"
-                                addonBefore={<DollarCircleOutlined />}
-                            />
-                            {PRICES_FILTERS.map((p, i) => (
-                                <KPItemFilter
-                                    className="item"
-                                    label={p}
-                                    value={p}
-                                    key={i}
-                                    type="amount"
-                                />
-                            ))}
-                        </div>
-                    </KPCollapse>
+                        <KPCollapse identifier="prices" name="Precios">
+                            <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
+                                <Form.Item name="startPrice">
+                                    <KPInput
+                                        placeholder="Minímo"
+                                        addonBefore={<DollarCircleOutlined />}
+                                    />
+                                </Form.Item>
+                                <Form.Item name="endPrice">
+                                    <KPInput
+                                        placeholder="Máximo"
+                                        addonBefore={<DollarCircleOutlined />}
+                                    />
+                                </Form.Item>
+                                {PRICES_FILTERS.map((p, i) => (
+                                    <KPItemFilter
+                                        className="item"
+                                        label={p}
+                                        value={p}
+                                        key={i}
+                                        type="amount"
+                                    />
+                                ))}
+                            </div>
+                        </KPCollapse>
 
-                    <KPCollapse identifier="pays" name="Pagos">
-                        <KPItemFilter label="Paypal" />
-                        <KPItemFilter label="Gopay" />
-                    </KPCollapse>
+                        <KPCollapse identifier="pays" name="Pagos">
+                            <Form.Item name="method">
+                                <Radio.Group className="flex flex-column g-10">
+                                    {statePayMethods.data?.map((c) => (
+                                        <KPItemFilter label={c.name} value={c.id} />
+                                    ))}
+                                </Radio.Group>
+                            </Form.Item>
+                        </KPCollapse>
+                    </Form>
                 </div>
             </div>
 
@@ -113,6 +171,10 @@ const Wrapper = styled.div`
         background-color: var(--secondary-color);
         border: 2px solid var(--quaternary-color);
         border-radius: 10px;
+    }
+
+    .ant-form-item {
+        margin-bottom: 10px;
     }
 
     .Home_item-filters-prices .item {
