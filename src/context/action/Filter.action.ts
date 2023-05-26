@@ -22,6 +22,6 @@ export interface FilterAction {
     payload: {
         products?: ProductModel[];
         history?: string[];
-        filters: FiltersModel;
+        filters?: FiltersModel;
     };
 }
