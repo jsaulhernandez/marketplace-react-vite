@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Checkbox, Radio } from 'antd';
+import { Radio } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
