@@ -6,6 +6,7 @@ export interface StateFilterModel {
     products?: ProductModel[];
     history?: string[];
     filters?: FiltersModel;
+    search?: string;
     isLoading?: boolean;
     isSuccess?: boolean;
     isError?: boolean;

@@ -15,9 +15,10 @@ export const filterReducer = (
                 isLoading: false,
                 isSuccess: true,
                 isError: false,
-                products: action.payload.products || state.products,
-                history: action.payload.history || state.history,
-                filters: action.payload.filters || state.filters,
+                products: action.payload?.products || state.products,
+                history: action.payload?.history || state.history,
+                filters: action.payload?.filters || state.filters,
+                search: action.payload?.search || state.search,
             };
 
         case FilterActionType.ERROR:
@@ -39,13 +40,19 @@ export const filterReducer = (
             };
 
         case FilterActionType.UPDATE_DATA:
-            return { ...state, products: action.payload.products || state.products };
+            return { ...state, products: action.payload?.products || state.products };
 
         case FilterActionType.UPDATE_FILTERS:
             return {
                 ...state,
-                history: action.payload.history || state.history,
-                filters: action.payload.filters || state.filters,
+                filters: {
+                    ...state.filters,
+                    category:
+                        action.payload?.filters?.category || state.filters?.category,
+                    priceRange:
+                        action.payload?.filters?.priceRange || state.filters?.priceRange,
+                    method: action.payload?.filters?.method || state.filters?.method,
+                },
             };
 
         default:
