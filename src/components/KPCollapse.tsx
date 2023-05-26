@@ -11,7 +11,7 @@ const { Panel } = Collapse;
 export interface KPCollapseProps {
     identifier: string;
     name: string;
-    children: JSX.Element | JSX.Element[];
+    children?: JSX.Element | JSX.Element[];
 }
 
 const KPCollapse: FC<KPCollapseProps> = (props) => {
