@@ -50,6 +50,10 @@ const Home = () => {
         });
     };
 
+    const onValuesChange = (e: FormFilters) => {
+        console.log('daaaa', e);
+    };
+
     return (
         <Wrapper className="flex flex-row wp-100">
             <div className="Home_item flex flex-column">
@@ -65,6 +69,7 @@ const Home = () => {
                         form={form}
                         autoComplete="off"
                         className="flex flex-column g-15"
+                        onValuesChange={onValuesChange}
                     >
                         <KPCollapse identifier="categories" name="Categorías">
                             <Form.Item name="category">
