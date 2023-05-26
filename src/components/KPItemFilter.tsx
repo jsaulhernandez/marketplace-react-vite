@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Checkbox } from 'antd';
+import { Checkbox, Radio } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
@@ -10,9 +10,9 @@ type typeFilter = 'category' | 'amount' | 'tag';
 
 export interface KPItemFilterProps {
     type?: typeFilter;
-    onClick?: (value?: string | boolean) => void;
+    onClick?: (value?: string | boolean | number) => void;
     label: string;
-    value?: string;
+    value?: string | number;
     active?: boolean;
     className?: string;
 }
@@ -48,10 +48,12 @@ const KPItemFilter: FC<KPItemFilterProps> = (props) => {
 
     return (
         <Category
-            className={`flex items-center g-10 ${props.className ? props.className : ''}`}
+            className={`flex items-center g-5 ${props.className ? props.className : ''}`}
         >
-            <Checkbox
+            <Radio
                 onChange={(e) => props.onClick && props.onClick(e.target.checked)}
+                value={props.value}
+                key={props.value}
             />
             <KPText text={props.label} />
         </Category>
