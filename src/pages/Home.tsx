@@ -15,6 +15,7 @@ import KPInput from '@components/KPInput';
 import { PRICES_FILTERS } from '@constants/Constants.constanst';
 
 import useAxios from '@hooks/useAxios.hook';
+import { useFilter } from '@hooks/useFilter.hook';
 
 import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
@@ -27,8 +28,10 @@ interface FormFilters {
 }
 
 const Home = () => {
+    const { history, search } = useFilter();
     const [stateCategories, fetchCategories] = useAxios<CategoryModel[]>();
     const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
+
     const [form] = useForm<FormFilters>();
 
     useEffect(() => {
@@ -75,7 +78,11 @@ const Home = () => {
                             <Form.Item name="category">
                                 <Radio.Group className="flex flex-column g-10">
                                     {stateCategories.data?.map((c) => (
-                                        <KPItemFilter label={c.name} value={c.id} />
+                                        <KPItemFilter
+                                            label={c.name}
+                                            value={c.id}
+                                            key={c.id}
+                                        />
                                     ))}
                                 </Radio.Group>
                             </Form.Item>
@@ -98,8 +105,8 @@ const Home = () => {
                                 {PRICES_FILTERS.map((p, i) => (
                                     <KPItemFilter
                                         className="item"
-                                        label={p}
-                                        value={p}
+                                        label={p.label}
+                                        value={p.value}
                                         key={i}
                                         type="amount"
                                     />
@@ -111,7 +118,11 @@ const Home = () => {
                             <Form.Item name="method">
                                 <Radio.Group className="flex flex-column g-10">
                                     {statePayMethods.data?.map((c) => (
-                                        <KPItemFilter label={c.name} value={c.id} />
+                                        <KPItemFilter
+                                            label={c.name}
+                                            value={c.id}
+                                            key={c.id}
+                                        />
                                     ))}
                                 </Radio.Group>
                             </Form.Item>
@@ -125,15 +136,17 @@ const Home = () => {
                     <div className="Home_item-pagination-data flex flex-row flex-wrap g-5">
                         <KPPagination />
 
-                        <div className="flex flex-row">
-                            <KPText text="para" textColor="--primary-text-color" />
-                            &nbsp;
-                            <KPText
-                                text="search"
-                                className="Home_item-pagination-data-search-for"
-                                fontWeight={700}
-                            />
-                        </div>
+                        {search && (
+                            <div className="flex flex-row">
+                                <KPText text="para" textColor="--primary-text-color" />
+                                &nbsp;
+                                <KPText
+                                    text={`"${search}"`}
+                                    className="Home_item-pagination-data-search-for"
+                                    fontWeight={700}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="Home_item-pagination-sort">
@@ -148,7 +161,10 @@ const Home = () => {
                 </div>
 
                 <div className="Home_item-filters-container flex flex-row flex-wrap mt-1 mb-1 g-10">
-                    <KPItemFilter type="tag" label="Macbook" />
+                    {history &&
+                        history.map((h, i) => (
+                            <KPItemFilter type="tag" label={h} key={i} />
+                        ))}
                 </div>
 
                 <div className="Home_item-container flex flex-row flex-wrap wp-100">
