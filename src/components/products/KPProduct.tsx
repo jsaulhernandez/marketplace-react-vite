@@ -1,14 +1,32 @@
 import { FC } from 'react';
+
 import { Rate } from 'antd';
 import styled from 'styled-components';
 
 import KPText from '@components/KPText';
 import KPDotsColor from './KPDotsColor';
 
+import { ProductModel } from '@interfaces/Product.model';
+import { MemorySizeModel } from '@interfaces/MemorySize.model';
+import { ColorModel } from '@interfaces/Color.model';
+
 export interface KPProductProps {
+    data?: ProductModel;
     className?: string;
-    onClick?: () => void;
+    onClick?: (data?: ProductModel) => void;
 }
+
+const getMemoriesSize = (memorySize?: MemorySizeModel[]): string => {
+    if (!memorySize) return '';
+
+    return memorySize.map((m) => m.value).join(' | ');
+};
+
+const getColors = (colors?: ColorModel[]): string[] => {
+    if (!colors) return [];
+
+    return colors.map((c) => c.value);
+};
 
 const KPProduct: FC<KPProductProps> = (props) => {
     return (
@@ -16,7 +34,7 @@ const KPProduct: FC<KPProductProps> = (props) => {
             className={`flex flex-column wp-100 hand ${
                 props.className ? props.className : ''
             }`}
-            onClick={() => props.onClick && props.onClick()}
+            onClick={() => props.onClick && props.onClick(props.data)}
         >
             <div className="image-container flex items-center justify-center">
                 <img src="/" alt="product" />
@@ -25,32 +43,40 @@ const KPProduct: FC<KPProductProps> = (props) => {
             <div className="footer">
                 <div className="flex flex-row flex-wrap items-center mb-1">
                     <KPText
-                        text="$882"
+                        text={`$${props.data?.price}`}
                         fontWeight={700}
                         fontSize={20}
                         textColor="--primary-text-color"
                     />
-                    <KPText
+                    {/* <KPText
                         text="$1012"
                         marginLeft={10}
                         textDecoration="line-through"
                         textDecorationColor="red"
-                    />
+                    /> */}
                 </div>
 
-                <KPText text="Apple Macbook Air M1" textColor="--tertiary-text-color" />
-                <KPText text="256 GB | 512  GB" textColor="--tertiary-text-color" />
+                <KPText
+                    text={props.data?.title ?? 'N/A'}
+                    textColor="--tertiary-text-color"
+                />
+                <KPText
+                    text={getMemoriesSize(props.data?.memorySize)}
+                    textColor="--tertiary-text-color"
+                />
 
-                <KPDotsColor />
+                {props.data?.color && (
+                    <KPDotsColor colors={getColors(props.data.color)} />
+                )}
 
-                <div className="informative flex flex-row flex-wrap items-center">
+                {/* <div className="informative flex flex-row flex-wrap items-center">
                     <Rate allowHalf className="flex flex-wrap  items-center" />
                     <KPText
                         text="| 655 ventas"
                         textColor="--tertiary-text-color"
                         fontSize={10}
                     />
-                </div>
+                </div> */}
             </div>
         </Wrapper>
     );
