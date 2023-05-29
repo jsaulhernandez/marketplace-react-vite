@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { ConfigProvider } from 'antd';
 import es_ES from 'antd/es/locale/es_ES';
-import 'antd/dist/antd.less';
+//import 'antd/dist/antd.less';
 
 import moment from 'moment';
 import 'moment/dist/locale/es';
