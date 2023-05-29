@@ -5,11 +5,11 @@ export interface KPDotsColorProps {
     colors?: string[];
 }
 
-const KPDotsColor: FC<KPDotsColorProps> = ({ colors = ['red', 'green', 'grey'] }) => {
+const KPDotsColor: FC<KPDotsColorProps> = ({ colors }) => {
     return (
         <Wrapper className="flex flex-row flex-wrap mt-1 mb-1">
-            {colors.map((x) => (
-                <Dot color={x} />
+            {colors?.map((x, i) => (
+                <Dot color={x} key={i} />
             ))}
         </Wrapper>
     );
