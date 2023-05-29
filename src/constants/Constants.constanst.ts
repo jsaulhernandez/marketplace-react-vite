@@ -6,3 +6,5 @@ export const PRICES_FILTERS = [
     { label: '$1,500 - $2,000', value: '1500,2000', active: false },
     { label: '$2,000 - $2,500', value: '2000,2500', active: false },
 ];
+
+export type ORDER_BY = 'ASC' | 'DESC';
