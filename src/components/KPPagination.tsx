@@ -18,7 +18,7 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
 
         const { current } = props;
         if (typeof current === 'undefined' || typeof current !== 'number') return false;
-        if (current > 0) return false;
+        if (current > 1) return false;
 
         return true;
     };
@@ -31,7 +31,7 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
         if (typeof pageSize === 'undefined' || typeof pageSize !== 'number') return false;
         if (typeof total === 'undefined' || typeof total !== 'number') return false;
 
-        const result = (current + 1) * pageSize;
+        const result = current * pageSize;
 
         if (total <= result) return true;
 
@@ -46,9 +46,7 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
         if (typeof current === 'undefined' || typeof current !== 'number') return '0';
         if (typeof total !== 'undefined' && total === 0) return 0;
 
-        const result = (current + 1) * pageSize - pageSize;
-
-        return result + 1;
+        return current;
     };
 
     const getTotal = (): string | number => {
@@ -59,7 +57,7 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
         if (typeof pageSize === 'undefined' || typeof pageSize !== 'number') return '0';
         if (typeof total === 'undefined' || typeof total !== 'number') return '0';
 
-        const result = (current + 1) * pageSize;
+        const result = current * pageSize;
         if (result >= total) return total;
 
         return result;
@@ -89,13 +87,13 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
                     &nbsp;
                     <div className="arrows">
                         <LeftArrow
-                            className={`hand ${disableLeft() ? 'disabled' : ''}`}
+                            className={`${disableLeft() ? 'disabled' : 'pointer'}`}
                             onClick={
-                                !disableRight() ? () => onChangePage('up') : undefined
+                                !disableLeft() ? () => onChangePage('down') : undefined
                             }
                         />
                         <RightArrow
-                            className={`hand ${disableRight() ? 'disabled' : ''} `}
+                            className={`${disableRight() ? 'disabled' : 'pointer'} `}
                             onClick={
                                 !disableRight() ? () => onChangePage('up') : undefined
                             }
@@ -107,16 +105,21 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
     );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    .pointer {
+        cursor: pointer !important;
+    }
+`;
 
 const LeftArrow = styled(LeftOutlined)`
     color: var(--primary-text-color);
 
     &.disabled {
-        color: #000;
+        color: #838383;
+        cursor: default;
     }
 
-    &:hover {
+    &.pointer:hover {
         transform: scale(1.1);
     }
 `;
@@ -125,10 +128,11 @@ const RightArrow = styled(RightOutlined)`
     color: var(--primary-text-color);
 
     &.disabled {
-        color: #000;
+        color: #838383;
+        cursor: default;
     }
 
-    &:hover {
+    &.pointer:hover {
         transform: scale(1.1);
     }
 `;
