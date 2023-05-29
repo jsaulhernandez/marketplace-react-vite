@@ -9,6 +9,8 @@ import { FiltersModel } from '@context/action/Filter.action';
 import { ProductModel } from '@interfaces/Product.model';
 import { Pagination } from './useAxios/Response.use-axios';
 
+import { ORDER_BY } from '@constants/Constants.constants';
+
 export const useFilter = () => {
     const { state, dispatch } = useContext(FilterContext);
     const [_, fetch] = useAxios<ProductModel[]>();
@@ -41,14 +43,27 @@ export const useFilter = () => {
         });
     };
 
-    const getProducts = async (search?: string, filters?: FiltersModel) => {
+    const getProducts = async (
+        filters?: FiltersModel,
+        search: string = '',
+        order: ORDER_BY = 'DESC',
+        page: string = '1',
+        size: string = '16',
+    ) => {
         onInit();
 
         const response = await fetch({
             method: 'GET',
             path: '/product/web/list',
             queries: {
-                size: '16',
+                category: filters?.category ?? '0',
+                startPrice: filters?.priceRange?.split(',')[0] ?? '0',
+                endPrice: filters?.priceRange?.split(',')[1] ?? '0',
+                payMethod: filters?.method ?? '0',
+                search,
+                order,
+                page,
+                size,
             },
         });
 
