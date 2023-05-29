@@ -14,7 +14,7 @@ export interface ProductModel {
     price: number;
     status: number;
     memorySize: MemorySizeModel[];
-    colors: ColorModel[];
+    color: ColorModel[];
     processor: ProcessorModel[];
     detail: string;
     specification: string;
