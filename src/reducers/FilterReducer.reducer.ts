@@ -16,8 +16,7 @@ export const filterReducer = (
                 isSuccess: true,
                 isError: false,
                 products: action.payload?.products || state.products,
-                history: action.payload?.history || state.history,
-                filters: action.payload?.filters || state.filters,
+                page: action.payload?.page || state.page,
                 search: action.payload?.search || state.search,
             };
 
@@ -31,16 +30,21 @@ export const filterReducer = (
 
         case FilterActionType.CLEAN:
             return {
+                search: undefined,
                 filters: undefined,
-                history: undefined,
                 products: undefined,
+                page: undefined,
                 isLoading: undefined,
                 isSuccess: undefined,
                 isError: undefined,
             };
 
         case FilterActionType.UPDATE_DATA:
-            return { ...state, products: action.payload?.products || state.products };
+            return {
+                ...state,
+                products: action.payload?.products || state.products,
+                page: action.payload?.page || state.page,
+            };
 
         case FilterActionType.UPDATE_FILTERS:
             return {

@@ -1,10 +1,12 @@
 import { FiltersModel } from '@context/action/Filter.action';
 
+import { Pagination } from '@hooks/useAxios/Response.use-axios';
+
 import { ProductModel } from '@interfaces/Product.model';
 
 export interface StateFilterModel {
     products?: ProductModel[];
-    history?: string[];
+    page?: Pagination;
     filters?: FiltersModel;
     search?: string;
     isLoading?: boolean;

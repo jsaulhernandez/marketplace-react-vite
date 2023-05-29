@@ -7,6 +7,7 @@ import { FilterActionType } from '@context/action/Filter.action';
 import { FiltersModel } from '@context/action/Filter.action';
 
 import { ProductModel } from '@interfaces/Product.model';
+import { Pagination } from './useAxios/Response.use-axios';
 
 export const useFilter = () => {
     const { state, dispatch } = useContext(FilterContext);
@@ -16,15 +17,10 @@ export const useFilter = () => {
         dispatch({ type: FilterActionType.INIT });
     };
 
-    const onSuccess = (
-        products?: ProductModel[],
-        history?: string[],
-        filters?: FiltersModel,
-        search?: string,
-    ) => {
+    const onSuccess = (products?: ProductModel[], page?: Pagination, search?: string) => {
         dispatch({
             type: FilterActionType.SUCCESS,
-            payload: { filters, history, products, search },
+            payload: { products, page, search },
         });
     };
 
@@ -48,15 +44,16 @@ export const useFilter = () => {
     const getProducts = async (search?: string, filters?: FiltersModel) => {
         onInit();
 
-        const response = await fetch('');
+        const response = await fetch({
+            method: 'GET',
+            path: '/product/web/list',
+            queries: {
+                size: '16',
+            },
+        });
 
         if (response.isSuccess) {
-            onSuccess(
-                response.data ?? undefined,
-                Object.values(filters ?? {}),
-                filters,
-                search,
-            );
+            onSuccess(response.data ?? undefined, response.page ?? undefined, search);
         } else {
             onError();
         }

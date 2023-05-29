@@ -1,3 +1,5 @@
+import { Pagination } from '@hooks/useAxios/Response.use-axios';
+
 import { ProductModel } from '@interfaces/Product.model';
 
 export enum FilterActionType {
@@ -19,7 +21,7 @@ export interface FilterAction {
     type: FilterActionType;
     payload?: {
         products?: ProductModel[];
-        history?: string[];
+        page?: Pagination;
         filters?: FiltersModel;
         search?: string; //buscador del header
     };

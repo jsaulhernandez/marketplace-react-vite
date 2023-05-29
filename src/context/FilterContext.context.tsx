@@ -7,8 +7,8 @@ import { filterReducer } from '@reducers/FilterReducer.reducer';
 
 const initialState: StateFilterModel = {
     filters: undefined,
-    history: undefined,
     products: undefined,
+    page: undefined,
     isLoading: undefined,
     isSuccess: undefined,
     isError: undefined,
