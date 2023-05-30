@@ -50,6 +50,10 @@
     position: relative;
 }
 
+.absolute {
+    position: absolute;
+}
+
 .flex {
     display: flex;
 }
