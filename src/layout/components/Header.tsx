@@ -1,35 +1,23 @@
 import { useEffect } from 'react';
 
-import { Button, Form, Space } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
-import KPInput from '@components/KPInput';
+import KPCustomSearch from '@components/KPCustomSearch';
 
 import { useFilter } from '@hooks/useFilter.hook';
 
 const Header = () => {
     const {
         methods: { getProducts },
-        search,
         filters,
     } = useFilter();
-
-    const [form] = useForm<{
-        search: string;
-    }>();
 
     useEffect(() => {
         getProducts();
     }, []);
 
-    useEffect(() => {
-        form.setFieldValue('search', search);
-    }, [search]);
-
-    const onFilter = (e: { search: string }) => {
-        getProducts(filters, e.search);
+    const onFilter = (search: string) => {
+        getProducts(filters, search);
     };
 
     return (
@@ -39,19 +27,7 @@ const Header = () => {
                     <img src="/" alt="img" />
                 </div>
                 <div className="Header-items-search">
-                    <Form form={form} autoComplete="off" onFinish={onFilter}>
-                        <Space.Compact>
-                            <Form.Item name="search">
-                                <KPInput
-                                    prefix={<SearchOutlined />}
-                                    placeholder="Buscar Macbook pro....."
-                                />
-                            </Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Buscar
-                            </Button>
-                        </Space.Compact>
-                    </Form>
+                    <KPCustomSearch onSearch={onFilter} className="wp-100" />
                 </div>
                 <div className="Header-items-session">items</div>
             </div>
@@ -61,7 +37,7 @@ const Header = () => {
 };
 
 const Wrapper = styled.div`
-    height: 120px;
+    height: 140px;
 
     .Header_search-bar,
     .Header_informative {
@@ -69,15 +45,15 @@ const Wrapper = styled.div`
     }
 
     .Header_search-bar {
-        height: 70px;
+        height: 90px;
     }
 
     .Header_informative {
         height: 50px;
     }
 
-    .ant-form-item {
-        margin: 0px;
+    .Header-items-search {
+        min-width: 600px;
     }
 `;
 
