@@ -8,7 +8,7 @@ export interface PublicLayoutProps {
     className?: string;
 }
 
-const HEADER_HEIGHT = '120px';
+const HEADER_HEIGHT = '140px';
 
 const Layout: FC<PublicLayoutProps> = ({ className }) => {
     return (
