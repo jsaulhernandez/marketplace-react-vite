@@ -81,6 +81,18 @@ const Home = () => {
         console.log('pagina => ', page);
     };
 
+    const onChangeOrder = (order: ORDER_BY) => {
+        getProducts(filters, search, order);
+    };
+
+    const resetFilter = () => {
+        form.setFieldValue('category', '');
+        form.setFieldValue('method', '');
+        form.setFieldValue('startPrice', '');
+        form.setFieldValue('endPrice', '');
+        getProducts();
+    };
+
     const getHistory = (): string[] => {
         const getCategory =
             stateCategories.data?.find((c) => c.id === Number(filters?.category))?.name ??
@@ -98,9 +110,6 @@ const Home = () => {
         return [getCategory, getPayMethod, getPrices].filter((x) => x !== '');
     };
 
-    const onChangeOrder = (order: ORDER_BY) => {
-        getProducts(filters, search, order);
-    };
     return (
         <Wrapper className="flex flex-row wp-100">
             <div className="Home_item flex flex-column">
@@ -220,9 +229,16 @@ const Home = () => {
                 </div>
 
                 <div className="Home_item-filters-container flex flex-row flex-wrap mt-1 mb-1 g-10">
-                    {getHistory().map((h, i) => (
-                        <KPItemFilter type="tag" label={h} key={i} />
-                    ))}
+                    {getHistory().length > 0 && (
+                        <>
+                            {getHistory().map((h, i) => (
+                                <KPItemFilter type="tag" label={h} key={i} />
+                            ))}
+                            <KPButton type="link" onClick={resetFilter}>
+                                Eliminar filtros
+                            </KPButton>
+                        </>
+                    )}
                 </div>
 
                 <Spin

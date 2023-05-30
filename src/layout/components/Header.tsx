@@ -24,6 +24,10 @@ const Header = () => {
         getProducts();
     }, []);
 
+    useEffect(() => {
+        form.setFieldValue('search', search);
+    }, [search]);
+
     const onFilter = (e: { search: string }) => {
         getProducts(filters, e.search);
     };
@@ -35,14 +39,7 @@ const Header = () => {
                     <img src="/" alt="img" />
                 </div>
                 <div className="Header-items-search">
-                    <Form
-                        form={form}
-                        autoComplete="off"
-                        initialValues={{
-                            search: search,
-                        }}
-                        onFinish={onFilter}
-                    >
+                    <Form form={form} autoComplete="off" onFinish={onFilter}>
                         <Space.Compact>
                             <Form.Item name="search">
                                 <KPInput

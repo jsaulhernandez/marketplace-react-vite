@@ -25,6 +25,7 @@ const KPButton: FC<KPButtonProps> = ({ theme = 'light', disabled = false, ...pro
             className={`flex items-center justify-center ${props.className ?? ''} ${
                 props.type
             }-${theme}`}
+            onClick={() => props.onClick && props.onClick()}
         >
             <div className="KPButton_content flex items-center">
                 {props.prefix && (
