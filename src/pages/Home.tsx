@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Form, Radio, Select } from 'antd';
+import { Form, Radio, Select, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { DollarCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -11,14 +11,17 @@ import KPProduct from '@components/products/KPProduct';
 import KPItemFilter from '@components/KPItemFilter';
 import KPCollapse from '@components/KPCollapse';
 import KPInput from '@components/KPInput';
+import KPButton from '@components/KPButton';
 
-import { PRICES_FILTERS } from '@constants/Constants.constanst';
+import { ORDER_BY, PRICES_FILTERS } from '@constants/Constants.constants';
 
 import useAxios from '@hooks/useAxios.hook';
 import { useFilter } from '@hooks/useFilter.hook';
 
 import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
+
+import { convertStringToMoney } from '@utils/Strings.utils';
 
 interface FormFilters {
     category: string;
@@ -28,7 +31,14 @@ interface FormFilters {
 }
 
 const Home = () => {
-    const { history, search } = useFilter();
+    const {
+        filters,
+        search,
+        products,
+        page,
+        isLoading,
+        methods: { getProducts },
+    } = useFilter();
     const [stateCategories, fetchCategories] = useAxios<CategoryModel[]>();
     const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
 
@@ -53,10 +63,44 @@ const Home = () => {
         });
     };
 
-    const onValuesChange = (e: FormFilters) => {
-        console.log('daaaa', e);
+    const onFinish = (values: FormFilters) => {
+        getProducts(
+            {
+                category: values.category,
+                method: values.method,
+                priceRange:
+                    values.startPrice && values.endPrice
+                        ? `${values.startPrice},${values.endPrice}`
+                        : undefined,
+            },
+            search,
+        );
     };
 
+    const onChange = (page: number) => {
+        console.log('pagina => ', page);
+    };
+
+    const getHistory = (): string[] => {
+        const getCategory =
+            stateCategories.data?.find((c) => c.id === Number(filters?.category))?.name ??
+            '';
+        const getPayMethod =
+            statePayMethods.data?.find((p) => p.id === Number(filters?.method))?.name ??
+            '';
+
+        let getPrices = PRICES_FILTERS.find(
+            (pf) => pf.value === filters?.priceRange,
+        )?.label;
+
+        if (!getPrices) getPrices = convertStringToMoney(filters?.priceRange);
+
+        return [getCategory, getPayMethod, getPrices].filter((x) => x !== '');
+    };
+
+    const onChangeOrder = (order: ORDER_BY) => {
+        getProducts(filters, search, order);
+    };
     return (
         <Wrapper className="flex flex-row wp-100">
             <div className="Home_item flex flex-column">
@@ -72,7 +116,7 @@ const Home = () => {
                         form={form}
                         autoComplete="off"
                         className="flex flex-column g-15"
-                        onValuesChange={onValuesChange}
+                        onFinish={onFinish}
                     >
                         <KPCollapse identifier="categories" name="Categorías">
                             <Form.Item name="category">
@@ -127,6 +171,10 @@ const Home = () => {
                                 </Radio.Group>
                             </Form.Item>
                         </KPCollapse>
+
+                        <KPButton type="primary" htmlType="submit">
+                            Filtrar
+                        </KPButton>
                     </Form>
                 </div>
             </div>
@@ -134,7 +182,14 @@ const Home = () => {
             <div className="Home_item flex flex-column p-1">
                 <div className="Home_item-pagination flex flex-row justify-between items-center flex-wrap">
                     <div className="Home_item-pagination-data flex flex-row flex-wrap g-5">
-                        <KPPagination />
+                        {page && (
+                            <KPPagination
+                                current={page?.page}
+                                pageSize={16}
+                                total={page?.itemCount}
+                                onChange={onChange}
+                            />
+                        )}
 
                         {search && (
                             <div className="flex flex-row">
@@ -152,26 +207,41 @@ const Home = () => {
                     <div className="Home_item-pagination-sort">
                         <div className="kp-item-row">
                             <label>Ordenar por:</label>
-                            <Select className="select" defaultValue="desc">
-                                <Select.Option key="desc">Más reciente</Select.Option>
-                                <Select.Option key="asc">Más antiguo</Select.Option>
+                            <Select
+                                className="select"
+                                defaultValue="DESC"
+                                onChange={onChangeOrder}
+                            >
+                                <Select.Option key="DESC">Más reciente</Select.Option>
+                                <Select.Option key="ASC">Más antiguo</Select.Option>
                             </Select>
                         </div>
                     </div>
                 </div>
 
                 <div className="Home_item-filters-container flex flex-row flex-wrap mt-1 mb-1 g-10">
-                    {history &&
-                        history.map((h, i) => (
-                            <KPItemFilter type="tag" label={h} key={i} />
-                        ))}
+                    {getHistory().map((h, i) => (
+                        <KPItemFilter type="tag" label={h} key={i} />
+                    ))}
                 </div>
 
-                <div className="Home_item-container flex flex-row flex-wrap wp-100">
-                    <KPProduct className="Home_item-container-item" />
-                    <KPProduct className="Home_item-container-item" />
-                    <KPProduct className="Home_item-container-item" />
-                </div>
+                <Spin
+                    style={{
+                        minHeight: `300px`,
+                    }}
+                    tip="Cargando productos..."
+                    spinning={isLoading}
+                >
+                    <div className="Home_item-container flex flex-row flex-wrap wp-100">
+                        {products?.map((value, i) => (
+                            <KPProduct
+                                className="Home_item-container-item"
+                                key={i}
+                                data={value}
+                            />
+                        ))}
+                    </div>
+                </Spin>
             </div>
         </Wrapper>
     );

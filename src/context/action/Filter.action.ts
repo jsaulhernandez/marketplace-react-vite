@@ -7,8 +7,6 @@ export enum FilterActionType {
     SUCCESS = 'SUCCESS',
     ERROR = 'ERROR',
     CLEAN = 'CLEAN',
-    UPDATE_FILTERS = 'UPDATE_FILTERS',
-    UPDATE_DATA = 'UPDATE_DATA',
 }
 
 export interface FiltersModel {

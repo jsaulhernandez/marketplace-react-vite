@@ -19,10 +19,15 @@ export const useFilter = () => {
         dispatch({ type: FilterActionType.INIT });
     };
 
-    const onSuccess = (products?: ProductModel[], page?: Pagination, search?: string) => {
+    const onSuccess = (
+        products?: ProductModel[],
+        page?: Pagination,
+        filters?: FiltersModel,
+        search?: string,
+    ) => {
         dispatch({
             type: FilterActionType.SUCCESS,
-            payload: { products, page, search },
+            payload: { products, page, filters, search },
         });
     };
 
@@ -32,15 +37,6 @@ export const useFilter = () => {
 
     const onClean = () => {
         dispatch({ type: FilterActionType.CLEAN });
-    };
-
-    const onUpdateFilters = (filters?: FiltersModel) => {
-        dispatch({
-            type: FilterActionType.UPDATE_FILTERS,
-            payload: {
-                filters,
-            },
-        });
     };
 
     const getProducts = async (
@@ -68,7 +64,12 @@ export const useFilter = () => {
         });
 
         if (response.isSuccess) {
-            onSuccess(response.data ?? undefined, response.page ?? undefined, search);
+            onSuccess(
+                response.data ?? undefined,
+                response.page ?? undefined,
+                filters,
+                search,
+            );
         } else {
             onError();
         }
@@ -76,6 +77,6 @@ export const useFilter = () => {
 
     return {
         ...state,
-        methods: { getProducts, onUpdateFilters, onClean },
+        methods: { getProducts, onClean },
     };
 };
