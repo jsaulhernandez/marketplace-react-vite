@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
-import { MessageOutlined, NotificationOutlined } from '@ant-design/icons';
+import { AimOutlined, MessageOutlined, NotificationOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPCustomSearch from '@components/KPCustomSearch';
+import KPText from '@components/KPText';
 
 import { useFilter } from '@hooks/useFilter.hook';
 
@@ -41,9 +42,21 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className="Header_informative p-1">
-                <div className=""></div>
-                <div></div>
+            <div className="Header_informative flex items-center justify-between p-1 g-10">
+                <div className="categories flex flex-row flex-wrap g-10">
+                    <KPText text="Macbook" />
+                    <KPText text="iPhone" />
+                    <KPText text="iPad" />
+                </div>
+                <div className="location flex flex-row flex-wrap g-5">
+                    <AimOutlined className="icon" />
+                    <KPText text="Ships to" />
+                    <KPText
+                        text="El Salvador"
+                        fontWeight={700}
+                        textColor="--primary-text-color"
+                    />
+                </div>
             </div>
         </Wrapper>
     );
@@ -64,6 +77,7 @@ const Wrapper = styled.div`
 
     .Header_informative {
         height: 50px;
+        padding: 0px 3%;
     }
 
     .Header_items-logo img {
@@ -105,6 +119,10 @@ const Wrapper = styled.div`
         &:hover {
             border-color: var(--primary-color);
         }
+    }
+
+    .Header_informative .location .icon {
+        color: var(--secondary-text-color);
     }
 `;
 
