@@ -52,7 +52,7 @@ const KPCustomSearch: FC<KPCustomSearchProps> = (props) => {
 const Wrapper = styled.div`
     .KPCustomSearch_content {
         border-radius: 15px;
-        border: 1px solid var(--quaternary-color);
+        border: 2px solid var(--quaternary-color);
         height: 50px;
     }
 
