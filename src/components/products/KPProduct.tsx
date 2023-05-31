@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { Rate } from 'antd';
 import styled from 'styled-components';
 
+import { motion } from 'framer-motion';
+
 import KPText from '@components/KPText';
 import KPDotsColor from './KPDotsColor';
 
@@ -14,6 +16,7 @@ export interface KPProductProps {
     data?: ProductModel;
     className?: string;
     onClick?: (data?: ProductModel) => void;
+    index: number;
 }
 
 const getMemoriesSize = (memorySize?: MemorySizeModel[]): string => {
@@ -31,6 +34,9 @@ const getColors = (colors?: ColorModel[]): string[] => {
 const KPProduct: FC<KPProductProps> = (props) => {
     return (
         <Wrapper
+            animate={{ y: 0, opacity: 1 }}
+            initial={{ y: 50, opacity: 0 }}
+            transition={{ ease: 'easeInOut', duration: 1, delay: props.index * 0.5 }}
             className={`flex flex-column wp-100 hand ${
                 props.className ? props.className : ''
             }`}
@@ -82,7 +88,7 @@ const KPProduct: FC<KPProductProps> = (props) => {
     );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
     border: 2px solid var(--quaternary-color);
     border-radius: 10px;
 

@@ -341,6 +341,7 @@ const Home = () => {
                                 className="Home_item-container-item"
                                 key={i}
                                 data={value}
+                                index={i}
                             />
                         ))}
                     </div>

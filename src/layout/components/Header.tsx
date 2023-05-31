@@ -7,12 +7,15 @@ import KPCustomSearch from '@components/KPCustomSearch';
 import KPText from '@components/KPText';
 
 import { useFilter } from '@hooks/useFilter.hook';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const {
         methods: { getProducts },
         filters,
     } = useFilter();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getProducts();
@@ -22,10 +25,14 @@ const Header = () => {
         getProducts(filters, search);
     };
 
+    const redirectToHome = () => {
+        navigate('/kplace/home');
+    };
+
     return (
         <Wrapper>
             <div className="Header_search-bar flex flex-row justify-between items-center">
-                <div className="Header_items-logo">
+                <div className="Header_items-logo hand" onClick={redirectToHome}>
                     <img src="/images/logo/logo.webp" alt="img" />
                 </div>
                 <div className="Header-items-search">
