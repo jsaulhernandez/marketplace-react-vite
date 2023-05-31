@@ -75,6 +75,11 @@ const Wrapper = styled.div`
         &:focus-within {
             box-shadow: 0 0 0 1px var(--primary-color) !important;
         }
+
+        input:focus {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
     }
 
     .KPCustomSearch_content .input-item:focus-within > .ant-input-prefix .icon-item {
