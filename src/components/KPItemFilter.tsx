@@ -10,7 +10,7 @@ type typeFilter = 'category' | 'amount' | 'tag';
 
 export interface KPItemFilterProps {
     type?: typeFilter;
-    onClick?: (value?: string | boolean | number) => void;
+    onClick?: (value?: string | number | boolean) => void;
     label: string;
     value?: string | number;
     active?: boolean;
@@ -28,7 +28,7 @@ const KPItemFilter: FC<KPItemFilterProps> = (props) => {
                 <KPText text={props.label} />
                 <CloseCircleOutlined
                     className="hand closable"
-                    onClick={() => props.onClick && props.onClick()}
+                    onClick={() => props.onClick && props.onClick(props.value)}
                 />
             </TagWrapper>
         );
