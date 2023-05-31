@@ -1,31 +1,28 @@
+import { ColorModel } from '@root/interfaces/Color.model';
 import { FC } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
 export interface KPDotsColorProps {
-    colors?: string[];
+    colors?: ColorModel[];
     cssProperties?: CSSProperties;
     className?: string;
     isHover?: boolean;
-    active?: string;
-    onClick?: (value: string) => void;
+    active?: number;
+    onClick?: (value: number) => void;
 }
 
-const KPDotsColor: FC<KPDotsColorProps> = ({
-    isHover = false,
-    active = '',
-    ...props
-}) => {
+const KPDotsColor: FC<KPDotsColorProps> = ({ isHover = false, active = 0, ...props }) => {
     return (
         <Wrapper className="flex flex-row flex-wrap mt-1 mb-1">
             {props.colors?.map((x, i) => (
                 <Dot
-                    color={x}
+                    color={x.value}
                     key={i}
                     style={props.cssProperties}
                     className={`${props.className ? props.className : ''} ${
                         isHover ? 'isHover hand' : ''
-                    } ${active === x ? 'active' : ''} `}
-                    onClick={() => props.onClick && props.onClick(x)}
+                    } ${active === x.id ? 'active' : ''} `}
+                    onClick={() => props.onClick && props.onClick(x.id)}
                 />
             ))}
         </Wrapper>

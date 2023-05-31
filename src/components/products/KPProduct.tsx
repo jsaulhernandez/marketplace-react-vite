@@ -11,8 +11,6 @@ import KPDotsColor from './KPDotsColor';
 import { ProductModel } from '@interfaces/Product.model';
 import { MemorySizeModel } from '@interfaces/MemorySize.model';
 
-import { getColors } from '@root/helpers/Product.utils';
-
 export interface KPProductProps {
     data?: ProductModel;
     className?: string;
@@ -66,9 +64,7 @@ const KPProduct: FC<KPProductProps> = (props) => {
                     textColor="--tertiary-text-color"
                 />
 
-                {props.data?.color && (
-                    <KPDotsColor colors={getColors(props.data.color)} />
-                )}
+                {props.data?.color && <KPDotsColor colors={props.data.color} />}
 
                 {/* <div className="informative flex flex-row flex-wrap items-center">
                     <Rate allowHalf className="flex flex-wrap  items-center" />

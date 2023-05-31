@@ -1,4 +1,4 @@
 export interface ProcessorModel {
     id: number;
-    name: number;
+    name: string;
 }
