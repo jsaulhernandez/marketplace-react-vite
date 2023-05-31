@@ -57,7 +57,7 @@ const Header = () => {
                 </div>
                 <div className="location flex flex-row flex-wrap g-5">
                     <AimOutlined className="icon" />
-                    <KPText text="Ships to" />
+                    <KPText text="Envíos a" />
                     <KPText
                         text="El Salvador"
                         fontWeight={700}
