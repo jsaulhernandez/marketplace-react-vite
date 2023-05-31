@@ -24,7 +24,7 @@ import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
-import { OnlyNumbersRegEx } from '@utils/RegEx.utils';
+import { OnlyNumberWithDecimalsRegEx } from '@utils/RegEx.utils';
 
 interface FormFilters {
     category: string;
@@ -69,7 +69,7 @@ const Home = () => {
 
     const validateNumbers = async (value: string) => {
         if (value.trim() !== '') {
-            if (!OnlyNumbersRegEx.test(value)) {
+            if (!OnlyNumberWithDecimalsRegEx.test(value)) {
                 throw new Error('Solo se aceptán números');
             }
         }
