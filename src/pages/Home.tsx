@@ -24,7 +24,7 @@ import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
-import { OnlyNumberWithDecimalsRegEx } from '@utils/RegEx.utils';
+import { validateNumbersWithDecimals } from '@utils/Validator.utils';
 
 interface FormFilters {
     category: string;
@@ -65,14 +65,6 @@ const Home = () => {
             method: 'GET',
             path: '/pay-method/web/active',
         });
-    };
-
-    const validateNumbers = async (value: string) => {
-        if (value.trim() !== '') {
-            if (!OnlyNumberWithDecimalsRegEx.test(value)) {
-                throw new Error('Solo se aceptán números');
-            }
-        }
     };
 
     const onFinish = (values: FormFilters) => {
@@ -217,7 +209,7 @@ const Home = () => {
                                     rules={[
                                         {
                                             validator: (_, value) =>
-                                                validateNumbers(value),
+                                                validateNumbersWithDecimals(value),
                                         },
                                     ]}
                                 >
@@ -231,7 +223,7 @@ const Home = () => {
                                     rules={[
                                         {
                                             validator: (_, value) =>
-                                                validateNumbers(value),
+                                                validateNumbersWithDecimals(value),
                                         },
                                     ]}
                                 >
