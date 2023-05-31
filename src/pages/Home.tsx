@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Form, Radio, Select, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -18,10 +18,13 @@ import { ORDER_BY, PRICES_FILTERS } from '@constants/Constants.constants';
 import useAxios from '@hooks/useAxios.hook';
 import { useFilter } from '@hooks/useFilter.hook';
 
+import { FiltersModel } from '@context/action/Filter.action';
+
 import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
+import { OnlyNumbersRegEx } from '@utils/RegEx.utils';
 
 interface FormFilters {
     category: string;
@@ -43,6 +46,7 @@ const Home = () => {
     const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
 
     const [form] = useForm<FormFilters>();
+    const [priceSelected, setPrice] = useState<string>();
 
     useEffect(() => {
         getCategories();
@@ -63,18 +67,49 @@ const Home = () => {
         });
     };
 
+    const validateNumbers = async (value: string) => {
+        if (value.trim() !== '') {
+            if (!OnlyNumbersRegEx.test(value)) {
+                throw new Error('Solo se aceptán números');
+            }
+        }
+    };
+
     const onFinish = (values: FormFilters) => {
         getProducts(
             {
                 category: values.category,
                 method: values.method,
-                priceRange:
-                    values.startPrice && values.endPrice
+                priceRange: !priceSelected
+                    ? values.startPrice && values.endPrice
                         ? `${values.startPrice},${values.endPrice}`
-                        : undefined,
+                        : undefined
+                    : priceSelected,
             },
             search,
         );
+    };
+
+    const onChangeValues = (e: FormFilters) => {
+        if (e.startPrice) {
+            if (e.startPrice.trim() !== '') {
+                setPrice('');
+                return;
+            }
+        }
+
+        if (e.endPrice) {
+            if (e.endPrice.trim() !== '') {
+                setPrice('');
+                return;
+            }
+        }
+    };
+
+    const onSelectedPrice = (value: string) => {
+        form.setFieldValue('startPrice', '');
+        form.setFieldValue('endPrice', '');
+        setPrice(value);
     };
 
     const onChange = (page: number) => {
@@ -90,24 +125,57 @@ const Home = () => {
         form.setFieldValue('method', '');
         form.setFieldValue('startPrice', '');
         form.setFieldValue('endPrice', '');
+        setPrice(undefined);
         getProducts();
     };
 
-    const getHistory = (): string[] => {
+    const getHistory = (): { label: string; value: string }[] => {
+        let array: { label: string; value: string }[] = [];
+
         const getCategory =
             stateCategories.data?.find((c) => c.id === Number(filters?.category))?.name ??
             '';
+        array.push({
+            label: 'category',
+            value: getCategory,
+        });
+
         const getPayMethod =
             statePayMethods.data?.find((p) => p.id === Number(filters?.method))?.name ??
             '';
+        array.push({
+            label: 'method',
+            value: getPayMethod,
+        });
 
         let getPrices = PRICES_FILTERS.find(
             (pf) => pf.value === filters?.priceRange,
         )?.label;
 
         if (!getPrices) getPrices = convertStringToMoney(filters?.priceRange);
+        array.push({
+            label: 'priceRange',
+            value: getPrices,
+        });
 
-        return [getCategory, getPayMethod, getPrices].filter((x) => x !== '');
+        return array.filter((x) => x.value !== '');
+    };
+
+    const onRemoveFilter = (label: keyof FiltersModel) => {
+        if (label === 'priceRange') {
+            form.setFieldValue('startPrice', '');
+            form.setFieldValue('endPrice', '');
+        } else {
+            form.setFieldValue(label, '');
+        }
+
+        getProducts(
+            {
+                ...filters,
+                [label]: undefined,
+            },
+            search,
+        );
     };
 
     return (
@@ -126,6 +194,7 @@ const Home = () => {
                         autoComplete="off"
                         className="flex flex-column g-15"
                         onFinish={onFinish}
+                        onValuesChange={onChangeValues}
                     >
                         <KPCollapse identifier="categories" name="Categorías">
                             <Form.Item name="category">
@@ -143,13 +212,29 @@ const Home = () => {
 
                         <KPCollapse identifier="prices" name="Precios">
                             <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
-                                <Form.Item name="startPrice">
+                                <Form.Item
+                                    name="startPrice"
+                                    rules={[
+                                        {
+                                            validator: (_, value) =>
+                                                validateNumbers(value),
+                                        },
+                                    ]}
+                                >
                                     <KPInput
                                         placeholder="Minímo"
                                         addonBefore={<DollarCircleOutlined />}
                                     />
                                 </Form.Item>
-                                <Form.Item name="endPrice">
+                                <Form.Item
+                                    name="endPrice"
+                                    rules={[
+                                        {
+                                            validator: (_, value) =>
+                                                validateNumbers(value),
+                                        },
+                                    ]}
+                                >
                                     <KPInput
                                         placeholder="Máximo"
                                         addonBefore={<DollarCircleOutlined />}
@@ -162,6 +247,8 @@ const Home = () => {
                                         value={p.value}
                                         key={i}
                                         type="amount"
+                                        active={priceSelected === p.value}
+                                        onClick={(value) => onSelectedPrice(`${value}`)}
                                     />
                                 ))}
                             </div>
@@ -232,7 +319,15 @@ const Home = () => {
                     {getHistory().length > 0 && (
                         <>
                             {getHistory().map((h, i) => (
-                                <KPItemFilter type="tag" label={h} key={i} />
+                                <KPItemFilter
+                                    type="tag"
+                                    label={h.value}
+                                    value={h.label}
+                                    key={i}
+                                    onClick={(value) =>
+                                        onRemoveFilter(`${value}` as keyof FiltersModel)
+                                    }
+                                />
                             ))}
                             <KPButton type="link" onClick={resetFilter}>
                                 Eliminar filtros
