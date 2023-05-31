@@ -10,7 +10,8 @@ import KPDotsColor from './KPDotsColor';
 
 import { ProductModel } from '@interfaces/Product.model';
 import { MemorySizeModel } from '@interfaces/MemorySize.model';
-import { ColorModel } from '@interfaces/Color.model';
+
+import { getColors } from '@root/helpers/Product.utils';
 
 export interface KPProductProps {
     data?: ProductModel;
@@ -23,12 +24,6 @@ const getMemoriesSize = (memorySize?: MemorySizeModel[]): string => {
     if (!memorySize) return '';
 
     return memorySize.map((m) => m.value).join(' | ');
-};
-
-const getColors = (colors?: ColorModel[]): string[] => {
-    if (!colors) return [];
-
-    return colors.map((c) => c.value);
 };
 
 const KPProduct: FC<KPProductProps> = (props) => {
