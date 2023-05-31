@@ -8,3 +8,5 @@ export const PRICES_FILTERS = [
 ];
 
 export type ORDER_BY = 'ASC' | 'DESC';
+
+export type SHOWING = 'DATA' | 'DETAIL' | 'FORM';
