@@ -82,25 +82,33 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
                 }`}
                 textColor="--primary-text-color"
             />
-            {props.total && (
-                <>
-                    &nbsp;
-                    <div className="arrows">
-                        <LeftArrow
-                            className={`${disableLeft() ? 'disabled' : 'pointer'}`}
-                            onClick={
-                                !disableLeft() ? () => onChangePage('down') : undefined
-                            }
-                        />
-                        <RightArrow
-                            className={`${disableRight() ? 'disabled' : 'pointer'} `}
-                            onClick={
-                                !disableRight() ? () => onChangePage('up') : undefined
-                            }
-                        />
-                    </div>
-                </>
-            )}
+            {props?.total
+                ? props?.total > 0 && (
+                      <>
+                          &nbsp;
+                          <div className="arrows">
+                              <LeftArrow
+                                  className={`${disableLeft() ? 'disabled' : 'pointer'}`}
+                                  onClick={
+                                      !disableLeft()
+                                          ? () => onChangePage('down')
+                                          : undefined
+                                  }
+                              />
+                              <RightArrow
+                                  className={`${
+                                      disableRight() ? 'disabled' : 'pointer'
+                                  } `}
+                                  onClick={
+                                      !disableRight()
+                                          ? () => onChangePage('up')
+                                          : undefined
+                                  }
+                              />
+                          </div>
+                      </>
+                  )
+                : ''}
         </Wrapper>
     );
 };
