@@ -157,6 +157,7 @@ const Home = () => {
         if (label === 'priceRange') {
             form.setFieldValue('startPrice', '');
             form.setFieldValue('endPrice', '');
+            setPrice(undefined);
         } else {
             form.setFieldValue(label, '');
         }
@@ -187,6 +188,12 @@ const Home = () => {
                         className="flex flex-column g-15"
                         onFinish={onFinish}
                         onValuesChange={onChangeValues}
+                        initialValues={{
+                            category: '',
+                            method: '',
+                            startPrice: '',
+                            endPrice: '',
+                        }}
                     >
                         <KPCollapse identifier="categories" name="Categorías">
                             <Form.Item name="category">
