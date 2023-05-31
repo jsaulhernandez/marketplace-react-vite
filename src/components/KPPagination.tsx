@@ -82,8 +82,8 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
                 }`}
                 textColor="--primary-text-color"
             />
-            {props?.total
-                ? props?.total > 0 && (
+            {props?.total && props?.pageSize
+                ? props?.total > props.pageSize && (
                       <>
                           &nbsp;
                           <div className="arrows">
@@ -108,7 +108,7 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
                           </div>
                       </>
                   )
-                : ''}
+                : null}
         </Wrapper>
     );
 };
