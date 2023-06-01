@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 type textType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p';
 type decoration = 'line-through' | 'underline' | 'overline';
 type decorationColor = 'red' | 'grey' | 'black';
+type TextAlign = 'center' | 'end' | 'start' | 'left' | 'right' | 'justify';
 
 export interface KPTextProps {
     text: string;
@@ -22,6 +23,7 @@ export interface KPTextProps {
     marginLeft?: number;
     className?: string;
     onClick?: () => void;
+    textAlign?: TextAlign;
 }
 
 const KPText: FC<KPTextProps> = (props) => {
@@ -87,6 +89,7 @@ const styles = css<Omit<KPTextProps, 'onClick' | 'className' | 'text'>>`
     text-decoration: ${({ textDecoration }) => getTextDecoration(textDecoration)};
     text-decoration-color: ${({ textDecorationColor }) =>
         getTextDecorationColor(textDecorationColor)};
+    text-align: ${({ textAlign }) => (textAlign ? textAlign : 'left')};
 `;
 
 const H1Wrapper = styled.h1`
