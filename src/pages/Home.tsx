@@ -263,7 +263,7 @@ const Home = () => {
                             </div>
                         </KPCollapse>
 
-                        <KPCollapse identifier="pays" name="Pagos">
+                        <KPCollapse identifier="pays" name="Pago">
                             <Form.Item name="method">
                                 <Radio.Group className="flex flex-column g-10">
                                     {statePayMethods.data?.map((c) => (
