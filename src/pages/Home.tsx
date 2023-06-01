@@ -29,10 +29,10 @@ import { convertStringToMoney } from '@utils/Strings.utils';
 import { validateNumbersWithDecimals } from '@utils/Validator.utils';
 
 interface FormFilters {
-    category: string;
-    startPrice: string;
-    endPrice: string;
-    method: string;
+    category?: string;
+    startPrice?: string;
+    endPrice?: string;
+    method?: string;
 }
 
 const Home = () => {
@@ -52,11 +52,40 @@ const Home = () => {
     const [priceSelected, setPrice] = useState<string>();
     const [show, setShow] = useState<SHOWING>('DATA');
     const [data, setData] = useState<ProductModel>();
+    const [filtersData, setFiltersData] = useState<FormFilters>();
 
     useEffect(() => {
         getCategories();
         getPayMethods();
     }, []);
+
+    useEffect(() => {
+        console.log('filters', filtersData, priceSelected);
+        if (filtersData || priceSelected) {
+            const priceRange = !priceSelected
+                ? filtersData?.startPrice && filtersData?.endPrice
+                    ? `${filtersData.startPrice},${filtersData?.endPrice}`
+                    : undefined
+                : priceSelected;
+
+            if (!filtersData?.category && !filtersData?.method && !priceRange) return;
+            if (
+                (filtersData?.category || filtersData?.method) &&
+                filtersData?.startPrice &&
+                !filtersData?.endPrice
+            )
+                return;
+
+            getProducts(
+                {
+                    category: filtersData?.category,
+                    method: filtersData?.method,
+                    priceRange,
+                },
+                search,
+            );
+        }
+    }, [filtersData, priceSelected]);
 
     const getCategories = () => {
         fetchCategories({
@@ -72,22 +101,14 @@ const Home = () => {
         });
     };
 
-    const onFinish = (values: FormFilters) => {
-        getProducts(
-            {
-                category: values.category,
-                method: values.method,
-                priceRange: !priceSelected
-                    ? values.startPrice && values.endPrice
-                        ? `${values.startPrice},${values.endPrice}`
-                        : undefined
-                    : priceSelected,
-            },
-            search,
-        );
-    };
-
     const onChangeValues = (e: FormFilters) => {
+        setFiltersData({
+            category: e.category ?? filtersData?.category,
+            startPrice: e.startPrice ?? filtersData?.startPrice,
+            endPrice: e.endPrice ?? filtersData?.endPrice,
+            method: e.method ?? filtersData?.method,
+        });
+
         if (e.startPrice) {
             if (e.startPrice.trim() !== '') {
                 setPrice('');
@@ -123,6 +144,7 @@ const Home = () => {
         form.setFieldValue('startPrice', '');
         form.setFieldValue('endPrice', '');
         setPrice(undefined);
+        setFiltersData(undefined);
         getProducts();
     };
 
@@ -163,17 +185,18 @@ const Home = () => {
             form.setFieldValue('startPrice', '');
             form.setFieldValue('endPrice', '');
             setPrice(undefined);
+
+            setFiltersData({
+                ...filtersData,
+                startPrice: undefined,
+                endPrice: undefined,
+            });
         } else {
             form.setFieldValue(label, '');
+            setFiltersData({ ...filtersData, [label]: undefined });
         }
 
-        getProducts(
-            {
-                ...filters,
-                [label]: undefined,
-            },
-            search,
-        );
+        if (getHistory().length < 2) getProducts();
     };
 
     const onShowProductDetail = (info?: ProductModel) => {
@@ -196,7 +219,7 @@ const Home = () => {
                         form={form}
                         autoComplete="off"
                         className="flex flex-column g-15"
-                        onFinish={onFinish}
+                        // onFinish={onFinish}
                         onValuesChange={onChangeValues}
                         initialValues={{
                             category: '',
@@ -276,10 +299,6 @@ const Home = () => {
                                 </Radio.Group>
                             </Form.Item>
                         </KPCollapse>
-
-                        <KPButton type="primary" htmlType="submit">
-                            Filtrar
-                        </KPButton>
                     </Form>
                 </div>
             </div>
