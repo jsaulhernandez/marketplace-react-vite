@@ -1,9 +1,13 @@
-import { FC, ReactNode } from 'react';
+import { ChangeEvent, FC, ReactNode } from 'react';
 
 import { Input } from 'antd';
 import styled from 'styled-components';
+import TextArea from 'antd/es/input/TextArea';
+
+export type TypeInput = 'input' | 'textarea';
 
 export interface KPInputProps {
+    typeInput?: TypeInput;
     addonAfter?: ReactNode;
     addonBefore?: ReactNode;
     prefix?: ReactNode;
@@ -11,11 +15,46 @@ export interface KPInputProps {
     height?: number;
     placeholder?: string;
     className?: string;
+    onChange?: (value: any) => any;
+    defaultValue?: string | number | ReadonlyArray<string>;
+    value?: string | number | ReadonlyArray<string>;
 }
 
 const KPInput: FC<KPInputProps> = (props) => {
-    const { className, ...rest } = props;
-    return <InputWrapper className={`${className ? className : ''}`} {...rest} />;
+    const {
+        typeInput,
+        addonAfter,
+        addonBefore,
+        prefix,
+        suffix,
+        onChange,
+        className,
+        ...rest
+    } = props;
+
+    if (typeInput === 'textarea')
+        return (
+            <TextArea
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                    onChange && onChange(e)
+                }
+                className={`${className ? className : ''}`}
+                allowClear={false}
+                {...rest}
+            />
+        );
+
+    return (
+        <InputWrapper
+            onChange={(e) => onChange && onChange(e)}
+            className={`${className ? className : ''}`}
+            addonAfter={addonAfter}
+            addonBefore={addonBefore}
+            prefix={prefix}
+            suffix={suffix}
+            {...rest}
+        />
+    );
 };
 
 const getHeight = (height?: number) => {
