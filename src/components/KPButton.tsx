@@ -97,6 +97,7 @@ const Button = styled.button<{
 
         &:active {
             background-color: transparent;
+            color: var(--primary-color);
         }
     }
 
