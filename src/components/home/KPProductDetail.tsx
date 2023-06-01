@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 
 import { Tabs, Tooltip } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
@@ -31,6 +31,11 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
     const [colorActive, setColorActive] = useState<number>();
     const [processorActive, setProcessorActive] = useState<number>();
     const [memorySizeActive, setMemorySizeActive] = useState<number>();
+    const [tabs, setTabs] = useState<Tab[]>([]);
+
+    useEffect(() => {
+        getContent();
+    }, []);
 
     const getItems = (): ItemType[] => {
         let items: ItemType[] = [];
@@ -52,7 +57,7 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
         return items;
     };
 
-    const getContent = (): Tab[] => {
+    const getContent = (): void => {
         const items: Tab[] = [
             {
                 key: 'detail',
@@ -68,7 +73,7 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
             },
         ];
 
-        return items.filter((i) => i.children !== '');
+        setTabs(items.filter((i) => i.children !== ''));
     };
 
     return (
@@ -188,9 +193,11 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
 
                     <div className="section flex flex-column g-10"></div>
 
-                    <div className="section flex flex-column g-10">
-                        <Tabs items={getContent()} />
-                    </div>
+                    {tabs.length > 0 && (
+                        <div className="section flex flex-column g-10">
+                            <Tabs items={tabs} />
+                        </div>
+                    )}
                 </div>
                 <div className="KPProductDetail_data-item">
                     <KPPurchaseForm stock={props.product?.stock} />
