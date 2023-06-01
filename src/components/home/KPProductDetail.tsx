@@ -200,7 +200,10 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
                     )}
                 </div>
                 <div className="KPProductDetail_data-item">
-                    <KPPurchaseForm stock={props.product?.stock} />
+                    <KPPurchaseForm
+                        stock={props.product?.stock}
+                        price={props.product?.price}
+                    />
                 </div>
             </div>
         </Wrapper>

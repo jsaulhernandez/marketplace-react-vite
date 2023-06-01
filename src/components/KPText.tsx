@@ -1,14 +1,14 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import styled, { css } from 'styled-components';
 
-type textType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p';
+type textType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p' | 'div';
 type decoration = 'line-through' | 'underline' | 'overline';
 type decorationColor = 'red' | 'grey' | 'black';
 type TextAlign = 'center' | 'end' | 'start' | 'left' | 'right' | 'justify';
 
 export interface KPTextProps {
-    text: string;
+    text: string | ReactNode;
     textColor?: string;
     type?: textType;
     fontSize?: number;
@@ -32,6 +32,7 @@ const KPText: FC<KPTextProps> = (props) => {
     if (props.type === 'h3') return <H3Wrapper {...props}>{props.text}</H3Wrapper>;
     if (props.type === 'h4') return <H4Wrapper {...props}>{props.text}</H4Wrapper>;
     if (props.type === 'h5') return <H5Wrapper {...props}>{props.text}</H5Wrapper>;
+    if (props.type === 'div') return <DivWrapper {...props}>{props.text}</DivWrapper>;
 
     return <PWrapper {...props}>{props.text}</PWrapper>;
 };
@@ -109,6 +110,11 @@ const H5Wrapper = styled.h5`
 `;
 const PWrapper = styled.p`
     ${styles}
+`;
+const DivWrapper = styled.div`
+    span {
+        ${styles}
+    }
 `;
 
 export default KPText;
