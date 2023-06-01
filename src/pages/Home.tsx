@@ -12,8 +12,9 @@ import KPItemFilter from '@components/KPItemFilter';
 import KPCollapse from '@components/KPCollapse';
 import KPInput from '@components/KPInput';
 import KPButton from '@components/KPButton';
+import KPProductDetail from '@components/home/KPProductDetail';
 
-import { ORDER_BY, PRICES_FILTERS } from '@constants/Constants.constants';
+import { ORDER_BY, PRICES_FILTERS, SHOWING } from '@constants/Constants.constants';
 
 import useAxios from '@hooks/useAxios.hook';
 import { useFilter } from '@hooks/useFilter.hook';
@@ -22,6 +23,7 @@ import { FiltersModel } from '@context/action/Filter.action';
 
 import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
+import { ProductModel } from '@interfaces/Product.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
 import { validateNumbersWithDecimals } from '@utils/Validator.utils';
@@ -46,7 +48,10 @@ const Home = () => {
     const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
 
     const [form] = useForm<FormFilters>();
+
     const [priceSelected, setPrice] = useState<string>();
+    const [show, setShow] = useState<SHOWING>('DATA');
+    const [data, setData] = useState<ProductModel>();
 
     useEffect(() => {
         getCategories();
@@ -171,7 +176,12 @@ const Home = () => {
         );
     };
 
-    return (
+    const onShowProductDetail = (info?: ProductModel) => {
+        setData(info);
+        setShow('DETAIL');
+    };
+
+    return show === 'DATA' ? (
         <Wrapper className="flex flex-row wp-100">
             <div className="Home_item flex flex-column">
                 <div className="Home_item-filters wp-100 p-2 flex flex-column g-15">
@@ -349,12 +359,15 @@ const Home = () => {
                                 key={i}
                                 data={value}
                                 index={i}
+                                onClick={onShowProductDetail}
                             />
                         ))}
                     </div>
                 </Spin>
             </div>
         </Wrapper>
+    ) : (
+        <KPProductDetail product={data} onClose={setShow} />
     );
 };
 
