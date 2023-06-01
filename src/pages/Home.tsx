@@ -53,6 +53,7 @@ const Home = () => {
     const [show, setShow] = useState<SHOWING>('DATA');
     const [data, setData] = useState<ProductModel>();
     const [filtersData, setFiltersData] = useState<FormFilters>();
+    const [order, setOrder] = useState<ORDER_BY>('DESC');
 
     useEffect(() => {
         getCategories();
@@ -131,11 +132,12 @@ const Home = () => {
     };
 
     const onChange = (page: number) => {
-        console.log('pagina => ', page);
+        getProducts(filters, search, order, `${page}`);
     };
 
-    const onChangeOrder = (order: ORDER_BY) => {
-        getProducts(filters, search, order);
+    const onChangeOrder = (dataOrder: ORDER_BY) => {
+        setOrder(dataOrder);
+        getProducts(filters, search, dataOrder);
     };
 
     const resetFilter = () => {
