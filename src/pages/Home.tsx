@@ -61,7 +61,6 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        console.log('filters', filtersData, priceSelected);
         if (filtersData || priceSelected) {
             const priceRange = !priceSelected
                 ? filtersData?.startPrice && filtersData?.endPrice
@@ -221,7 +220,6 @@ const Home = () => {
                         form={form}
                         autoComplete="off"
                         className="flex flex-column g-15"
-                        // onFinish={onFinish}
                         onValuesChange={onChangeValues}
                         initialValues={{
                             category: '',
