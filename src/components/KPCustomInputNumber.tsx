@@ -18,7 +18,7 @@ const KPCustomInputNumber: FC<KPCustomInputNumberProps> = ({ value = 0, ...props
     return (
         <Wrapper className="flex items-center relative">
             <KPButton
-                disabled={value < 1}
+                disabled={value === 1}
                 type="primary"
                 prefix={<MinusOutlined />}
                 className="button-left"
