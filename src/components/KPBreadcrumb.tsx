@@ -10,6 +10,7 @@ import { children } from '@root/routes';
 
 export interface KPBreadcrumbProps {
     titles?: ItemType[];
+    className?: string;
 }
 
 const KPBreadcrumb: FC<KPBreadcrumbProps> = (props) => {
@@ -28,7 +29,13 @@ const KPBreadcrumb: FC<KPBreadcrumbProps> = (props) => {
         return items;
     };
 
-    return <Wrapper separator={<RightOutlined />} items={buildingItems()} />;
+    return (
+        <Wrapper
+            separator={<RightOutlined />}
+            items={buildingItems()}
+            className={`${props.className ? props.className : ''}`}
+        />
+    );
 };
 
 const Wrapper = styled(Breadcrumb)`

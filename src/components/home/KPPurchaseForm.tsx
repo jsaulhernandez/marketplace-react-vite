@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, LegacyRef, useEffect, useRef, useState } from 'react';
 
 import { Divider } from 'antd';
 import styled from 'styled-components';
@@ -11,10 +11,16 @@ import KPCustomInputNumber from '../KPCustomInputNumber';
 export interface KPPurchaseFormProps {
     stock?: number;
     price?: number;
+    onSetHeight?: (value?: number) => void;
 }
 
 const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
     const [quantity, setQuantity] = useState<number>(1);
+    const refForm = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        props.onSetHeight && props.onSetHeight(refForm.current?.offsetHeight);
+    }, [refForm]);
 
     const onSetQuantity = (action: 'add' | 'less') => {
         if (action === 'less') setQuantity(quantity - 1);
@@ -22,7 +28,7 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
     };
 
     return (
-        <Wrapper className="flex flex-column justify-center g-20 p-2">
+        <Wrapper className="flex flex-column justify-center g-20 p-2" ref={refForm}>
             <KPText text="Cantidad" textColor="--primary-text-color" fontWeight={600} />
             <div>
                 <KPCustomInputNumber
