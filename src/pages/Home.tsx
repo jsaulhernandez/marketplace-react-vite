@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { Form, Radio, Select, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { DollarCircleOutlined } from '@ant-design/icons';
+import { DollarCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+
+import { motion } from 'framer-motion';
 
 import KPPagination from '@components/KPPagination';
 import KPText from '@components/KPText';
@@ -54,6 +56,7 @@ const Home = () => {
     const [data, setData] = useState<ProductModel>();
     const [filtersData, setFiltersData] = useState<FormFilters>();
     const [order, setOrder] = useState<ORDER_BY>('DESC');
+    const [showFilters, setShowFilters] = useState<boolean>(false);
 
     useEffect(() => {
         getCategories();
@@ -206,8 +209,26 @@ const Home = () => {
     };
 
     return show === 'DATA' ? (
-        <Wrapper className="flex flex-row wp-100">
-            <div className="Home_item flex flex-column">
+        <Wrapper
+            className="flex flex-row wp-100 wrapper relative"
+            showFilters={showFilters}
+        >
+            <motion.div
+                initial={{
+                    right: 0,
+                }}
+                animate={{
+                    right: showFilters ? 0 : -285,
+                }}
+                transition={{ ease: 'easeOut', duration: 0.3 }}
+                className="Home_item flex flex-column"
+            >
+                <div
+                    className="close hand flex items-center justify-center"
+                    onClick={() => setShowFilters(!showFilters)}
+                >
+                    {showFilters ? <LeftOutlined /> : <RightOutlined />}
+                </div>
                 <div className="Home_item-filters wp-100 p-2 flex flex-column g-15">
                     <KPText
                         text="Filtros"
@@ -301,7 +322,7 @@ const Home = () => {
                         </KPCollapse>
                     </Form>
                 </div>
-            </div>
+            </motion.div>
 
             <div className="Home_item flex flex-column p-1">
                 <div className="Home_item-pagination flex flex-row justify-between items-center flex-wrap">
@@ -390,7 +411,9 @@ const Home = () => {
     );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{
+    showFilters: boolean;
+}>`
     gap: 2%;
 
     .Home_item {
@@ -426,6 +449,35 @@ const Wrapper = styled.div`
     .Home_item-container-item {
         width: calc(100% / 4 - 20px);
         margin: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .Home_item:first-child {
+            position: absolute;
+            width: 285px !important;
+            left: ${({ showFilters }) => (showFilters ? '15px' : '-285px')};
+            z-index: 3;
+            transition: left 0.3s ease-out;
+            -webkit-transition: left 0.3s ease-out;
+            -moz-transition: left 0.3s ease-out;
+            -o-transition: left 0.3s ease-out;
+            -ms-transition: left 0.3s ease-out;
+
+            .close {
+                position: absolute;
+                right: -27px;
+                top: 10%;
+                width: 27px;
+                height: 30px;
+                background-color: var(--quaternary-text-color);
+                z-index: 4;
+                color: var(--secondary-color);
+            }
+        }
+
+        .Home_item:last-child {
+            width: 100%;
+        }
     }
 `;
 

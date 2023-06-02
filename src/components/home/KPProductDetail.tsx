@@ -5,12 +5,12 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import styled from 'styled-components';
 
-import KPBreadcrumb from '@components/KPBreadcrumb';
 import KPDotsColor from '../products/KPDotsColor';
 import KPText from '../KPText';
 import KPDetailImages from '../KPDetailImages';
 import KPItemFilter from '../KPItemFilter';
 import KPPurchaseForm from './KPPurchaseForm';
+import KPBreadcrumb from '../KPBreadcrumb';
 
 import { SHOWING } from '@constants/Constants.constants';
 
