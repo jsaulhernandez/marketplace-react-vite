@@ -34,6 +34,7 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
     const [tabs, setTabs] = useState<Tab[]>([]);
 
     const refDiv = useRef<HTMLDivElement>(null);
+    const refContainer = useRef<HTMLDivElement>(null);
     const [heightForm, setHeightForm] = useState<number>();
     const [dif, setDif] = useState<number>();
 
@@ -90,8 +91,9 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
 
     return (
         <Wrapper
-            className="flex flex-column"
+            className="flex flex-column wrapper"
             dif={dif ? (dif > 0 ? dif + 10 : undefined) : undefined}
+            heightContainer={refContainer.current?.offsetWidth}
         >
             <div className="KPProductDetail_breadcrumb flex flex-wrap justify-between items-center g-10 relative">
                 <KPBreadcrumb titles={getItems()} className="mr-2" />
@@ -104,7 +106,7 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
                 </Tooltip>
             </div>
 
-            <div className="KPProductDetail_data flex pt-2 g-20">
+            <div className="KPProductDetail_data flex pt-2 g-20" ref={refContainer}>
                 <div className="KPProductDetail_data-item flex flex-row g-20">
                     <div
                         className="KPProductDetail_data-item-information flex flex-column"
@@ -234,6 +236,7 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
 
 const Wrapper = styled.div<{
     dif?: number;
+    heightContainer?: number;
 }>`
     .KPProductDetail_breadcrumb .close {
         transform: scale(1.5);
@@ -327,7 +330,8 @@ const Wrapper = styled.div<{
             width: 100% !important;
 
             &:nth-child(2) {
-                width: calc(100vw - 9%) !important;
+                width: ${({ heightContainer }) =>
+                    heightContainer ? `${heightContainer}px !important;` : '0px'};
             }
         }
     }
@@ -348,9 +352,6 @@ const Wrapper = styled.div<{
 
     @media screen and (max-width: 500px) {
         .KPProductDetail_data {
-            padding-left: 7%;
-            padding-right: 7%;
-            padding-bottom: 8%;
             flex-direction: column;
         }
 

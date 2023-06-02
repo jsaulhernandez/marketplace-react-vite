@@ -31,13 +31,18 @@ const Header = () => {
 
     return (
         <Wrapper>
-            <div className="Header_search-bar flex flex-row justify-between items-center">
+            <div className="Header_search-bar flex flex-row flex-wrap justify-between items-center g-10 relative">
                 <div className="Header_items-logo hand" onClick={redirectToHome}>
                     <img src="/images/logo/logo.webp" alt="img" />
                 </div>
+
                 <div className="Header-items-search">
-                    <KPCustomSearch onSearch={onFilter} className="wp-100" />
+                    <KPCustomSearch
+                        onSearch={onFilter}
+                        className="custom-search wp-100"
+                    />
                 </div>
+
                 <div className="Header-items-session flex flex-row g-20">
                     <div className="notifications flex items-center">
                         <NotificationOutlined className="icon hand" />
@@ -49,6 +54,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+
             <div className="Header_informative flex items-center justify-between p-1 g-10">
                 <div className="categories flex flex-row flex-wrap g-10">
                     <KPText text="Macbook" />
@@ -74,17 +80,16 @@ const Wrapper = styled.div`
 
     .Header_search-bar,
     .Header_informative {
+        padding: 10px 3%;
         border-bottom: 2px solid var(--quaternary-color);
     }
 
     .Header_search-bar {
         height: 90px;
-        padding: 10px 3%;
     }
 
     .Header_informative {
         height: 50px;
-        padding: 0px 3%;
     }
 
     .Header_items-logo img {
@@ -130,6 +135,25 @@ const Wrapper = styled.div`
 
     .Header_informative .location .icon {
         color: var(--secondary-text-color);
+    }
+
+    @media screen and (max-width: 1000px) {
+        .Header-items-search {
+            min-width: 400px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .Header-items-search {
+            min-width: 280px;
+            max-width: 280px;
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+        /* .Header-items-search {
+            position: absolute;
+        } */
     }
 `;
 
