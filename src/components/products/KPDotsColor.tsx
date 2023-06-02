@@ -1,6 +1,6 @@
-import { ColorModel } from '@root/interfaces/Color.model';
 import { FC } from 'react';
 import styled, { CSSProperties } from 'styled-components';
+import { ColorModel } from '../../interfaces/Color.model';
 
 export interface KPDotsColorProps {
     colors?: ColorModel[];
