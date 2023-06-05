@@ -18,10 +18,11 @@ import KPProductDetail from '@components/home/KPProductDetail';
 
 import { ORDER_BY, PRICES_FILTERS, SHOWING } from '@constants/Constants.constants';
 
+import { FiltersModel } from '@context/action/Filter.action';
+
 import useAxios from '@hooks/useAxios.hook';
 import { useFilter } from '@hooks/useFilter.hook';
-
-import { FiltersModel } from '@context/action/Filter.action';
+import { useResize } from '@hooks/useResize.hook';
 
 import { CategoryModel } from '@interfaces/Category.model';
 import { PayMethodModel } from '@interfaces/PayMethod.model';
@@ -48,6 +49,7 @@ const Home = () => {
     } = useFilter();
     const [stateCategories, fetchCategories] = useAxios<CategoryModel[]>();
     const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
+    const [is768] = useResize(768);
 
     const [form] = useForm<FormFilters>();
 
@@ -223,12 +225,14 @@ const Home = () => {
                 transition={{ ease: 'easeOut', duration: 0.3 }}
                 className="Home_item flex flex-column"
             >
-                <div
-                    className="close hand flex items-center justify-center"
-                    onClick={() => setShowFilters(!showFilters)}
-                >
-                    {showFilters ? <LeftOutlined /> : <RightOutlined />}
-                </div>
+                {is768 && (
+                    <div
+                        className="close hand flex items-center justify-center"
+                        onClick={() => setShowFilters(!showFilters)}
+                    >
+                        {showFilters ? <LeftOutlined /> : <RightOutlined />}
+                    </div>
+                )}
                 <div className="Home_item-filters wp-100 p-2 flex flex-column g-15">
                     <KPText
                         text="Filtros"
@@ -249,19 +253,21 @@ const Home = () => {
                             endPrice: '',
                         }}
                     >
-                        <KPCollapse identifier="categories" name="Categorías">
-                            <Form.Item name="category">
-                                <Radio.Group className="flex flex-column g-10">
-                                    {stateCategories.data?.map((c) => (
-                                        <KPItemFilter
-                                            label={c.name}
-                                            value={c.id}
-                                            key={c.id}
-                                        />
-                                    ))}
-                                </Radio.Group>
-                            </Form.Item>
-                        </KPCollapse>
+                        {stateCategories.data && stateCategories.data.length > 0 && (
+                            <KPCollapse identifier="categories" name="Categorías">
+                                <Form.Item name="category">
+                                    <Radio.Group className="flex flex-column g-10">
+                                        {stateCategories.data?.map((c) => (
+                                            <KPItemFilter
+                                                label={c.name}
+                                                value={c.id}
+                                                key={c.id}
+                                            />
+                                        ))}
+                                    </Radio.Group>
+                                </Form.Item>
+                            </KPCollapse>
+                        )}
 
                         <KPCollapse identifier="prices" name="Precios">
                             <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
@@ -307,19 +313,21 @@ const Home = () => {
                             </div>
                         </KPCollapse>
 
-                        <KPCollapse identifier="pays" name="Pago">
-                            <Form.Item name="method">
-                                <Radio.Group className="flex flex-column g-10">
-                                    {statePayMethods.data?.map((c) => (
-                                        <KPItemFilter
-                                            label={c.name}
-                                            value={c.id}
-                                            key={c.id}
-                                        />
-                                    ))}
-                                </Radio.Group>
-                            </Form.Item>
-                        </KPCollapse>
+                        {statePayMethods.data && statePayMethods.data.length > 0 && (
+                            <KPCollapse identifier="pays" name="Pago">
+                                <Form.Item name="method">
+                                    <Radio.Group className="flex flex-column g-10">
+                                        {statePayMethods.data?.map((c) => (
+                                            <KPItemFilter
+                                                label={c.name}
+                                                value={c.id}
+                                                key={c.id}
+                                            />
+                                        ))}
+                                    </Radio.Group>
+                                </Form.Item>
+                            </KPCollapse>
+                        )}
                     </Form>
                 </div>
             </motion.div>
@@ -451,6 +459,34 @@ const Wrapper = styled.div<{
         margin: 10px;
     }
 
+    @media screen and (max-width: 1100px) {
+        .Home_item {
+            width: 70%;
+
+            &:first-child {
+                width: 30%;
+            }
+        }
+
+        .Home_item-container-item {
+            width: calc(100% / 3 - 20px);
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .Home_item {
+            width: 65%;
+
+            &:first-child {
+                width: 35%;
+            }
+        }
+
+        .Home_item-container-item {
+            width: calc(100% / 2 - 20px);
+        }
+    }
+
     @media screen and (max-width: 768px) {
         .Home_item:first-child {
             position: absolute;
@@ -477,6 +513,27 @@ const Wrapper = styled.div<{
 
         .Home_item:last-child {
             width: 100%;
+        }
+
+        .Home_item-container-item {
+            width: calc(100% / 3 - 20px);
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+        .Home_item-container-item {
+            width: calc(100% / 2 - 20px);
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .Home_item-container-item {
+            width: 100%;
+            margin: 0;
+
+            &:not(:first-child) {
+                margin-top: 20px;
+            }
         }
     }
 `;
