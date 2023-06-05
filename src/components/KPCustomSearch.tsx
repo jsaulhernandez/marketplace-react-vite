@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 
 import { Form } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { SearchOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPInput from './KPInput';
@@ -13,6 +13,8 @@ import { useFilter } from '@hooks/useFilter.hook';
 export interface KPCustomSearchProps {
     onSearch: (search: string) => void;
     className?: string;
+    showClose: boolean;
+    onClose?: (value: boolean) => void;
 }
 
 const KPCustomSearch: FC<KPCustomSearchProps> = (props) => {
@@ -37,7 +39,20 @@ const KPCustomSearch: FC<KPCustomSearchProps> = (props) => {
                     <Form.Item name="search" className="wp-100">
                         <KPInput
                             className="input-item relative"
-                            prefix={<SearchOutlined className="icon-item" />}
+                            prefix={
+                                props.showClose ? (
+                                    <CloseCircleOutlined
+                                        className="icon-item hand"
+                                        onClick={() =>
+                                            props.onClose &&
+                                            props.onClose(!props.showClose)
+                                        }
+                                    />
+                                ) : (
+                                    <SearchOutlined className="icon-item" />
+                                )
+                            }
+                            placeholder="Buscar....."
                         />
                     </Form.Item>
                     <KPButton htmlType="submit" type="primary" className="button-item">
@@ -50,6 +65,8 @@ const KPCustomSearch: FC<KPCustomSearchProps> = (props) => {
 };
 
 const Wrapper = styled.div`
+    background-color: var(--secondary-color);
+
     .KPCustomSearch_content {
         border-radius: 15px;
         border: 2px solid var(--quaternary-color);
