@@ -1,19 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { AimOutlined, MessageOutlined, NotificationOutlined } from '@ant-design/icons';
+import {
+    AimOutlined,
+    MessageOutlined,
+    NotificationOutlined,
+    SearchOutlined,
+} from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPCustomSearch from '@components/KPCustomSearch';
 import KPText from '@components/KPText';
 
 import { useFilter } from '@hooks/useFilter.hook';
-import { useNavigate } from 'react-router-dom';
+import { useResize } from '@hooks/useResize.hook';
 
 const Header = () => {
     const {
         methods: { getProducts },
         filters,
     } = useFilter();
+    const [is630] = useResize(630);
+
+    const [showSearch, setShowSearch] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -30,21 +39,33 @@ const Header = () => {
     };
 
     return (
-        <Wrapper>
+        <Wrapper showSearchBar={showSearch}>
             <div className="Header_search-bar flex flex-row flex-wrap justify-between items-center g-10 relative">
                 <div className="Header_items-logo hand" onClick={redirectToHome}>
                     <img src="/images/logo/logo.webp" alt="img" />
                 </div>
 
-                <div className="Header-items-search">
+                <div
+                    className={`Header-items-search ${
+                        is630 ? 'Header-items-hide-search absolute' : ''
+                    }`}
+                >
                     <KPCustomSearch
                         onSearch={onFilter}
                         className="custom-search wp-100"
+                        showClose={showSearch}
+                        onClose={setShowSearch}
                     />
                 </div>
 
                 <div className="Header-items-session flex flex-row g-20">
                     <div className="notifications flex items-center">
+                        {is630 && (
+                            <SearchOutlined
+                                className="icon hand icon-search"
+                                onClick={() => setShowSearch(!showSearch)}
+                            />
+                        )}
                         <NotificationOutlined className="icon hand" />
                         <MessageOutlined className="icon hand" />
                     </div>
@@ -75,7 +96,9 @@ const Header = () => {
     );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{
+    showSearchBar?: boolean;
+}>`
     height: 140px;
 
     .Header_search-bar,
@@ -110,6 +133,10 @@ const Wrapper = styled.div`
             &:hover {
                 color: var(--primary-color);
             }
+        }
+
+        .icon-search {
+            rotate: 90deg;
         }
     }
 
@@ -150,10 +177,19 @@ const Wrapper = styled.div`
         }
     }
 
-    @media screen and (max-width: 650px) {
-        /* .Header-items-search {
-            position: absolute;
-        } */
+    @media screen and (max-width: 630px) {
+        .Header-items-hide-search {
+            z-index: 3;
+            min-width: calc(100% - 6%);
+            top: ${({ showSearchBar }) => (showSearchBar ? '20px' : '-60px')};
+            z-index: 3;
+            height: calc(100% - 40px);
+            transition: top 0.3s ease-out;
+            -webkit-transition: top 0.3s ease-out;
+            -moz-transition: top 0.3s ease-out;
+            -o-transition: top 0.3s ease-out;
+            -ms-transition: top 0.3s ease-out;
+        }
     }
 `;
 
