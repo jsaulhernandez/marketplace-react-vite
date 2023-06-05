@@ -47,6 +47,10 @@ const Wrapper = styled(Collapse)`
     border-bottom: 1px solid var(--quaternary-color);
     border-radius: 0px;
 
+    &:last-child {
+        border: none;
+    }
+
     .ant-collapse-header,
     .ant-collapse-content-box {
         padding: 0px !important;
