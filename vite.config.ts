@@ -20,7 +20,20 @@ export default defineConfig({
             '@constants': resolve(__dirname, './src/constants'),
         },
     },
-    plugins: [react()],
+    plugins: [
+        react(),
+        {
+            name: 'singleHMR',
+            handleHotUpdate({ modules }) {
+                modules.map((m) => {
+                    m.importedModules = new Set();
+                    m.importers = new Set();
+                });
+
+                return modules;
+            },
+        },
+    ],
     css: {
         preprocessorOptions: {
             less: {
