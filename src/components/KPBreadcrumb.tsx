@@ -5,8 +5,7 @@ import { Breadcrumb } from 'antd';
 import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import { RightOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-
-import { children } from '@root/routes';
+import { RoutesList } from '../routes';
 
 export interface KPBreadcrumbProps {
     titles?: ItemType[];
@@ -18,7 +17,7 @@ const KPBreadcrumb: FC<KPBreadcrumbProps> = (props) => {
 
     const buildingItems = (): ItemType[] => {
         let items: ItemType[] = [];
-        const getItem = children.find((r) => r.path === pathname);
+        const getItem = RoutesList.find((r) => r.path === pathname);
 
         if (!getItem) return items;
 
