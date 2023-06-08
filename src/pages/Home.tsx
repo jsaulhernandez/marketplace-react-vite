@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { UIEventHandler, useEffect, useState } from 'react';
 
 import { Form, Radio, Select, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -30,6 +30,7 @@ import { ProductModel } from '@interfaces/Product.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
 import { validateNumbersWithDecimals } from '@utils/Validator.utils';
+import { UIEvent } from 'react';
 
 interface FormFilters {
     category?: string;
@@ -59,6 +60,7 @@ const Home = () => {
     const [filtersData, setFiltersData] = useState<FormFilters>();
     const [order, setOrder] = useState<ORDER_BY>('DESC');
     const [showFilters, setShowFilters] = useState<boolean>(false);
+    const [isTop, setTop] = useState<boolean>(false);
 
     useEffect(() => {
         getCategories();
@@ -91,6 +93,14 @@ const Home = () => {
             );
         }
     }, [filtersData, priceSelected]);
+
+    useEffect(() => {
+        handleScroll();
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const getCategories = () => {
         fetchCategories({
@@ -210,17 +220,26 @@ const Home = () => {
         setShow('DETAIL');
     };
 
+    const handleScroll = () => {
+        const scrollPosition = window.scrollY; // => scroll position
+        console.log('scroll', scrollPosition);
+        setTop(scrollPosition >= 140);
+    };
+
     return show === 'DATA' ? (
         <Wrapper
             className="flex flex-row wp-100 wrapper relative"
             showFilters={showFilters}
+            is140={isTop}
         >
             <motion.div
                 initial={{
                     right: 0,
+                    top: 0,
                 }}
                 animate={{
                     right: showFilters ? 0 : -285,
+                    top: isTop ? 10 : 150,
                 }}
                 transition={{ ease: 'easeOut', duration: 0.3 }}
                 className="Home_item flex flex-column"
@@ -421,6 +440,7 @@ const Home = () => {
 
 const Wrapper = styled.div<{
     showFilters: boolean;
+    is140: boolean;
 }>`
     gap: 2%;
 
@@ -489,20 +509,26 @@ const Wrapper = styled.div<{
 
     @media screen and (max-width: 768px) {
         .Home_item:first-child {
-            position: absolute;
+            position: fixed;
             width: 285px !important;
             left: ${({ showFilters }) => (showFilters ? '15px' : '-285px')};
             z-index: 3;
+            top: ${({ is140 }) => (is140 ? '10px' : '150px')};
             transition: left 0.3s ease-out;
-            -webkit-transition: left 0.3s ease-out;
-            -moz-transition: left 0.3s ease-out;
-            -o-transition: left 0.3s ease-out;
-            -ms-transition: left 0.3s ease-out;
+            -webkit-transition: left top 0.3s ease-out;
+            -moz-transition: left top 0.3s ease-out;
+            -o-transition: left top 0.3s ease-out;
+            -ms-transition: left top 0.3s ease-out;
+
+            .Home_item-filters {
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
 
             .close {
                 position: absolute;
                 right: -27px;
-                top: 10%;
+                top: 17%;
                 width: 27px;
                 height: 30px;
                 background-color: var(--quaternary-text-color);

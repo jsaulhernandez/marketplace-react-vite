@@ -46,10 +46,6 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
         setDif((heightForm ?? 0) - (refDiv.current?.offsetHeight ?? 0));
     }, [refDiv, heightForm]);
 
-    useEffect(() => {
-        console.log('dif', dif);
-    }, [dif]);
-
     const getItems = (): ItemType[] => {
         let items: ItemType[] = [];
 
