@@ -55,7 +55,7 @@ export const useFilter = () => {
                 category: filters?.category ?? '0',
                 startPrice: filters?.priceRange?.split(',')[0] ?? '0',
                 endPrice: filters?.priceRange?.split(',')[1] ?? '0',
-                payMethod: filters?.method ?? '0',
+                paymentMethod: filters?.method ?? '0',
                 search,
                 order,
                 page,
