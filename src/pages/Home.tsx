@@ -1,4 +1,4 @@
-import { UIEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Form, Radio, Select, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -25,12 +25,11 @@ import { useFilter } from '@hooks/useFilter.hook';
 import { useResize } from '@hooks/useResize.hook';
 
 import { CategoryModel } from '@interfaces/Category.model';
-import { PayMethodModel } from '@interfaces/PaymentMethod.model';
+import { PaymentMethodModel } from '@interfaces/PaymentMethod.model';
 import { ProductModel } from '@interfaces/Product.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
 import { validateNumbersWithDecimals } from '@utils/Validator.utils';
-import { UIEvent } from 'react';
 
 interface FormFilters {
     category?: string;
@@ -49,7 +48,7 @@ const Home = () => {
         methods: { getProducts },
     } = useFilter();
     const [stateCategories, fetchCategories] = useAxios<CategoryModel[]>();
-    const [statePayMethods, fetchPayMethods] = useAxios<PayMethodModel[]>();
+    const [statePaymentMethods, fetchPaymentMethods] = useAxios<PaymentMethodModel[]>();
     const [is768] = useResize(768);
 
     const [form] = useForm<FormFilters>();
@@ -64,7 +63,7 @@ const Home = () => {
 
     useEffect(() => {
         getCategories();
-        getPayMethods();
+        getPaymentMethods();
     }, []);
 
     useEffect(() => {
@@ -109,10 +108,10 @@ const Home = () => {
         });
     };
 
-    const getPayMethods = () => {
-        fetchPayMethods({
+    const getPaymentMethods = () => {
+        fetchPaymentMethods({
             method: 'GET',
-            path: '/pay-method/web/active',
+            path: '/payment-method/web/active',
         });
     };
 
@@ -176,8 +175,8 @@ const Home = () => {
         });
 
         const getPayMethod =
-            statePayMethods.data?.find((p) => p.id === Number(filters?.method))?.name ??
-            '';
+            statePaymentMethods.data?.find((p) => p.id === Number(filters?.method))
+                ?.name ?? '';
         array.push({
             label: 'method',
             value: getPayMethod,
@@ -332,21 +331,22 @@ const Home = () => {
                             </div>
                         </KPCollapse>
 
-                        {statePayMethods.data && statePayMethods.data.length > 0 && (
-                            <KPCollapse identifier="pays" name="Pago">
-                                <Form.Item name="method">
-                                    <Radio.Group className="flex flex-column g-10">
-                                        {statePayMethods.data?.map((c) => (
-                                            <KPItemFilter
-                                                label={c.name}
-                                                value={c.id}
-                                                key={c.id}
-                                            />
-                                        ))}
-                                    </Radio.Group>
-                                </Form.Item>
-                            </KPCollapse>
-                        )}
+                        {statePaymentMethods.data &&
+                            statePaymentMethods.data.length > 0 && (
+                                <KPCollapse identifier="pays" name="Pago">
+                                    <Form.Item name="method">
+                                        <Radio.Group className="flex flex-column g-10">
+                                            {statePaymentMethods.data?.map((c) => (
+                                                <KPItemFilter
+                                                    label={c.name}
+                                                    value={c.id}
+                                                    key={c.id}
+                                                />
+                                            ))}
+                                        </Radio.Group>
+                                    </Form.Item>
+                                </KPCollapse>
+                            )}
                     </Form>
                 </div>
             </motion.div>
