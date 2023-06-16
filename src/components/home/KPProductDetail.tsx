@@ -73,14 +73,28 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
             {
                 key: 'detail',
                 label: <KPText text="Detalle" textColor="--secondary-text-color" />,
-                children: props.product?.detail ?? '',
+                children: props.product?.detail ? (
+                    <span
+                        className="innerHTML"
+                        dangerouslySetInnerHTML={{ __html: props.product.detail }}
+                    />
+                ) : (
+                    ''
+                ),
             },
             {
                 key: 'specifications',
                 label: (
                     <KPText text="Especifiaciones" textColor="--secondary-text-color" />
                 ),
-                children: props.product?.specification ?? '',
+                children: props.product?.specification ? (
+                    <span
+                        className="innerHTML"
+                        dangerouslySetInnerHTML={{ __html: props.product.specification }}
+                    />
+                ) : (
+                    ''
+                ),
             },
         ];
 
@@ -268,6 +282,20 @@ const Wrapper = styled.div<{
             :last-child {
                 gap: 0px;
                 padding-top: 0px;
+            }
+
+            .innerHTML {
+                color: var(--secondary-text-color);
+                font-size: 14px;
+                font-weight: normal !important;
+                letter-spacing: 0px;
+                margin: 0px;
+                text-decoration: none;
+                text-align: left;
+
+                ul {
+                    padding-left: 30px;
+                }
             }
         }
     }
