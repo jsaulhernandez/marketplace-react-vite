@@ -1,4 +1,4 @@
-import { FC, LegacyRef, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { Divider } from 'antd';
 import styled from 'styled-components';
@@ -7,6 +7,8 @@ import KPText from '../KPText';
 import KPButton from '../KPButton';
 import KPInput from '../KPInput';
 import KPCustomInputNumber from '../KPCustomInputNumber';
+
+import { formatMoney } from '@utils/Numbers.utils';
 
 export interface KPPurchaseFormProps {
     stock?: number;
@@ -69,7 +71,7 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
             <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
                 <KPText text="Sub total" fontWeight={600} fontSize={11} />
                 <KPText
-                    text={`$${(props.price ?? 0) * quantity}`}
+                    text={`${formatMoney((props.price ?? 0) * quantity)}`}
                     textColor="--primary-text-color"
                     fontWeight={600}
                     fontSize={18}

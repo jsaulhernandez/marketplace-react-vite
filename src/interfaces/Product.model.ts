@@ -1,7 +1,7 @@
 import { CategoryModel } from './Category.model';
 import { ColorModel } from './Color.model';
 import { MemorySizeModel } from './MemorySize.model';
-import { PayMethodModel } from './PayMethod.model';
+import { PaymentMethodModel } from './PaymentMethod.model';
 import { ProcessorModel } from './Processor.model';
 
 export interface ProductModel {
@@ -19,5 +19,5 @@ export interface ProductModel {
     detail: string;
     specification: string;
     category: CategoryModel;
-    payMethod: PayMethodModel[];
+    payMethod: PaymentMethodModel[];
 }

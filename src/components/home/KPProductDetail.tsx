@@ -16,6 +16,8 @@ import { SHOWING } from '@constants/Constants.constants';
 
 import { ProductModel } from '@interfaces/Product.model';
 
+import { formatMoney } from '@utils/Numbers.utils';
+
 export interface KPProductDetailProps {
     product?: ProductModel;
     onClose?: (value: SHOWING) => void;
@@ -129,7 +131,7 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
                             />
 
                             <KPText
-                                text={`$${props.product?.price ?? '0'}`}
+                                text={`${formatMoney(props.product?.price) ?? '0'}`}
                                 fontSize={25}
                                 fontWeight={700}
                                 textColor="--primary-text-color"

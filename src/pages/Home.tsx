@@ -25,7 +25,7 @@ import { useFilter } from '@hooks/useFilter.hook';
 import { useResize } from '@hooks/useResize.hook';
 
 import { CategoryModel } from '@interfaces/Category.model';
-import { PayMethodModel } from '@interfaces/PayMethod.model';
+import { PayMethodModel } from '@interfaces/PaymentMethod.model';
 import { ProductModel } from '@interfaces/Product.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
