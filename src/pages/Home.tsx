@@ -238,7 +238,7 @@ const Home = () => {
                 }}
                 animate={{
                     right: showFilters ? 0 : -285,
-                    top: isTop ? 10 : 150,
+                    top: isTop ? 0 : 140,
                 }}
                 transition={{ ease: 'easeOut', duration: 0.3 }}
                 className="Home_item flex flex-column"
@@ -449,6 +449,8 @@ const Wrapper = styled.div<{
 
         &:first-child {
             width: 20%;
+            height: 940px;
+            overflow-y: scroll;
         }
     }
 
@@ -474,9 +476,31 @@ const Wrapper = styled.div<{
         min-width: 140px;
     }
 
+    .Home_item-container {
+        height: 888px;
+    }
+
     .Home_item-container-item {
         width: calc(100% / 4 - 20px);
         margin: 10px;
+    }
+
+    @media screen and (max-width: 1150px) {
+        .Home_item:first-child {
+            overflow-y: visible;
+            height: calc(100vh - 192px);
+
+            .Home_item-filters {
+                height: auto;
+                overflow-y: scroll;
+            }
+        }
+
+        .Home_item-container {
+            height: auto;
+            max-height: calc(100vh - 260px);
+            overflow-y: scroll;
+        }
     }
 
     @media screen and (max-width: 1100px) {
@@ -513,16 +537,19 @@ const Wrapper = styled.div<{
             width: 285px !important;
             left: ${({ showFilters }) => (showFilters ? '15px' : '-285px')};
             z-index: 3;
-            top: ${({ is140 }) => (is140 ? '10px' : '150px')};
+            top: ${({ is140 }) => (is140 ? '0px' : '140px')};
             transition: left 0.3s ease-out;
             -webkit-transition: left top 0.3s ease-out;
             -moz-transition: left top 0.3s ease-out;
             -o-transition: left top 0.3s ease-out;
             -ms-transition: left top 0.3s ease-out;
+            overflow-y: visible;
+            height: ${({ is140 }) => (is140 ? '100vh' : 'calc(100vh - 140px)')};
 
             .Home_item-filters {
-                overflow-y: scroll;
-                overflow-x: hidden;
+                border: 0px;
+                border-radius: 0px;
+                height: ${({ is140 }) => (is140 ? '100vh' : 'calc(100vh - 140px)')};
             }
 
             .close {
@@ -539,6 +566,12 @@ const Wrapper = styled.div<{
 
         .Home_item:last-child {
             width: 100%;
+
+            .Home_item-container {
+                height: 100%;
+                max-height: 100%;
+                overflow-y: hidden;
+            }
         }
 
         .Home_item-container-item {
