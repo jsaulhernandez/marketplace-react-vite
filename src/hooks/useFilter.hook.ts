@@ -44,7 +44,7 @@ export const useFilter = () => {
         search: string = '',
         order: ORDER_BY = 'DESC',
         page: string = '1',
-        size: string = '16',
+        size: string = '12',
     ) => {
         onInit();
 
