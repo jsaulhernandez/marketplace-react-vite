@@ -30,6 +30,7 @@ import { ProductModel } from '@interfaces/Product.model';
 
 import { convertStringToMoney } from '@utils/Strings.utils';
 import { validateNumbersWithDecimals } from '@utils/Validator.utils';
+import { HEADER_HEIGHT } from '@layout/Layout';
 
 interface FormFilters {
     category?: string;
@@ -59,7 +60,6 @@ const Home = () => {
     const [filtersData, setFiltersData] = useState<FormFilters>();
     const [order, setOrder] = useState<ORDER_BY>('DESC');
     const [showFilters, setShowFilters] = useState<boolean>(false);
-    const [isTop, setTop] = useState<boolean>(false);
 
     useEffect(() => {
         getCategories();
@@ -220,16 +220,14 @@ const Home = () => {
     };
 
     const handleScroll = () => {
-        const scrollPosition = window.scrollY; // => scroll position
-        console.log('scroll', scrollPosition);
-        setTop(scrollPosition >= 140);
+        // const scrollPosition = window.scrollY; // => scroll position
+        // console.log('scroll', scrollPosition);
     };
 
     return show === 'DATA' ? (
         <Wrapper
             className="flex flex-row wp-100 wrapper relative"
             showFilters={showFilters}
-            is140={isTop}
         >
             <motion.div
                 initial={{
@@ -238,7 +236,7 @@ const Home = () => {
                 }}
                 animate={{
                     right: showFilters ? 0 : -285,
-                    top: isTop ? 0 : 140,
+                    top: 140,
                 }}
                 transition={{ ease: 'easeOut', duration: 0.3 }}
                 className="Home_item flex flex-column"
@@ -440,7 +438,6 @@ const Home = () => {
 
 const Wrapper = styled.div<{
     showFilters: boolean;
-    is140: boolean;
 }>`
     gap: 2%;
 
@@ -535,21 +532,21 @@ const Wrapper = styled.div<{
         .Home_item:first-child {
             position: fixed;
             width: 285px !important;
-            left: ${({ showFilters }) => (showFilters ? '15px' : '-285px')};
+            left: ${({ showFilters }) => (showFilters ? '0px' : '-285px')};
             z-index: 3;
-            top: ${({ is140 }) => (is140 ? '0px' : '140px')};
+            top: ${HEADER_HEIGHT};
             transition: left 0.3s ease-out;
             -webkit-transition: left top 0.3s ease-out;
             -moz-transition: left top 0.3s ease-out;
             -o-transition: left top 0.3s ease-out;
             -ms-transition: left top 0.3s ease-out;
             overflow-y: visible;
-            height: ${({ is140 }) => (is140 ? '100vh' : 'calc(100vh - 140px)')};
+            height: calc(100vh - ${HEADER_HEIGHT});
 
             .Home_item-filters {
                 border: 0px;
                 border-radius: 0px;
-                height: ${({ is140 }) => (is140 ? '100vh' : 'calc(100vh - 140px)')};
+                height: calc(100vh - ${HEADER_HEIGHT});
             }
 
             .close {

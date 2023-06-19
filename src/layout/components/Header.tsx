@@ -99,7 +99,11 @@ const Header = () => {
 const Wrapper = styled.div<{
     showSearchBar?: boolean;
 }>`
+    width: 100vw;
     height: 140px;
+    position: fixed;
+    z-index: 100;
+    background-color: var(--secondary-color);
 
     .Header_search-bar,
     .Header_informative {

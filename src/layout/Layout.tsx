@@ -8,7 +8,7 @@ export interface PublicLayoutProps {
     className?: string;
 }
 
-const HEADER_HEIGHT = '140px';
+export const HEADER_HEIGHT = '140px';
 
 const Layout: FC<PublicLayoutProps> = ({ className }) => {
     return (
@@ -31,11 +31,11 @@ const Wrapper = styled.div`
     position: relative;
     width: 100vw;
     min-height: 100vh;
-    background: white;
+    background-color: var(--tertiary-color);
     overflow: hidden;
 
     .container {
-        background-color: var(--tertiary-color);
+        margin-top: ${() => `${HEADER_HEIGHT}`};
         min-height: ${() => `calc(100vh - ${HEADER_HEIGHT})`};
     }
 `;
