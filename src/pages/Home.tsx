@@ -475,6 +475,7 @@ const Wrapper = styled.div<{
 
     .Home_item-container {
         height: 888px;
+        overflow-y: scroll;
     }
 
     .Home_item-container-item {
