@@ -269,21 +269,30 @@ const Home = () => {
                             endPrice: '',
                         }}
                     >
-                        {stateCategories.data && stateCategories.data.length > 0 && (
-                            <KPCollapse identifier="categories" name="Categorías">
-                                <Form.Item name="category">
-                                    <Radio.Group className="flex flex-column g-10">
-                                        {stateCategories.data?.map((c) => (
-                                            <KPItemFilter
-                                                label={c.name}
-                                                value={c.id}
-                                                key={c.id}
-                                            />
-                                        ))}
-                                    </Radio.Group>
-                                </Form.Item>
-                            </KPCollapse>
-                        )}
+                        <Spin
+                            style={{
+                                minHeight: `70px`,
+                            }}
+                            tip="Cargando categorías..."
+                            spinning={stateCategories.isLoading}
+                        >
+                            {' '}
+                            {stateCategories.data && stateCategories.data.length > 0 && (
+                                <KPCollapse identifier="categories" name="Categorías">
+                                    <Form.Item name="category">
+                                        <Radio.Group className="flex flex-column g-10">
+                                            {stateCategories.data?.map((c) => (
+                                                <KPItemFilter
+                                                    label={c.name}
+                                                    value={c.id}
+                                                    key={c.id}
+                                                />
+                                            ))}
+                                        </Radio.Group>
+                                    </Form.Item>
+                                </KPCollapse>
+                            )}
+                        </Spin>
 
                         <KPCollapse identifier="prices" name="Precios">
                             <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
@@ -329,22 +338,30 @@ const Home = () => {
                             </div>
                         </KPCollapse>
 
-                        {statePaymentMethods.data &&
-                            statePaymentMethods.data.length > 0 && (
-                                <KPCollapse identifier="pays" name="Pago">
-                                    <Form.Item name="method">
-                                        <Radio.Group className="flex flex-column g-10">
-                                            {statePaymentMethods.data?.map((c) => (
-                                                <KPItemFilter
-                                                    label={c.name}
-                                                    value={c.id}
-                                                    key={c.id}
-                                                />
-                                            ))}
-                                        </Radio.Group>
-                                    </Form.Item>
-                                </KPCollapse>
-                            )}
+                        <Spin
+                            style={{
+                                minHeight: `70px`,
+                            }}
+                            tip="Cargando métodos de pago..."
+                            spinning={statePaymentMethods.isLoading}
+                        >
+                            {statePaymentMethods.data &&
+                                statePaymentMethods.data.length > 0 && (
+                                    <KPCollapse identifier="pays" name="Pago">
+                                        <Form.Item name="method">
+                                            <Radio.Group className="flex flex-column g-10">
+                                                {statePaymentMethods.data?.map((c) => (
+                                                    <KPItemFilter
+                                                        label={c.name}
+                                                        value={c.id}
+                                                        key={c.id}
+                                                    />
+                                                ))}
+                                            </Radio.Group>
+                                        </Form.Item>
+                                    </KPCollapse>
+                                )}
+                        </Spin>
                     </Form>
                 </div>
             </motion.div>
