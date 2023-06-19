@@ -446,8 +446,6 @@ const Wrapper = styled.div<{
 
         &:first-child {
             width: 20%;
-            height: 940px;
-            overflow-y: scroll;
         }
     }
 
@@ -455,6 +453,8 @@ const Wrapper = styled.div<{
         background-color: var(--secondary-color);
         border: 2px solid var(--quaternary-color);
         border-radius: 10px;
+        height: 940px;
+        overflow-y: scroll;
     }
 
     .ant-form-item {
@@ -484,14 +484,9 @@ const Wrapper = styled.div<{
     }
 
     @media screen and (max-width: 1150px) {
-        .Home_item:first-child {
-            overflow-y: visible;
+        .Home_item-filters {
             height: calc(100vh - 192px);
-
-            .Home_item-filters {
-                height: auto;
-                overflow-y: scroll;
-            }
+            overflow-y: scroll;
         }
 
         .Home_item-container {
@@ -541,8 +536,6 @@ const Wrapper = styled.div<{
             -moz-transition: left top 0.3s ease-out;
             -o-transition: left top 0.3s ease-out;
             -ms-transition: left top 0.3s ease-out;
-            overflow-y: visible;
-            height: calc(100vh - ${HEADER_HEIGHT});
 
             .Home_item-filters {
                 border: 0px;
