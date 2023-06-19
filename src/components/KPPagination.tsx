@@ -46,7 +46,9 @@ const KPPagination: FC<KPPaginationProps> = (props) => {
         if (typeof current === 'undefined' || typeof current !== 'number') return '0';
         if (typeof total !== 'undefined' && total === 0) return 0;
 
-        return current;
+        const result = current * pageSize - pageSize;
+
+        return result + 1;
     };
 
     const getTotal = (): string | number => {
