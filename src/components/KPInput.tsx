@@ -15,7 +15,7 @@ export interface KPInputProps {
     height?: number;
     placeholder?: string;
     className?: string;
-    onChange?: (value: any) => any;
+    onChange?: (value: string) => void;
     defaultValue?: string | number | ReadonlyArray<string>;
     value?: string | number | ReadonlyArray<string>;
 }
@@ -36,7 +36,7 @@ const KPInput: FC<KPInputProps> = (props) => {
         return (
             <TextArea
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                    onChange && onChange(e)
+                    onChange && onChange(e.target.value)
                 }
                 className={`${className ? className : ''}`}
                 allowClear={false}
@@ -46,7 +46,7 @@ const KPInput: FC<KPInputProps> = (props) => {
 
     return (
         <InputWrapper
-            onChange={(e) => onChange && onChange(e)}
+            onChange={(e) => onChange && onChange(e.target.value)}
             className={`${className ? className : ''}`}
             addonAfter={addonAfter}
             addonBefore={addonBefore}
