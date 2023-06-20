@@ -1,41 +1,45 @@
-import { CartAction } from '@context/action/Cart.action';
+import { CartAction, CartActionType } from '@context/action/Cart.action';
 import { StateCartModel } from '@context/state/Cart.state';
 
 const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel => {
     switch (action.type) {
-        case 'ADD':
-            if (
-                !state.saleDetails?.find(
-                    (item) => item.product.id === action.payload.detail.product.id,
+        case CartActionType.ADD:
+            if (action.payload) {
+                if (
+                    !state.saleDetails?.find(
+                        (item) => item.product.id === action.payload?.product.id,
+                    )
                 )
-            ) {
-                state.saleDetails?.push(action.payload?.detail);
+                    state.saleDetails?.push(action.payload);
+
+                return {
+                    ...state,
+                    saleDetails: [...state.saleDetails],
+                    subTotal: state.saleDetails.reduce(
+                        (subTotal, item) => subTotal + item.price * item.quantity,
+                        0,
+                    ),
+                };
             }
+
             return {
                 ...state,
-                saleDetails: [...state.saleDetails],
             };
 
-        case 'REMOVE':
+        case CartActionType.REMOVE:
             return {
                 ...state,
                 saleDetails: [
                     ...state.saleDetails.filter(
-                        (item) => item.product.id !== action.payload.detail.product.id,
+                        (item) => item.product.id !== action.payload?.product.id,
                     ),
                 ],
+                subTotal: state.saleDetails
+                    .filter((item) => item.product.id !== action.payload?.product.id)
+                    .reduce((subTotal, item) => subTotal + item.price * item.quantity, 0),
             };
 
-        case 'TOTAL_PAY':
-            return {
-                ...state,
-                subTotal: state.saleDetails.reduce(
-                    (subTotal, item) => subTotal + item.price * item.quantity,
-                    0,
-                ),
-            };
-
-        case 'CLEAN':
+        case CartActionType.CLEAN:
             return {
                 ...state,
                 saleDetails: [],

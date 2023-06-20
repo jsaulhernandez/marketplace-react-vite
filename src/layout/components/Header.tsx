@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Badge } from 'antd';
 import {
     AimOutlined,
     MessageOutlined,
@@ -15,7 +16,7 @@ import KPText from '@components/KPText';
 
 import { useFilter } from '@hooks/useFilter.hook';
 import { useResize } from '@hooks/useResize.hook';
-import { Badge } from 'antd';
+import { useCart } from '@hooks/useCart.hook';
 
 const Header = () => {
     const {
@@ -23,6 +24,7 @@ const Header = () => {
         filters,
     } = useFilter();
     const [is630] = useResize(630);
+    const { saleDetails, subTotal } = useCart();
 
     const [showSearch, setShowSearch] = useState<boolean>(false);
 
@@ -68,7 +70,13 @@ const Header = () => {
                                 onClick={() => setShowSearch(!showSearch)}
                             />
                         )}
-                        <Badge count={99} overflowCount={10} offset={[5, -10]}>
+                        <Badge
+                            count={saleDetails.length}
+                            overflowCount={10}
+                            offset={[5, -5]}
+                            showZero
+                            size="small"
+                        >
                             <ShoppingCartOutlined className="icon hand" />
                         </Badge>
                         <NotificationOutlined className="icon hand" />
