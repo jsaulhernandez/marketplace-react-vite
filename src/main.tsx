@@ -12,6 +12,7 @@ import 'moment/dist/locale/es';
 import App from './App.tsx';
 import './style.css';
 import { FilterProvider } from '@context/FilterContext.context.tsx';
+import CartProvider from '@context/CartContext.context.tsx';
 
 moment.locale('es');
 
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <BrowserRouter>
             <ConfigProvider locale={es_ES}>
                 <FilterProvider>
-                    <App />
+                    <CartProvider>
+                        <App />
+                    </CartProvider>
                 </FilterProvider>
             </ConfigProvider>
         </BrowserRouter>

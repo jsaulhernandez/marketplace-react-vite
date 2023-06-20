@@ -6,6 +6,7 @@ import {
     MessageOutlined,
     NotificationOutlined,
     SearchOutlined,
+    ShoppingCartOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
 
@@ -14,6 +15,7 @@ import KPText from '@components/KPText';
 
 import { useFilter } from '@hooks/useFilter.hook';
 import { useResize } from '@hooks/useResize.hook';
+import { Badge } from 'antd';
 
 const Header = () => {
     const {
@@ -66,8 +68,10 @@ const Header = () => {
                                 onClick={() => setShowSearch(!showSearch)}
                             />
                         )}
+                        <Badge count={99} overflowCount={10} offset={[5, -10]}>
+                            <ShoppingCartOutlined className="icon hand" />
+                        </Badge>
                         <NotificationOutlined className="icon hand" />
-                        <MessageOutlined className="icon hand" />
                     </div>
                     <div className="separator relative"></div>
                     <div className="account hand flex items-center relative">
@@ -128,10 +132,10 @@ const Wrapper = styled.div<{
     }
 
     .Header-items-session .notifications {
-        gap: 20px;
-        color: var(--quaternary-text-color);
+        gap: 30px;
 
         .icon {
+            color: var(--quaternary-text-color);
             transform: scale(1.5);
 
             &:hover {

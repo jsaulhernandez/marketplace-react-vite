@@ -3,7 +3,7 @@ import { Dispatch, FC, ReactNode, createContext, useReducer } from 'react';
 import { StateFilterModel } from './state/Filter.state';
 import { FilterAction } from './action/Filter.action';
 
-import { filterReducer } from '@reducers/FilterReducer.reducer';
+import { FilterReducer } from '@reducers/FilterReducer.reducer';
 
 const initialState: StateFilterModel = {
     filters: undefined,
@@ -29,7 +29,7 @@ interface FilterProviderProps {
 }
 
 export const FilterProvider: FC<FilterProviderProps> = (props) => {
-    const [state, dispatch] = useReducer(filterReducer, initialState);
+    const [state, dispatch] = useReducer(FilterReducer, initialState);
 
     return (
         <FilterContext.Provider value={{ state, dispatch }}>

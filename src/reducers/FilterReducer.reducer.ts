@@ -1,7 +1,7 @@
 import { FilterAction, FilterActionType } from '@context/action/Filter.action';
 import { StateFilterModel } from '@context/state/Filter.state';
 
-export const filterReducer = (
+export const FilterReducer = (
     state: StateFilterModel,
     action: FilterAction,
 ): StateFilterModel => {

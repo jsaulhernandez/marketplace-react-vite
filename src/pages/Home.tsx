@@ -249,6 +249,7 @@ const Home = () => {
                         {showFilters ? <LeftOutlined /> : <RightOutlined />}
                     </div>
                 )}
+
                 <div className="Home_item-filters wp-100 p-2 flex flex-column g-15">
                     <KPText
                         text="Filtros"
@@ -256,7 +257,6 @@ const Home = () => {
                         fontSize={16}
                         textColor="--primary-text-color"
                     />
-
                     <Form
                         form={form}
                         autoComplete="off"
@@ -276,7 +276,6 @@ const Home = () => {
                             tip="Cargando categorías..."
                             spinning={stateCategories.isLoading}
                         >
-                            {' '}
                             {stateCategories.data && stateCategories.data.length > 0 && (
                                 <KPCollapse identifier="categories" name="Categorías">
                                     <Form.Item name="category">
@@ -367,7 +366,7 @@ const Home = () => {
             </motion.div>
 
             <div className="Home_item flex flex-column p-1">
-                <div className="Home_item-pagination flex flex-row justify-between items-center flex-wrap">
+                <div className="Home_item-pagination flex flex-row justify-between items-center flex-wrap g-10">
                     <div className="Home_item-pagination-data flex flex-row flex-wrap g-5">
                         {page && (
                             <KPPagination

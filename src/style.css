@@ -375,6 +375,12 @@
     padding: 2% 3%;
 }
 
+/* styles for badge*/
+:where(.css-dev-only-do-not-override-ed5zg0).ant-badge .ant-badge-count {
+    background-color: #952e2f;
+}
+
+/* media queries*/
 @media screen and (max-width: 500px) {
     .wrapper {
         padding-left: 10%;
