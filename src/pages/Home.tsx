@@ -250,7 +250,7 @@ const Home = () => {
                     </div>
                 )}
 
-                <div className="Home_item-filters wp-100 p-2 flex flex-column g-15">
+                <div className="Home_item-filters kp-card-wth-shadow flex-column g-15">
                     <KPText
                         text="Filtros"
                         fontWeight={700}
@@ -466,9 +466,6 @@ const Wrapper = styled.div<{
     }
 
     .Home_item-filters {
-        background-color: var(--secondary-color);
-        border: 2px solid var(--quaternary-color);
-        border-radius: 10px;
         height: 940px;
         overflow-y: scroll;
     }

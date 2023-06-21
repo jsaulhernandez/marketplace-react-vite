@@ -7,17 +7,27 @@ import KPText from '../KPText';
 import KPButton from '../KPButton';
 import KPInput from '../KPInput';
 import KPCustomInputNumber from '../KPCustomInputNumber';
+import { ProductModel } from '@interfaces/Product.model';
 
 import { formatMoney } from '@utils/Numbers.utils';
+import { useCart } from '@hooks/useCart.hook';
 
 export interface KPPurchaseFormProps {
-    stock?: number;
-    price?: number;
+    product?: ProductModel;
+    color?: number;
+    processor?: number;
+    memorySize?: number;
     onSetHeight?: (value?: number) => void;
 }
 
 const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
+    const {
+        methods: { onAddProduct },
+    } = useCart();
+
     const [quantity, setQuantity] = useState<number>(1);
+    const [note, setNote] = useState<string>('');
+
     const refForm = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -29,14 +39,29 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
         else setQuantity(quantity + 1);
     };
 
+    const onAddProductToCart = () => {
+        onAddProduct({
+            product: props.product,
+            color: props.product?.color.find((c) => c.id === props.color),
+            processor: props.product?.processor.find((p) => p.id === props.processor),
+            memorySize: props.product?.memorySize.find((m) => m.id === props.memorySize),
+            price: props.product?.price ?? 0,
+            quantity,
+            note,
+        });
+    };
+
     return (
-        <Wrapper className="flex flex-column justify-center g-20 p-2" ref={refForm}>
+        <Wrapper
+            className="kp-card-wth-shadow flex-column justify-center g-20"
+            ref={refForm}
+        >
             <KPText text="Cantidad" textColor="--primary-text-color" fontWeight={600} />
             <div>
                 <KPCustomInputNumber
                     value={quantity}
                     onChange={setQuantity}
-                    max={props.stock}
+                    max={props.product?.stock}
                     onLess={() => onSetQuantity('less')}
                     onPlus={() => onSetQuantity('add')}
                 />
@@ -46,7 +71,7 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
                         <span className="flex flex-row">
                             Solo&nbsp;
                             <KPText
-                                text={`${props.stock} productos`}
+                                text={`${props.product?.stock} productos`}
                                 fontSize={11}
                                 fontWeight={700}
                                 textColor="--primary-color"
@@ -65,13 +90,17 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
                 textColor="--primary-text-color"
                 fontWeight={600}
             />
-            <KPInput typeInput="textarea" placeholder="Escribe aquí..." />
+            <KPInput
+                typeInput="textarea"
+                placeholder="Escribe aquí..."
+                onChange={setNote}
+            />
             <Divider className="divider" />
 
             <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
                 <KPText text="Sub total" fontWeight={600} fontSize={11} />
                 <KPText
-                    text={`${formatMoney((props.price ?? 0) * quantity)}`}
+                    text={`${formatMoney((props.product?.price ?? 0) * quantity)}`}
                     textColor="--primary-text-color"
                     fontWeight={600}
                     fontSize={18}
@@ -79,7 +108,7 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
             </div>
 
             <KPButton type="primary">Pagar ahora</KPButton>
-            <KPButton theme="dark" type="primary">
+            <KPButton theme="dark" type="primary" onClick={onAddProductToCart}>
                 Agregar al carrito
             </KPButton>
         </Wrapper>
@@ -87,10 +116,6 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
 };
 
 const Wrapper = styled.div`
-    background-color: var(--secondary-color);
-    border: 2px solid var(--quaternary-color);
-    border-radius: 10px;
-
     .divider {
         margin: 0px;
     }

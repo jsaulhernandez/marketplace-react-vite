@@ -236,9 +236,11 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
 
                 <div className="KPProductDetail_data-item">
                     <KPPurchaseForm
-                        stock={props.product?.stock}
-                        price={props.product?.price}
+                        product={props.product}
                         onSetHeight={setHeightForm}
+                        color={colorActive}
+                        processor={processorActive}
+                        memorySize={memorySizeActive}
                     />
                 </div>
             </div>

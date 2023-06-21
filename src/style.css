@@ -347,6 +347,15 @@
     -moz-box-shadow: 0px 0px 20px rgba(1, 17, 17, 0.07);
 }
 
+.kp-card-wth-shadow {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    border: 2px solid var(--quaternary-color);
+}
+
 .kp-item-column,
 .kp-item-row {
     display: flex;

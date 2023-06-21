@@ -6,10 +6,10 @@ import { SaleModel } from './Sale.model';
 
 export interface SaleDetailModel {
     id?: number;
-    product: ProductModel;
-    color: ColorModel;
-    processor: ProcessorModel;
-    memorySize: MemorySizeModel;
+    product?: ProductModel;
+    color?: ColorModel;
+    processor?: ProcessorModel;
+    memorySize?: MemorySizeModel;
     quantity: number;
     price: number;
     note?: string;

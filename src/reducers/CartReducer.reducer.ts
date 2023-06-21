@@ -7,7 +7,7 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
             if (action.payload) {
                 if (
                     !state.saleDetails?.find(
-                        (item) => item.product.id === action.payload?.product.id,
+                        (item) => item.product?.id === action.payload?.product?.id,
                     )
                 )
                     state.saleDetails?.push(action.payload);
@@ -31,11 +31,11 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
                 ...state,
                 saleDetails: [
                     ...state.saleDetails.filter(
-                        (item) => item.product.id !== action.payload?.product.id,
+                        (item) => item.product?.id !== action.payload?.product?.id,
                     ),
                 ],
                 subTotal: state.saleDetails
-                    .filter((item) => item.product.id !== action.payload?.product.id)
+                    .filter((item) => item.product?.id !== action.payload?.product?.id)
                     .reduce((subTotal, item) => subTotal + item.price * item.quantity, 0),
             };
 

@@ -42,6 +42,10 @@ const Header = () => {
         navigate('/kplace/home');
     };
 
+    const redirectToCart = () => {
+        navigate('/kplace/cart');
+    };
+
     return (
         <Wrapper showSearchBar={showSearch}>
             <div className="Header_search-bar flex flex-row flex-wrap justify-between items-center g-10 relative">
@@ -77,7 +81,10 @@ const Header = () => {
                             showZero
                             size="small"
                         >
-                            <ShoppingCartOutlined className="icon hand" />
+                            <ShoppingCartOutlined
+                                className="icon hand"
+                                onClick={redirectToCart}
+                            />
                         </Badge>
                         <NotificationOutlined className="icon hand" />
                     </div>
