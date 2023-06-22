@@ -27,9 +27,9 @@ const getMemoriesSize = (memorySize?: MemorySizeModel[]): string => {
 const KPProduct: FC<KPProductProps> = (props) => {
     return (
         <Wrapper
-            animate={{ y: 0, opacity: 1 }}
-            initial={{ y: 50, opacity: 0 }}
-            transition={{ ease: 'easeInOut', duration: 1, delay: props.index * 0.5 }}
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            transition={{ ease: 'easeInOut', duration: 0.5, delay: props.index * 0.3 }}
             className={`flex flex-column wp-100 hand ${
                 props.className ? props.className : ''
             }`}
