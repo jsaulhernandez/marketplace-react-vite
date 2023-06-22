@@ -273,8 +273,10 @@ const Home = () => {
                             style={{
                                 minHeight: `70px`,
                             }}
-                            tip="Cargando categorías..."
-                            spinning={stateCategories.isLoading}
+                            tip="Cargando..."
+                            spinning={
+                                stateCategories.isLoading || statePaymentMethods.isLoading
+                            }
                         >
                             {stateCategories.data && stateCategories.data.length > 0 && (
                                 <KPCollapse identifier="categories" name="Categorías">
@@ -291,59 +293,53 @@ const Home = () => {
                                     </Form.Item>
                                 </KPCollapse>
                             )}
-                        </Spin>
 
-                        <KPCollapse identifier="prices" name="Precios">
-                            <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
-                                <Form.Item
-                                    name="startPrice"
-                                    rules={[
-                                        {
-                                            validator: (_, value) =>
-                                                validateNumbersWithDecimals(value),
-                                        },
-                                    ]}
-                                >
-                                    <KPInput
-                                        placeholder="Minímo"
-                                        addonBefore={<DollarCircleOutlined />}
-                                    />
-                                </Form.Item>
-                                <Form.Item
-                                    name="endPrice"
-                                    rules={[
-                                        {
-                                            validator: (_, value) =>
-                                                validateNumbersWithDecimals(value),
-                                        },
-                                    ]}
-                                >
-                                    <KPInput
-                                        placeholder="Máximo"
-                                        addonBefore={<DollarCircleOutlined />}
-                                    />
-                                </Form.Item>
-                                {PRICES_FILTERS.map((p, i) => (
-                                    <KPItemFilter
-                                        className="item"
-                                        label={p.label}
-                                        value={p.value}
-                                        key={i}
-                                        type="amount"
-                                        active={priceSelected === p.value}
-                                        onClick={(value) => onSelectedPrice(`${value}`)}
-                                    />
-                                ))}
-                            </div>
-                        </KPCollapse>
+                            <KPCollapse identifier="prices" name="Precios">
+                                <div className="Home_item-filters-prices flex flex-row flex-wrap g-10">
+                                    <Form.Item
+                                        name="startPrice"
+                                        rules={[
+                                            {
+                                                validator: (_, value) =>
+                                                    validateNumbersWithDecimals(value),
+                                            },
+                                        ]}
+                                    >
+                                        <KPInput
+                                            placeholder="Minímo"
+                                            addonBefore={<DollarCircleOutlined />}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="endPrice"
+                                        rules={[
+                                            {
+                                                validator: (_, value) =>
+                                                    validateNumbersWithDecimals(value),
+                                            },
+                                        ]}
+                                    >
+                                        <KPInput
+                                            placeholder="Máximo"
+                                            addonBefore={<DollarCircleOutlined />}
+                                        />
+                                    </Form.Item>
+                                    {PRICES_FILTERS.map((p, i) => (
+                                        <KPItemFilter
+                                            className="item"
+                                            label={p.label}
+                                            value={p.value}
+                                            key={i}
+                                            type="amount"
+                                            active={priceSelected === p.value}
+                                            onClick={(value) =>
+                                                onSelectedPrice(`${value}`)
+                                            }
+                                        />
+                                    ))}
+                                </div>
+                            </KPCollapse>
 
-                        <Spin
-                            style={{
-                                minHeight: `70px`,
-                            }}
-                            tip="Cargando métodos de pago..."
-                            spinning={statePaymentMethods.isLoading}
-                        >
                             {statePaymentMethods.data &&
                                 statePaymentMethods.data.length > 0 && (
                                     <KPCollapse identifier="pays" name="Pago">
