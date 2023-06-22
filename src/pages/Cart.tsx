@@ -1,16 +1,13 @@
-import { Divider } from 'antd';
 import styled from 'styled-components';
 
 import KPText from '@components/KPText';
 import KPCartItem from '@components/cart/KPCartItem';
-import KPButton from '@components/KPButton';
+import KPPayForm from '@components/cart/KPPayForm';
 
 import { useCart } from '@hooks/useCart.hook';
 
-import { formatMoney } from '@utils/Numbers.utils';
-
 const Cart = () => {
-    const { saleDetails, subTotal } = useCart();
+    const { saleDetails } = useCart();
 
     return (
         <Wrapper className="flex flex-row wp-100 wrapper relative g-20">
@@ -28,69 +25,8 @@ const Cart = () => {
                     )}
                 </div>
             </div>
-            <div className="Cart">
-                <div className="kp-card-wth-shadow flex-column justify-center g-20">
-                    <KPText
-                        text="Obtener Promo"
-                        textColor="--primary-text-color"
-                        fontWeight={600}
-                    />
-                    <Divider className="divider" />
-
-                    <KPText
-                        text="Método de pago"
-                        textColor="--primary-text-color"
-                        fontWeight={600}
-                    />
-                    <Divider className="divider" />
-
-                    <KPText
-                        text="Resumen del pedido"
-                        textColor="--primary-text-color"
-                        fontWeight={600}
-                    />
-
-                    <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
-                        <KPText text="Sub total" fontWeight={600} fontSize={11} />
-                        <KPText
-                            text={`${formatMoney(subTotal)}`}
-                            textColor="--primary-text-color"
-                            fontWeight={600}
-                            fontSize={16}
-                        />
-                    </div>
-                    <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
-                        <KPText text="Sub total" fontWeight={600} fontSize={11} />
-                        <KPText
-                            text={`${formatMoney(20)}`}
-                            textColor="--primary-text-color"
-                            fontWeight={600}
-                            fontSize={16}
-                        />
-                    </div>
-                    <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
-                        <KPText text="Sub total" fontWeight={600} fontSize={11} />
-                        <KPText
-                            text={`${formatMoney(20)}`}
-                            textColor="--primary-text-color"
-                            fontWeight={600}
-                            fontSize={16}
-                        />
-                    </div>
-                    <Divider className="divider" />
-
-                    <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
-                        <KPText text="Total" fontWeight={600} fontSize={20} />
-                        <KPText
-                            text={`${formatMoney(10)}`}
-                            textColor="--primary-text-color"
-                            fontWeight={600}
-                            fontSize={20}
-                        />
-                    </div>
-
-                    <KPButton type="primary">Pagar ahora</KPButton>
-                </div>
+            <div className="Cart relative">
+                <KPPayForm />
             </div>
         </Wrapper>
     );

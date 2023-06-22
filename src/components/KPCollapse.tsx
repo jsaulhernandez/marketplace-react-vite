@@ -43,12 +43,16 @@ const KPCollapse: FC<KPCollapseProps> = (props) => {
 };
 
 const Wrapper = styled(Collapse)`
+    border-radius: 0px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     background-color: transparent;
     border-bottom: 1px solid var(--quaternary-color);
-    border-radius: 0px;
 
     &:last-child {
         border: none;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
     }
 
     .ant-collapse-header,
@@ -61,7 +65,6 @@ const Wrapper = styled(Collapse)`
         gap: 10px !important;
         display: flex;
         flex-direction: column;
-        margin-bottom: 10px;
     }
 `;
 
