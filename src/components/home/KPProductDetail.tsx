@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
-import { Tabs, Tooltip } from 'antd';
+import { Tabs, Tooltip, message } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import styled from 'styled-components';
@@ -12,9 +12,11 @@ import KPItemFilter from '../KPItemFilter';
 import KPPurchaseForm from './KPPurchaseForm';
 import KPBreadcrumb from '../KPBreadcrumb';
 
-import { SHOWING } from '@constants/Constants.constants';
+import { useCart } from '@hooks/useCart.hook';
 
 import { ProductModel } from '@interfaces/Product.model';
+
+import { SHOWING } from '@constants/Constants.constants';
 
 import { formatMoney } from '@utils/Numbers.utils';
 
@@ -30,9 +32,15 @@ export interface Tab {
 }
 
 const KPProductDetail: FC<KPProductDetailProps> = (props) => {
+    const {
+        methods: { onAddProduct },
+    } = useCart();
+
     const [colorActive, setColorActive] = useState<number>();
     const [processorActive, setProcessorActive] = useState<number>();
     const [memorySizeActive, setMemorySizeActive] = useState<number>();
+    const [quantity, setQuantity] = useState<number>(1);
+    const [note, setNote] = useState<string>('');
     const [tabs, setTabs] = useState<Tab[]>([]);
 
     const refDiv = useRef<HTMLDivElement>(null);
@@ -99,6 +107,39 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
         ];
 
         setTabs(items.filter((i) => i.children !== ''));
+    };
+
+    const onAddProductToCart = () => {
+        if (!colorActive) {
+            message.warning('Debes seleccionar un color');
+            return;
+        }
+
+        if (!processorActive) {
+            message.warning('Debes seleccionar un procesador');
+            return;
+        }
+
+        if (!memorySizeActive) {
+            message.warning('Debes seleccionar un tamaño de memoria');
+            return;
+        }
+
+        onAddProduct({
+            product: props.product,
+            color: props.product?.color.find((c) => c.id === colorActive),
+            processor: props.product?.processor.find((p) => p.id === processorActive),
+            memorySize: props.product?.memorySize.find((m) => m.id === memorySizeActive),
+            price: props.product?.price ?? 0,
+            quantity,
+            note,
+        });
+
+        setColorActive(undefined);
+        setProcessorActive(undefined);
+        setMemorySizeActive(undefined);
+        setQuantity(1);
+        setNote('');
     };
 
     return (
@@ -237,10 +278,12 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
                 <div className="KPProductDetail_data-item">
                     <KPPurchaseForm
                         product={props.product}
+                        quantity={quantity}
+                        note={note}
+                        setQuantity={setQuantity}
+                        setNote={setNote}
                         onSetHeight={setHeightForm}
-                        color={colorActive}
-                        processor={processorActive}
-                        memorySize={memorySizeActive}
+                        onAddProductToCart={onAddProductToCart}
                     />
                 </div>
             </div>

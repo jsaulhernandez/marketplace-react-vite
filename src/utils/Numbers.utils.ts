@@ -1,5 +1,3 @@
-import { SaleDetailModel } from '@interfaces/SaleDetail.model';
-
 /**
  *
  * @param value recibe un valor númerico, para formatearlo a dinero
@@ -13,16 +11,4 @@ export const formatMoney = (value?: number) => {
         style: 'currency',
         currency: 'USD',
     }).format(value);
-};
-
-/**
- *
- * @param saleDetails arreglo de datos del carrito
- * @returns el subtotal de los productos agregados
- */
-export const getSubTotalCart = (saleDetails: SaleDetailModel[]) => {
-    return saleDetails.reduce(
-        (subTotal, item) => subTotal + item.price * item.quantity,
-        0,
-    );
 };

@@ -1,7 +1,7 @@
 import { CartAction, CartActionType } from '@context/action/Cart.action';
 import { StateCartModel } from '@context/state/Cart.state';
 
-import { getSubTotalCart } from '@utils/Numbers.utils';
+import { getSubTotalCart } from '@helpers/Cart.helper';
 
 const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel => {
     switch (action.type) {

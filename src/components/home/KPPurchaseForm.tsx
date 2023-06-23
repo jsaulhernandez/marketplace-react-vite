@@ -1,32 +1,37 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
-import { Divider, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
+import { Divider } from 'antd';
 import styled from 'styled-components';
 
 import KPText from '../KPText';
 import KPButton from '../KPButton';
 import KPInput from '../KPInput';
 import KPCustomInputNumber from '../KPCustomInputNumber';
+
+import { useCart } from '@hooks/useCart.hook';
+
 import { ProductModel } from '@interfaces/Product.model';
 
+import { existsProductInCart } from '@helpers/Cart.helper';
+
 import { formatMoney } from '@utils/Numbers.utils';
-import { useCart } from '@hooks/useCart.hook';
 
 export interface KPPurchaseFormProps {
     product?: ProductModel;
-    color?: number;
-    processor?: number;
+    quantity: number;
+    setQuantity: (value: number) => void;
+    note: string;
+    setNote: (value: string) => void;
     memorySize?: number;
     onSetHeight?: (value?: number) => void;
+    onAddProductToCart: () => void;
 }
 
 const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
-    const {
-        methods: { onAddProduct },
-    } = useCart();
-
-    const [quantity, setQuantity] = useState<number>(1);
-    const [note, setNote] = useState<string>('');
+    const { saleDetails } = useCart();
+    const navigate = useNavigate();
 
     const refForm = useRef<HTMLDivElement>(null);
 
@@ -35,35 +40,12 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
     }, [refForm]);
 
     const onSetQuantity = (action: 'add' | 'less') => {
-        if (action === 'less') setQuantity(quantity - 1);
-        else setQuantity(quantity + 1);
+        if (action === 'less') props.setQuantity(props.quantity - 1);
+        else props.setQuantity(props.quantity + 1);
     };
 
-    const onAddProductToCart = () => {
-        if (!props.color) {
-            message.warning('Debes seleccionar un color');
-            return;
-        }
-
-        if (!props.processor) {
-            message.warning('Debes seleccionar un procesador');
-            return;
-        }
-
-        if (!props.memorySize) {
-            message.warning('Debes seleccionar un tamaño de memoria');
-            return;
-        }
-
-        onAddProduct({
-            product: props.product,
-            color: props.product?.color.find((c) => c.id === props.color),
-            processor: props.product?.processor.find((p) => p.id === props.processor),
-            memorySize: props.product?.memorySize.find((m) => m.id === props.memorySize),
-            price: props.product?.price ?? 0,
-            quantity,
-            note,
-        });
+    const onGoToCart = () => {
+        navigate('/kplace/cart');
     };
 
     return (
@@ -74,8 +56,8 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
             <KPText text="Cantidad" textColor="--primary-text-color" fontWeight={600} />
             <div>
                 <KPCustomInputNumber
-                    value={quantity}
-                    onChange={setQuantity}
+                    value={props.quantity}
+                    onChange={props.setQuantity}
                     max={props.product?.stock}
                     onLess={() => onSetQuantity('less')}
                     onPlus={() => onSetQuantity('add')}
@@ -106,16 +88,17 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
                 fontWeight={600}
             />
             <KPInput
+                value={props.note}
                 typeInput="textarea"
                 placeholder="Escribe aquí..."
-                onChange={setNote}
+                onChange={props.setNote}
             />
             <Divider className="divider" />
 
             <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
                 <KPText text="Sub total" fontWeight={600} fontSize={11} />
                 <KPText
-                    text={`${formatMoney((props.product?.price ?? 0) * quantity)}`}
+                    text={`${formatMoney((props.product?.price ?? 0) * props.quantity)}`}
                     textColor="--primary-text-color"
                     fontWeight={600}
                     fontSize={18}
@@ -123,8 +106,22 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
             </div>
 
             <KPButton type="primary">Pagar ahora</KPButton>
-            <KPButton theme="dark" type="primary" onClick={onAddProductToCart}>
-                Agregar al carrito
+            <KPButton
+                theme={
+                    !existsProductInCart(props.product, saleDetails) ? 'dark' : 'light'
+                }
+                type={
+                    !existsProductInCart(props.product, saleDetails) ? 'primary' : 'link'
+                }
+                onClick={() =>
+                    !existsProductInCart(props.product, saleDetails)
+                        ? props.onAddProductToCart()
+                        : onGoToCart()
+                }
+            >
+                {!existsProductInCart(props.product, saleDetails)
+                    ? 'Agregar al carrito'
+                    : 'Ir a mi carrito'}
             </KPButton>
         </Wrapper>
     );

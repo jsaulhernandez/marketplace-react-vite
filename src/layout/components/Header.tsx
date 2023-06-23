@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Badge } from 'antd';
 import {
     AimOutlined,
-    MessageOutlined,
     NotificationOutlined,
     SearchOutlined,
     ShoppingCartOutlined,
@@ -24,7 +23,7 @@ const Header = () => {
         filters,
     } = useFilter();
     const [is630] = useResize(630);
-    const { saleDetails, subTotal } = useCart();
+    const { saleDetails } = useCart();
 
     const [showSearch, setShowSearch] = useState<boolean>(false);
 
@@ -121,7 +120,7 @@ const Wrapper = styled.div<{
     width: 100vw;
     height: 140px;
     position: fixed;
-    z-index: 100;
+    z-index: 999;
     background-color: var(--secondary-color);
 
     .Header_search-bar,

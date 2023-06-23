@@ -60,7 +60,7 @@ const Wrapper = styled.div`
     .button-left,
     .button-right {
         position: absolute;
-        z-index: 9999;
+        z-index: 99;
     }
 
     .button-left {
