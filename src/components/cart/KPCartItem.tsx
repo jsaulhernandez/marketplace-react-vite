@@ -28,8 +28,17 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
                     type="h1"
                 />
                 <KPText text={`${props.detail.quantity} Items`} />
-                <KPText text="Gray | 16 GB, 16 Core GPU Apple M1 Pro Chip | 512GB" />
-                <KPText text={`Note: ${props.detail.note ?? 'no hay notas'}`} />
+
+                <KPText
+                    text={`${props.detail.color?.value} | ${props.detail.processor?.name} | ${props.detail.memorySize?.value}`}
+                />
+
+                <KPText
+                    text={`Note: ${
+                        props.detail.note !== '' ? props.detail.note : 'no hay notas'
+                    }`}
+                />
+
                 <KPText
                     text={`${
                         formatMoney(props.detail.quantity * props.detail.price) ?? '0'
@@ -44,6 +53,10 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
 };
 
 const Wrapper = styled.div`
+    &:last-child {
+        padding-bottom: 0px;
+    }
+
     .KPCartItem_image {
         width: 15%;
         height: 150px;

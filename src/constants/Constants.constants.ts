@@ -10,3 +10,6 @@ export const PRICES_FILTERS = [
 export type ORDER_BY = 'ASC' | 'DESC';
 
 export type SHOWING = 'DATA' | 'DETAIL' | 'FORM';
+
+export const tax: number = 13;
+export const shippingCost: number = 50;
