@@ -76,7 +76,7 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
                 />
             </div>
             <div className="flex flex-wrap justify-between items-center justify-center g-10 wp-100">
-                <KPText text={`Inpuesto (${tax}%)`} fontWeight={600} fontSize={11} />
+                <KPText text={`Impuesto (${tax}%)`} fontWeight={600} fontSize={11} />
                 <KPText
                     text={`${formatMoney(saleDetails.length > 0 ? stateTax : 0)}`}
                     textColor="--primary-text-color"

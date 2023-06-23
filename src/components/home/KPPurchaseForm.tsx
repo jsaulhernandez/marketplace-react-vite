@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { Divider } from 'antd';
+import { Divider, message } from 'antd';
 import styled from 'styled-components';
 
 import KPText from '../KPText';
@@ -40,6 +40,21 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
     };
 
     const onAddProductToCart = () => {
+        if (!props.color) {
+            message.warning('Debes seleccionar un color');
+            return;
+        }
+
+        if (!props.processor) {
+            message.warning('Debes seleccionar un procesador');
+            return;
+        }
+
+        if (!props.memorySize) {
+            message.warning('Debes seleccionar un tamaño de memoria');
+            return;
+        }
+
         onAddProduct({
             product: props.product,
             color: props.product?.color.find((c) => c.id === props.color),

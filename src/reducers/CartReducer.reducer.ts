@@ -1,6 +1,8 @@
 import { CartAction, CartActionType } from '@context/action/Cart.action';
 import { StateCartModel } from '@context/state/Cart.state';
 
+import { getSubTotalCart } from '@utils/Numbers.utils';
+
 const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel => {
     switch (action.type) {
         case CartActionType.ADD:
@@ -15,10 +17,7 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
                 return {
                     ...state,
                     saleDetails: [...state.saleDetails],
-                    subTotal: state.saleDetails.reduce(
-                        (subTotal, item) => subTotal + item.price * item.quantity,
-                        0,
-                    ),
+                    subTotal: getSubTotalCart([...state.saleDetails]),
                 };
             }
 
@@ -27,16 +26,14 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
             };
 
         case CartActionType.REMOVE:
+            state.saleDetails = state.saleDetails.filter(
+                (item) => item.product?.id !== action.payload?.product?.id,
+            );
+
             return {
                 ...state,
-                saleDetails: [
-                    ...state.saleDetails.filter(
-                        (item) => item.product?.id !== action.payload?.product?.id,
-                    ),
-                ],
-                subTotal: state.saleDetails
-                    .filter((item) => item.product?.id !== action.payload?.product?.id)
-                    .reduce((subTotal, item) => subTotal + item.price * item.quantity, 0),
+                saleDetails: [...state.saleDetails],
+                subTotal: getSubTotalCart([...state.saleDetails]),
             };
 
         case CartActionType.UPDATE_QUANTITY:
@@ -55,10 +52,7 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
                 return {
                     ...state,
                     saleDetails: [...state.saleDetails],
-                    subTotal: state.saleDetails.reduce(
-                        (subTotal, item) => subTotal + item.price * item.quantity,
-                        0,
-                    ),
+                    subTotal: getSubTotalCart([...state.saleDetails]),
                 };
             }
 
@@ -72,6 +66,7 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
                 saleDetails: [],
                 subTotal: 0,
             };
+
         default:
             return {
                 ...state,

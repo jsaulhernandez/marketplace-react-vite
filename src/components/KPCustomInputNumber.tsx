@@ -42,7 +42,7 @@ const KPCustomInputNumber: FC<KPCustomInputNumberProps> = ({ value = 0, ...props
 
 const Wrapper = styled.div`
     border-radius: 10px;
-    border: 2px solid var(--quaternary-color);
+    /* border: 2px solid var(--quaternary-color); */
     height: 38px;
 
     .input {
