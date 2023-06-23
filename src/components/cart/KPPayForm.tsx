@@ -27,7 +27,8 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
     }, [subTotal]);
 
     useEffect(() => {
-        setTotal(subTotal + shippingCost + stateTax);
+        if (subTotal > 0) setTotal(subTotal + shippingCost + stateTax);
+        else setTotal(0);
     }, [stateTax]);
 
     return (

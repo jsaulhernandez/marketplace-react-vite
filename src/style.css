@@ -389,6 +389,19 @@
     background-color: #952e2f;
 }
 
+/* styles for tooltip */
+.ant-tooltip .ant-tooltip-inner {
+    background-color: var(--primary-color);
+}
+
+.ant-tooltip .ant-tooltip-arrow::before {
+    background: var(--primary-color);
+}
+
+.ant-input-affix-wrapper {
+    height: auto !important;
+}
+
 /* media queries*/
 @media screen and (max-width: 500px) {
     .wrapper {

@@ -7,7 +7,10 @@ import KPPayForm from '@components/cart/KPPayForm';
 import { useCart } from '@hooks/useCart.hook';
 
 const Cart = () => {
-    const { saleDetails } = useCart();
+    const {
+        saleDetails,
+        methods: { onRemoveProduct, onUpdateProductQuantity },
+    } = useCart();
 
     return (
         <Wrapper className="flex flex-row wp-100 wrapper relative g-20">
@@ -15,7 +18,16 @@ const Cart = () => {
                 <KPText text="Your items & Shipment" fontSize={30} />
                 <div className="Cart_item kp-card-wth-shadow flex-column mt-2">
                     {saleDetails.length > 0 ? (
-                        saleDetails.map((d, i) => <KPCartItem key={i} detail={d} />)
+                        saleDetails.map((d, i) => (
+                            <KPCartItem
+                                key={i}
+                                detail={d}
+                                onRemoveProduct={() => onRemoveProduct(d)}
+                                onUpdateQuantity={(value) =>
+                                    onUpdateProductQuantity({ ...d, quantity: value })
+                                }
+                            />
+                        ))
                     ) : (
                         <KPText
                             text="No tienes productos agregados"
