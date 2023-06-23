@@ -69,11 +69,29 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
                     />
                 </div>
             </div>
-            <div className="flex justify-center items-center pt-2">
+            <div className="flex flex-column justify-center items-center pt-2">
                 <KPCustomInputNumber
                     value={props.detail.quantity}
                     onLess={() => onSetQuantity('less')}
                     onPlus={() => onSetQuantity('add')}
+                    max={props.detail.product?.stock}
+                />
+                <KPText
+                    className="mt-1"
+                    text={
+                        <span className="flex flex-row">
+                            Solo&nbsp;
+                            <KPText
+                                text={`${props.detail.product?.stock ?? 0} productos`}
+                                fontSize={11}
+                                fontWeight={700}
+                                textColor="--primary-color"
+                            />
+                            &nbsp;disponibles!
+                        </span>
+                    }
+                    fontSize={11}
+                    type="div"
                 />
             </div>
         </Wrapper>

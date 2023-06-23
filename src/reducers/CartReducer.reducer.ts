@@ -42,7 +42,7 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
         case CartActionType.UPDATE_QUANTITY:
             if (action.payload) {
                 state.saleDetails = state.saleDetails.map((d) => {
-                    if (d.id === action.payload?.id) {
+                    if (d.product?.id === action.payload?.product?.id) {
                         return {
                             ...d,
                             quantity: action.payload?.quantity ?? d.quantity,
