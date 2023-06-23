@@ -39,6 +39,33 @@ const CardReducer = (state: StateCartModel, action: CartAction): StateCartModel 
                     .reduce((subTotal, item) => subTotal + item.price * item.quantity, 0),
             };
 
+        case CartActionType.UPDATE_QUANTITY:
+            if (action.payload) {
+                state.saleDetails = state.saleDetails.map((d) => {
+                    if (d.id === action.payload?.id) {
+                        return {
+                            ...d,
+                            quantity: action.payload?.quantity ?? d.quantity,
+                        };
+                    }
+
+                    return d;
+                });
+
+                return {
+                    ...state,
+                    saleDetails: [...state.saleDetails],
+                    subTotal: state.saleDetails.reduce(
+                        (subTotal, item) => subTotal + item.price * item.quantity,
+                        0,
+                    ),
+                };
+            }
+
+            return {
+                ...state,
+            };
+
         case CartActionType.CLEAN:
             return {
                 ...state,

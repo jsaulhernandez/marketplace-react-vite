@@ -15,6 +15,13 @@ export const useCart = () => {
         });
     };
 
+    const onUpdateProductQuantity = (payload: SaleDetailModel) => {
+        dispatch({
+            type: CartActionType.UPDATE_QUANTITY,
+            payload: payload,
+        });
+    };
+
     const onRemoveProduct = (payload: SaleDetailModel) => {
         dispatch({
             type: CartActionType.REMOVE,
@@ -32,6 +39,7 @@ export const useCart = () => {
         ...state,
         methods: {
             onAddProduct,
+            onUpdateProductQuantity,
             onRemoveProduct,
             onClean,
         },
