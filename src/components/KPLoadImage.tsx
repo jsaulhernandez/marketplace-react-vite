@@ -44,6 +44,8 @@ const Wrapper = styled.div<{
 
     img {
         width: 100%;
+        object-fit: contain;
+        height: 100%;
     }
 
     &.isHover:hover,

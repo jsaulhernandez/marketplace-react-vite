@@ -101,9 +101,6 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
     );
 };
 
-const Wrapper = styled.div`
-    position: fixed;
-    width: 20%;
-`;
+const Wrapper = styled.div``;
 
 export default KPPayForm;

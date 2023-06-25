@@ -26,6 +26,7 @@ const Cart = () => {
                                 onUpdateQuantity={(value) =>
                                     onUpdateProductQuantity({ ...d, quantity: value })
                                 }
+                                className="p-2"
                             />
                         ))
                     ) : (
@@ -37,8 +38,8 @@ const Cart = () => {
                     )}
                 </div>
             </div>
-            <div className="Cart relative">
-                <KPPayForm />
+            <div className="Cart">
+                <KPPayForm className="Cart_pay-form" />
             </div>
         </Wrapper>
     );
@@ -53,8 +54,45 @@ const Wrapper = styled.div`
         }
     }
 
+    .Cart .Cart_item {
+        padding: 0px;
+    }
+
     .divider {
         margin: 0px;
+    }
+
+    @media screen and (max-width: 1100px) {
+        .Cart {
+            width: 30%;
+
+            &:first-child {
+                width: 70%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+
+        .Cart {
+            width: 100% !important;
+        }
+
+        .Cart:last-child {
+            display: flex;
+            justify-content: center;
+
+            .Cart_pay-form {
+                width: 50%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .Cart:last-child .Cart_pay-form {
+            width: 100%;
+        }
     }
 `;
 

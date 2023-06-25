@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Tooltip } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPLoadImage from '@components/KPLoadImage';
@@ -16,6 +16,7 @@ export interface KPCartItemProps {
     detail: SaleDetailModel;
     onRemoveProduct: () => void;
     onUpdateQuantity: (value: number) => void;
+    className?: string;
 }
 
 const KPCartItem: FC<KPCartItemProps> = (props) => {
@@ -25,15 +26,19 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
     };
 
     return (
-        <Wrapper className="KPCartItem flex relative pb-2 g-10">
+        <Wrapper
+            className={`KPCartItem flex relative pb-2 g-10 ${
+                props.className ? props.className : ''
+            }`}
+        >
             <Tooltip title="Eliminar">
-                <DeleteOutlined
+                <CloseOutlined
                     className="KPCartItem_close hand absolute"
                     onClick={props.onRemoveProduct}
                 />
             </Tooltip>
 
-            <div className="KPCartItem_content flex wp-100 g-10">
+            <div className="KPCartItem_content relative flex wp-100 g-10">
                 <KPLoadImage
                     className="KPCartItem_content-image"
                     borderRadius={10}
@@ -69,6 +74,7 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
                     />
                 </div>
             </div>
+
             <div className="flex flex-column justify-center items-center pt-2">
                 <KPCustomInputNumber
                     blockKeyboard
@@ -102,17 +108,14 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
 const Wrapper = styled.div`
     &:not(:first-child) {
         border-top: 1px solid var(--quaternary-color);
-        padding-top: 20px;
-    }
-
-    &:last-child {
-        padding-bottom: 0px;
     }
 
     .KPCartItem_close {
-        transform: scale(1.5);
+        top: 5px;
+        transform: scale(1.1);
         color: var(--quaternary-text-color);
-        right: 0;
+        right: 5px;
+        z-index: 99;
 
         &:hover {
             color: var(--primary-color);
@@ -120,13 +123,27 @@ const Wrapper = styled.div`
     }
 
     .KPCartItem_content-image {
-        width: 15%;
+        width: calc(100% / 4);
         height: 150px;
         padding: 15px;
     }
 
     .KPCartItem_content-information {
         width: 85%;
+    }
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
+
+    @media screen and (max-width: 600px) {
+        .KPCartItem_content {
+            flex-direction: column;
+        }
+
+        .KPCartItem_content-image {
+            width: 100%;
+        }
     }
 `;
 
