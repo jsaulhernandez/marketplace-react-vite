@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Tooltip } from 'antd';
-import { CloseOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPLoadImage from '@components/KPLoadImage';
