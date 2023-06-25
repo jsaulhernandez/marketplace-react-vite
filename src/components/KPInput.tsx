@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, ReactNode } from 'react';
+import { ChangeEvent, FC, KeyboardEvent, ReactNode } from 'react';
 
 import { Input } from 'antd';
 import styled from 'styled-components';
@@ -18,6 +18,7 @@ export interface KPInputProps {
     onChange?: (value: string) => void;
     defaultValue?: string | number | ReadonlyArray<string>;
     value?: string | number | ReadonlyArray<string>;
+    onKeyDown?: (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
 }
 
 const KPInput: FC<KPInputProps> = (props) => {
@@ -35,6 +36,7 @@ const KPInput: FC<KPInputProps> = (props) => {
     if (typeInput === 'textarea')
         return (
             <TextArea
+                onKeyDown={(e) => props.onKeyDown && props.onKeyDown(e)}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                     onChange && onChange(e.target.value)
                 }
@@ -46,6 +48,7 @@ const KPInput: FC<KPInputProps> = (props) => {
 
     return (
         <InputWrapper
+            onKeyDown={(e) => props.onKeyDown && props.onKeyDown(e)}
             onChange={(e) => onChange && onChange(e.target.value)}
             className={`${className ? className : ''}`}
             addonAfter={addonAfter}

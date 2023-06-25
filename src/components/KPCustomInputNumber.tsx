@@ -12,6 +12,7 @@ export interface KPCustomInputNumberProps {
     onChange?: (value: any) => any;
     onLess?: () => void;
     onPlus?: () => void;
+    blockKeyboard?: boolean;
 }
 
 const KPCustomInputNumber: FC<KPCustomInputNumberProps> = ({ value = 0, ...props }) => {
@@ -28,6 +29,12 @@ const KPCustomInputNumber: FC<KPCustomInputNumberProps> = ({ value = 0, ...props
                 className="input"
                 value={value}
                 onChange={(e) => props.onChange && props.onChange(e)}
+                onKeyDown={(e) => {
+                    if (props.blockKeyboard) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }}
             />
             <KPButton
                 disabled={value === props.max}

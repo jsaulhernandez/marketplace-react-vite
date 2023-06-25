@@ -71,6 +71,7 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
             </div>
             <div className="flex flex-column justify-center items-center pt-2">
                 <KPCustomInputNumber
+                    blockKeyboard
                     value={props.detail.quantity}
                     onLess={() => onSetQuantity('less')}
                     onPlus={() => onSetQuantity('add')}

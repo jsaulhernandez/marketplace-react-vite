@@ -56,6 +56,7 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
             <KPText text="Cantidad" textColor="--primary-text-color" fontWeight={600} />
             <div>
                 <KPCustomInputNumber
+                    blockKeyboard
                     value={props.quantity}
                     onChange={props.setQuantity}
                     max={props.product?.stock}
