@@ -95,7 +95,6 @@ const Wrapper = styled.div`
 
         input:focus {
             color: var(--primary-color);
-            font-weight: 700;
         }
     }
 
