@@ -34,6 +34,8 @@ const Cart = () => {
                             text="No tienes productos agregados"
                             fontSize={16}
                             textAlign="center"
+                            marginTop={20}
+                            marginBottom={20}
                         />
                     )}
                 </div>
