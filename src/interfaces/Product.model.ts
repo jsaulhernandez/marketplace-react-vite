@@ -19,5 +19,18 @@ export interface ProductModel {
     detail: string;
     specification: string;
     category: CategoryModel;
-    payMethod: PaymentMethodModel[];
+    paymentMethod: PaymentMethodModel[];
 }
+
+export type SaleProductInformation = Omit<
+    ProductModel,
+    | 'description'
+    | 'price'
+    | 'status'
+    | 'memorySize'
+    | 'color'
+    | 'processor'
+    | 'detail'
+    | 'specification'
+    | 'category'
+>;

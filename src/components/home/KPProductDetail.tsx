@@ -14,7 +14,7 @@ import KPBreadcrumb from '../KPBreadcrumb';
 
 import { useCart } from '@hooks/useCart.hook';
 
-import { ProductModel } from '@interfaces/Product.model';
+import { ProductModel, SaleProductInformation } from '@interfaces/Product.model';
 
 import { SHOWING } from '@constants/Constants.constants';
 
@@ -125,8 +125,10 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
             return;
         }
 
+        const information: SaleProductInformation | undefined = props.product;
+
         onAddProduct({
-            product: props.product,
+            product: information,
             color: props.product?.color.find((c) => c.id === colorActive),
             processor: props.product?.processor.find((p) => p.id === processorActive),
             memorySize: props.product?.memorySize.find((m) => m.id === memorySizeActive),
