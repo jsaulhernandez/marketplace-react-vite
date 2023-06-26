@@ -6,11 +6,17 @@ import KPPayForm from '@components/cart/KPPayForm';
 
 import { useCart } from '@hooks/useCart.hook';
 
+import { SaleModel } from '@interfaces/Sale.model';
+
 const Cart = () => {
     const {
         saleDetails,
         methods: { onRemoveProduct, onUpdateProductQuantity },
     } = useCart();
+
+    const onMakeSale = (info: SaleModel) => {
+        console.log('information: ', info);
+    };
 
     return (
         <Wrapper className="flex flex-row wp-100 wrapper relative g-20">
@@ -41,7 +47,10 @@ const Cart = () => {
                 </div>
             </div>
             <div className="Cart">
-                <KPPayForm className="Cart_pay-form" />
+                <KPPayForm
+                    className="Cart_pay-form"
+                    onSendData={(value) => onMakeSale(value)}
+                />
             </div>
         </Wrapper>
     );

@@ -1,17 +1,16 @@
 import { ColorModel } from './Color.model';
 import { MemorySizeModel } from './MemorySize.model';
 import { ProcessorModel } from './Processor.model';
-import { SaleProductInformation } from './Product.model';
-import { SaleModel } from './Sale.model';
+import { ProductModel } from './Product.model';
 
 export interface SaleDetailModel {
     id?: number;
-    product?: SaleProductInformation;
+    product?: ProductModel;
     color?: ColorModel;
     processor?: ProcessorModel;
     memorySize?: MemorySizeModel;
     quantity: number;
     price: number;
     note?: string;
-    header?: SaleModel;
+    // saleHeader?: SaleModel;
 }

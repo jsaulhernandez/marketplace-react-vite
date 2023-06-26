@@ -410,6 +410,9 @@
     height: auto !important;
 }
 
+.custom-message-error {
+    color: #ff4d4f;
+}
 /* media queries*/
 @media screen and (max-width: 500px) {
     .wrapper {
