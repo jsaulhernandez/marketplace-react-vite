@@ -15,3 +15,4 @@ export const tax: number = 13;
 export const shippingCost: number = 50;
 
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
+export type TypeButton = 'primary' | 'secondary' | 'link' | 'danger';
