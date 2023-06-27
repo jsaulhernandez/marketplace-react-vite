@@ -13,3 +13,5 @@ export type SHOWING = 'DATA' | 'DETAIL' | 'FORM';
 
 export const tax: number = 13;
 export const shippingCost: number = 50;
+
+export type NotificationType = 'success' | 'info' | 'warning' | 'error';
