@@ -3,19 +3,42 @@ import styled from 'styled-components';
 import KPText from '@components/KPText';
 import KPCartItem from '@components/cart/KPCartItem';
 import KPPayForm from '@components/cart/KPPayForm';
+import Toast from '@components/KPToast';
 
 import { useCart } from '@hooks/useCart.hook';
+import useAxios from '@hooks/useAxios.hook';
 
 import { SaleModel } from '@interfaces/Sale.model';
 
 const Cart = () => {
     const {
         saleDetails,
-        methods: { onRemoveProduct, onUpdateProductQuantity },
+        methods: { onRemoveProduct, onUpdateProductQuantity, onClean },
     } = useCart();
 
-    const onMakeSale = (info: SaleModel) => {
-        console.log('information: ', info);
+    const [stateSale, setFetch] = useAxios<SaleModel>();
+
+    const onMakeSale = async (data: SaleModel) => {
+        const response = await setFetch({
+            method: 'POST',
+            path: '/sale',
+            data,
+        });
+
+        if (response.isSuccess) {
+            onClean();
+            Toast(
+                'success',
+                'Registro exitoso',
+                'Tú compra ha sido registrada. Puedes verificar tu compra en MIS COMPRAS',
+            );
+        } else {
+            Toast(
+                'error',
+                'Ocurrió un error',
+                'La compra no ha sido registrada, por favor vuelva a intentarlo.',
+            );
+        }
     };
 
     return (
@@ -50,6 +73,7 @@ const Cart = () => {
                 <KPPayForm
                     className="Cart_pay-form"
                     onSendData={(value) => onMakeSale(value)}
+                    loading={stateSale.isLoading}
                 />
             </div>
         </Wrapper>

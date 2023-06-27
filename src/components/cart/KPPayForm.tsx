@@ -22,6 +22,7 @@ export interface KPPayFormProps {
     onPay?: () => void;
     className?: string;
     onSendData: (info: SaleModel) => void;
+    loading?: boolean;
 }
 
 const KPPayForm: FC<KPPayFormProps> = (props) => {
@@ -44,7 +45,7 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
 
     useEffect(() => {
         if (saleDetails.length > 1 || saleDetails.length === 0) getPaymentMethods();
-    }, []);
+    }, [saleDetails]);
 
     const getPaymentMethods = () => {
         fetchPaymentMethods({
@@ -74,11 +75,13 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
 
         props.onSendData({
             shippingCost: shippingCost,
-            tax: stateTax,
+            tax,
             paymentMethod: method,
             user: 'Saul',
             detail: saleDetails,
         });
+
+        setMethod(undefined);
     };
 
     return (
@@ -117,6 +120,7 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
                                     statePaymentMethods.data ?? [],
                                 )
                             }
+                            defaultValue={method}
                         >
                             {statePaymentMethods.data?.map((c) => (
                                 <KPItemFilter label={c.name} value={c.id} key={c.id} />
@@ -133,6 +137,7 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
                             saleDetails[0].product?.paymentMethod ?? [],
                         )
                     }
+                    defaultValue={method}
                 >
                     {saleDetails[0].product?.paymentMethod?.map((c) => (
                         <KPItemFilter label={c.name} value={c.id} key={c.id} />
@@ -191,7 +196,7 @@ const KPPayForm: FC<KPPayFormProps> = (props) => {
                 />
             </div>
 
-            <KPButton type="primary" onClick={onBuildSale}>
+            <KPButton type="primary" onClick={onBuildSale} loading={props.loading}>
                 Pagar ahora
             </KPButton>
         </Wrapper>
