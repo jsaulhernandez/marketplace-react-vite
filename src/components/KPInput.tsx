@@ -1,8 +1,9 @@
 import { ChangeEvent, FC, KeyboardEvent, ReactNode } from 'react';
 
-import { DatePicker, DatePickerProps, Input, TimePicker } from 'antd';
-import styled from 'styled-components';
+import { DatePicker, Input, TimePicker } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import { DatePickerProps } from 'antd/es/date-picker';
+import styled from 'styled-components';
 
 export type TypeInput = 'input' | 'textarea' | 'date' | 'time';
 
