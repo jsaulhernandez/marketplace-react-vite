@@ -8,6 +8,7 @@ export interface CustomerModel {
     secondLastName?: string;
     dateBirth: string;
     typeDocument: TypeDocumentModel;
+    document: string;
     phone?: string;
-    terms: number;
+    terms: number | boolean;
 }
