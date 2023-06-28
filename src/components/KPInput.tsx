@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, KeyboardEvent, ReactNode } from 'react';
 
-import { Input } from 'antd';
+import { DatePicker, DatePickerProps, Input, TimePicker } from 'antd';
 import styled from 'styled-components';
 import TextArea from 'antd/es/input/TextArea';
 
-export type TypeInput = 'input' | 'textarea';
+export type TypeInput = 'input' | 'textarea' | 'date' | 'time';
 
 export interface KPInputProps {
     typeInput?: TypeInput;
@@ -15,10 +15,11 @@ export interface KPInputProps {
     height?: number;
     placeholder?: string;
     className?: string;
-    onChange?: (value: string) => void;
+    onChange?: (value: string | any) => void;
     defaultValue?: string | number | ReadonlyArray<string>;
     value?: string | number | ReadonlyArray<string>;
     onKeyDown?: (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+    disabledDate?: DatePickerProps['disabledDate'];
 }
 
 const KPInput: FC<KPInputProps> = (props) => {
@@ -30,6 +31,9 @@ const KPInput: FC<KPInputProps> = (props) => {
         suffix,
         onChange,
         className,
+        defaultValue,
+        value,
+        disabledDate,
         ...rest
     } = props;
 
@@ -42,6 +46,26 @@ const KPInput: FC<KPInputProps> = (props) => {
                 }
                 className={`${className ? className : ''}`}
                 allowClear={false}
+                defaultValue={defaultValue}
+                value={value}
+                {...rest}
+            />
+        );
+
+    if (typeInput === 'date')
+        return (
+            <DatePickerWrapper
+                disabledDate={props.disabledDate}
+                onChange={(e) => props.onChange && props.onChange(e)}
+                {...rest}
+            />
+        );
+
+    if (typeInput === 'time')
+        return (
+            <TimePickerWrapper
+                disabledDate={props.disabledDate}
+                onChange={(e) => props.onChange && props.onChange(e)}
                 {...rest}
             />
         );
@@ -55,6 +79,8 @@ const KPInput: FC<KPInputProps> = (props) => {
             addonBefore={addonBefore}
             prefix={prefix}
             suffix={suffix}
+            defaultValue={defaultValue}
+            value={value}
             {...rest}
         />
     );
@@ -69,6 +95,20 @@ const InputWrapper = styled(Input)<{
     height?: number;
 }>`
     height: ${({ height }) => getHeight(height)};
+`;
+
+const DatePickerWrapper = styled(DatePicker)<{
+    height?: number;
+}>`
+    height: ${({ height }) => getHeight(height)};
+    width: 100%;
+`;
+
+const TimePickerWrapper = styled(TimePicker)<{
+    height?: number;
+}>`
+    height: ${({ height }) => getHeight(height)};
+    width: 100%;
 `;
 
 export default KPInput;
