@@ -19,6 +19,7 @@
         "antd": "^5.4.7",
         "axios": "^1.4.0",
         "crypto-js": "^4.1.1",
+        "dayjs": "^1.11.8",
         "file-saver": "^2.0.5",
         "framer-motion": "^10.12.10",
         "intersection-observer": "^0.12.2",
