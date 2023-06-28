@@ -387,7 +387,7 @@ const Home = () => {
                     </div>
 
                     <div className="Home_item-pagination-sort">
-                        <div className="kp-item-row">
+                        <div className="kp-row">
                             <label>Ordenar por:</label>
                             <Select
                                 className="select"
@@ -452,6 +452,10 @@ const Wrapper = styled.div<{
     showFilters: boolean;
 }>`
     gap: 2%;
+
+    .kp-row {
+        gap: 0;
+    }
 
     .Home_item {
         width: 80%;
