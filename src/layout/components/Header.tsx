@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Badge } from 'antd';
+import { Badge, Tooltip } from 'antd';
 import {
     AimOutlined,
     NotificationOutlined,
     SearchOutlined,
     ShoppingCartOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import KPCustomSearch from '@components/KPCustomSearch';
 import KPText from '@components/KPText';
+import KPButton from '@components/KPButton';
 
 import { useFilter } from '@hooks/useFilter.hook';
 import { useResize } from '@hooks/useResize.hook';
 import { useCart } from '@hooks/useCart.hook';
+import { useUser } from '@hooks/useUser.hook';
 
 const Header = () => {
     const {
@@ -24,6 +27,7 @@ const Header = () => {
     } = useFilter();
     const [is630] = useResize(630);
     const { saleDetails } = useCart();
+    const { isLoggedIn } = useUser();
 
     const [showSearch, setShowSearch] = useState<boolean>(false);
 
@@ -43,6 +47,10 @@ const Header = () => {
 
     const redirectToCart = () => {
         navigate('/kplace/cart');
+    };
+
+    const redirectToLogIn = () => {
+        navigate('/auth/login');
     };
 
     return (
@@ -66,31 +74,64 @@ const Header = () => {
                 </div>
 
                 <div className="Header-items-session flex flex-row g-20">
-                    <div className="notifications flex items-center">
-                        {is630 && (
-                            <SearchOutlined
-                                className="icon hand icon-search"
-                                onClick={() => setShowSearch(!showSearch)}
-                            />
-                        )}
-                        <Badge
-                            count={saleDetails.length}
-                            overflowCount={10}
-                            offset={[5, -5]}
-                            showZero
-                            size="small"
+                    {(isLoggedIn || is630) && (
+                        <div className="notifications flex items-center">
+                            {is630 && (
+                                <SearchOutlined
+                                    className="icon hand icon-search"
+                                    onClick={() => setShowSearch(!showSearch)}
+                                />
+                            )}
+
+                            {isLoggedIn && (
+                                <>
+                                    <Badge
+                                        count={saleDetails.length}
+                                        overflowCount={10}
+                                        offset={[5, -5]}
+                                        showZero
+                                        size="small"
+                                    >
+                                        <ShoppingCartOutlined
+                                            className="icon hand"
+                                            onClick={redirectToCart}
+                                        />
+                                    </Badge>
+                                    <NotificationOutlined className="icon hand" />
+                                </>
+                            )}
+                        </div>
+                    )}
+
+                    {isLoggedIn ? (
+                        <>
+                            <div className="separator relative"></div>
+                            <div className="account hand flex items-center relative">
+                                <img
+                                    src="/images/icons/account.webp"
+                                    height={40}
+                                    alt="account"
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <KPButton
+                            type={is630 ? 'secondary' : 'link'}
+                            prefix={
+                                is630 ? (
+                                    <Tooltip
+                                        title="Iniciar sesión"
+                                        placement="leftBottom"
+                                    >
+                                        <UserOutlined />
+                                    </Tooltip>
+                                ) : null
+                            }
+                            onClick={redirectToLogIn}
                         >
-                            <ShoppingCartOutlined
-                                className="icon hand"
-                                onClick={redirectToCart}
-                            />
-                        </Badge>
-                        <NotificationOutlined className="icon hand" />
-                    </div>
-                    <div className="separator relative"></div>
-                    <div className="account hand flex items-center relative">
-                        <img src="/images/icons/account.webp" height={40} alt="account" />
-                    </div>
+                            {!is630 ? 'Iniciar sesión' : ''}
+                        </KPButton>
+                    )}
                 </div>
             </div>
 

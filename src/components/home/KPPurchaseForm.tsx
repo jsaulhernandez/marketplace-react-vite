@@ -26,12 +26,12 @@ export interface KPPurchaseFormProps {
     setNote: (value: string) => void;
     memorySize?: number;
     onSetHeight?: (value?: number) => void;
-    onAddProductToCart: () => void;
+    onAddProductToCart: (buy: boolean) => void;
+    onGoToCart: () => void;
 }
 
 const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
     const { saleDetails } = useCart();
-    const navigate = useNavigate();
 
     const refForm = useRef<HTMLDivElement>(null);
 
@@ -42,10 +42,6 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
     const onSetQuantity = (action: 'add' | 'less') => {
         if (action === 'less') props.setQuantity(props.quantity - 1);
         else props.setQuantity(props.quantity + 1);
-    };
-
-    const onGoToCart = () => {
-        navigate('/kplace/cart');
     };
 
     return (
@@ -106,7 +102,9 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
                 />
             </div>
 
-            <KPButton type="primary">Pagar ahora</KPButton>
+            <KPButton type="primary" onClick={() => props.onAddProductToCart(true)}>
+                Pagar ahora
+            </KPButton>
             <KPButton
                 theme={
                     !existsProductInCart(props.product, saleDetails) ? 'dark' : 'light'
@@ -116,8 +114,8 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
                 }
                 onClick={() =>
                     !existsProductInCart(props.product, saleDetails)
-                        ? props.onAddProductToCart()
-                        : onGoToCart()
+                        ? props.onAddProductToCart(false)
+                        : props.onGoToCart()
                 }
             >
                 {!existsProductInCart(props.product, saleDetails)

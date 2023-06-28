@@ -1,5 +1,7 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { Tabs, Tooltip, message } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
@@ -11,8 +13,10 @@ import KPDetailImages from '../KPDetailImages';
 import KPItemFilter from '../KPItemFilter';
 import KPPurchaseForm from './KPPurchaseForm';
 import KPBreadcrumb from '../KPBreadcrumb';
+import KPModalUserSession from '@components/login/KPModalUserSession';
 
 import { useCart } from '@hooks/useCart.hook';
+import { useUser } from '@hooks/useUser.hook';
 
 import { ProductModel } from '@interfaces/Product.model';
 
@@ -35,6 +39,8 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
     const {
         methods: { onAddProduct },
     } = useCart();
+    const { isLoggedIn } = useUser();
+    const navigate = useNavigate();
 
     const [colorActive, setColorActive] = useState<number>();
     const [processorActive, setProcessorActive] = useState<number>();
@@ -47,6 +53,9 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
     const refContainer = useRef<HTMLDivElement>(null);
     const [heightForm, setHeightForm] = useState<number>();
     const [dif, setDif] = useState<number>();
+
+    //modal without session
+    const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
         getContent();
@@ -109,7 +118,12 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
         setTabs(items.filter((i) => i.children !== ''));
     };
 
-    const onAddProductToCart = () => {
+    const onAddProductToCart = (pay: boolean) => {
+        if (!isLoggedIn) {
+            setOpen(true);
+            return;
+        }
+
         if (!colorActive) {
             message.warning('Debes seleccionar un color');
             return;
@@ -140,6 +154,12 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
         setMemorySizeActive(undefined);
         setQuantity(1);
         setNote('');
+
+        if (pay) onGoToCart();
+    };
+
+    const onGoToCart = () => {
+        navigate('/kplace/cart');
     };
 
     return (
@@ -283,10 +303,13 @@ const KPProductDetail: FC<KPProductDetailProps> = (props) => {
                         setQuantity={setQuantity}
                         setNote={setNote}
                         onSetHeight={setHeightForm}
-                        onAddProductToCart={onAddProductToCart}
+                        onAddProductToCart={(pay) => onAddProductToCart(pay)}
+                        onGoToCart={onGoToCart}
                     />
                 </div>
             </div>
+
+            <KPModalUserSession open={open} onClose={setOpen} />
         </Wrapper>
     );
 };
