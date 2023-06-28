@@ -20,6 +20,7 @@ export interface KPInputProps {
     value?: string | number | ReadonlyArray<string>;
     onKeyDown?: (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
     disabledDate?: DatePickerProps['disabledDate'];
+    format?: string | string[];
 }
 
 const KPInput: FC<KPInputProps> = (props) => {
@@ -34,6 +35,7 @@ const KPInput: FC<KPInputProps> = (props) => {
         defaultValue,
         value,
         disabledDate,
+        format,
         ...rest
     } = props;
 
@@ -57,6 +59,7 @@ const KPInput: FC<KPInputProps> = (props) => {
             <DatePickerWrapper
                 disabledDate={props.disabledDate}
                 onChange={(e) => props.onChange && props.onChange(e)}
+                format={format}
                 {...rest}
             />
         );
@@ -66,6 +69,7 @@ const KPInput: FC<KPInputProps> = (props) => {
             <TimePickerWrapper
                 disabledDate={props.disabledDate}
                 onChange={(e) => props.onChange && props.onChange(e)}
+                format={format}
                 {...rest}
             />
         );
