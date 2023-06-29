@@ -16,3 +16,6 @@ export const shippingCost: number = 50;
 
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 export type TypeButton = 'primary' | 'secondary' | 'link' | 'danger';
+export type StepStatus = 'error' | 'process' | 'finish' | 'wait';
+
+export const errorMessage: string = 'Este campo es obligatorio.';
