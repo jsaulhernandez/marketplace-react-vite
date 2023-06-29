@@ -23,10 +23,12 @@ const LogIn = () => {
         if (option === 'signUp') navigate('/auth/signup');
     };
 
-    const onFinish = (values: LoginModel) => {};
+    const onFinish = (values: LoginModel) => {
+        console.log(values);
+    };
 
     return (
-        <Wrapper className="flex justify-center items-center">
+        <Wrapper className="LogIn flex justify-center items-center">
             {!is768 && (
                 <KPInformative
                     className="LogIn_item"
@@ -34,6 +36,7 @@ const LogIn = () => {
                     secondText="Descubre lo mejor de lo mejor de la tecnología, que te ayudara a sacar lo mejor de ti"
                 />
             )}
+
             <div className="LogIn_item flex flex-column justify-center items-center">
                 <img src="/images/logo/logo.webp" alt="logo" />
                 <Form
