@@ -7,5 +7,5 @@ export interface UserModel {
     createdAt: number;
     updatedAt: number;
     verifiedEmail?: number;
-    customer: CustomerModel;
+    customer?: CustomerModel;
 }
