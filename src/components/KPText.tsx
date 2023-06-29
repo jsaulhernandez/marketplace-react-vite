@@ -96,24 +96,43 @@ const styles = css<Omit<KPTextProps, 'onClick' | 'className' | 'text'>>`
 const H1Wrapper = styled.h1`
     ${styles}
 `;
+
 const H2Wrapper = styled.h2`
     ${styles}
 `;
+
 const H3Wrapper = styled.h3`
     ${styles}
 `;
+
 const H4Wrapper = styled.h4`
     ${styles}
 `;
+
 const H5Wrapper = styled.h5`
     ${styles}
 `;
+
 const PWrapper = styled.p`
     ${styles}
 `;
-const DivWrapper = styled.div`
+
+const DivWrapper = styled.div<Omit<KPTextProps, 'onClick' | 'className' | 'text'>>`
+    margin: ${({ margin }) => getMargin(margin)};
+    margin-top: ${({ marginTop }) => getMargin(marginTop)};
+    margin-right: ${({ marginRight }) => getMargin(marginRight)};
+    margin-bottom: ${({ marginBottom }) => getMargin(marginBottom)};
+    margin-left: ${({ marginLeft }) => getMargin(marginLeft)};
+
     span {
-        ${styles}
+        color: ${({ textColor }) => getTextColor(textColor)};
+        font-size: ${({ fontSize }) => getFontSize(fontSize)};
+        font-weight: ${({ fontWeight }) => getFontWeight(fontWeight)};
+        letter-spacing: ${({ letterSpacing }) => getLetterSpacing(letterSpacing)};
+        text-decoration: ${({ textDecoration }) => getTextDecoration(textDecoration)};
+        text-decoration-color: ${({ textDecorationColor }) =>
+            getTextDecorationColor(textDecorationColor)};
+        text-align: ${({ textAlign }) => (textAlign ? textAlign : 'left')};
     }
 `;
 
