@@ -84,9 +84,9 @@ const KPCartItem: FC<KPCartItemProps> = (props) => {
                     max={props.detail.product?.stock}
                 />
                 <KPText
-                    className="mt-1"
+                    marginTop={10}
                     text={
-                        <span className="flex flex-row">
+                        <span className="flex flex-row justify-center">
                             Solo&nbsp;
                             <KPText
                                 text={`${props.detail.product?.stock ?? 0} productos`}

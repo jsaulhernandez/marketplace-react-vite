@@ -76,7 +76,7 @@ const KPCreateAccount: FC<KPCreateAccountProps> = (props) => {
 
                     <div className="kp-column-50">
                         <label htmlFor="password">
-                            Contraseña<span>*</span>
+                            Contrase&ntilde;a<span>*</span>
                         </label>
                         <Form.Item
                             hasFeedback
@@ -111,16 +111,14 @@ const KPCreateAccount: FC<KPCreateAccountProps> = (props) => {
 
 const Wrapper = styled.div`
     @media screen and (max-width: 1024px) {
-        .KPCreateAccount_form {
-            width: 100%;
+        align-items: center;
 
-            .kp-row {
-                flex-direction: column;
-                gap: 0px;
+        .KPCreateAccount_form .kp-row {
+            flex-direction: column;
+            gap: 0px;
 
-                .kp-column-50 {
-                    width: 100%;
-                }
+            .kp-column-50 {
+                width: 100%;
             }
         }
     }

@@ -40,7 +40,7 @@ const SignUp = () => {
         }
     };
 
-    const customDot: StepsProps['progressDot'] = (dot, { status, index }) => (
+    const customDot: StepsProps['progressDot'] = (dot, { status }) => (
         <Popover content={<span>Estado: {getStatus(status)}</span>}>{dot}</Popover>
     );
 
@@ -58,7 +58,7 @@ const SignUp = () => {
     };
 
     return (
-        <Wrapper className="SignUp flex justify-center items-center">
+        <Wrapper className="SignUp flex justify-center">
             {!is768 && (
                 <KPInformative
                     className="SignUp_item"
@@ -136,7 +136,7 @@ const Wrapper = styled.div`
         }
 
         .SignUp_form {
-            width: 80%;
+            width: 100%;
         }
     }
 

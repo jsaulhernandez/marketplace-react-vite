@@ -1,7 +1,5 @@
 import { FC, useEffect, useRef } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import { Divider } from 'antd';
 import styled from 'styled-components';
 
@@ -60,9 +58,9 @@ const KPPurchaseForm: FC<KPPurchaseFormProps> = (props) => {
                     onPlus={() => onSetQuantity('add')}
                 />
                 <KPText
-                    className="mt-1"
+                    marginTop={10}
                     text={
-                        <span className="flex flex-row">
+                        <span className="flex flex-row justify-center">
                             Solo&nbsp;
                             <KPText
                                 text={`${props.product?.stock} productos`}

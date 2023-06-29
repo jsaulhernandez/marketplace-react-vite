@@ -69,7 +69,7 @@ const Wrapper = styled.div`
 
     .KPCustomSearch_content {
         border-radius: 15px;
-        border: 2px solid var(--quaternary-color);
+        border: 1px solid var(--quaternary-color);
         height: 50px;
     }
 
@@ -88,6 +88,7 @@ const Wrapper = styled.div`
         padding: 13px 100px 13px 50px;
         border: none;
         background-color: unset;
+        height: 50px !important;
 
         &:focus-within {
             box-shadow: 0 0 0 1px var(--primary-color) !important;

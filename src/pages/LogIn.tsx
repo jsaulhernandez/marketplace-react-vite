@@ -28,7 +28,7 @@ const LogIn = () => {
     };
 
     return (
-        <Wrapper className="LogIn flex justify-center items-center">
+        <Wrapper className="LogIn flex justify-center">
             {!is768 && (
                 <KPInformative
                     className="LogIn_item"
@@ -65,7 +65,7 @@ const LogIn = () => {
 
                     <div className="kp-column">
                         <label htmlFor="password">
-                            Contraseña<span>*</span>
+                            Contrase&ntilde;a<span>*</span>
                         </label>
                         <Form.Item
                             hasFeedback

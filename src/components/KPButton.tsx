@@ -56,6 +56,7 @@ const Button = styled.button<{
     border-radius: 10px;
     outline: none;
     border: none;
+    height: 40px;
 
     &:hover {
         cursor: pointer;

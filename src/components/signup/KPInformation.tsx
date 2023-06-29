@@ -50,6 +50,9 @@ const KPInformation: FC<KPInformationProps> = (props) => {
                     typeDocument: {
                         id: props.data?.typeDocument.id?.toString(),
                     },
+                    dateBirth: props.data?.dateBirth
+                        ? dayjs(props.data?.dateBirth)
+                        : null,
                 }}
             >
                 <div className="kp-row">
@@ -150,7 +153,7 @@ const KPInformation: FC<KPInformationProps> = (props) => {
                     </div>
                 </div>
 
-                <div className="kp-row item">
+                <div className="kp-row">
                     <div className="kp-column-50">
                         <label htmlFor="document">
                             N&uacute;mero de documento<span>*</span>
@@ -229,16 +232,14 @@ const KPInformation: FC<KPInformationProps> = (props) => {
 
 const WrapperInformation = styled.div`
     @media screen and (max-width: 1024px) {
-        .KPInformation_form {
-            width: 100%;
+        justify-content: center;
 
-            .kp-row {
-                flex-direction: column;
-                gap: 0px;
+        .KPInformation_form .kp-row {
+            flex-direction: column;
+            gap: 0px;
 
-                .kp-column-50 {
-                    width: 100%;
-                }
+            .kp-column-50 {
+                width: 100%;
             }
         }
     }

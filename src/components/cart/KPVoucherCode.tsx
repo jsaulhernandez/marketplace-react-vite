@@ -39,13 +39,11 @@ const Wrapper = styled.div`
         padding: 13px 85px 13px 13px;
         border: none;
         background-color: unset;
-        height: 38px;
         box-shadow: 0 0 0 1px var(--quaternary-color) !important;
         color: var(--primary-text-color) !important;
     }
 
     .button {
-        height: 38px;
         position: absolute;
         z-index: 99;
         right: 0px;
