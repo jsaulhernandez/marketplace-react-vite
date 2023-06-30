@@ -9,8 +9,12 @@ import KPButton from '@components/KPButton';
 import KPInput from '@components/KPInput';
 import KPText from '@components/KPText';
 
+import useAxios from '@hooks/useAxios.hook';
+
 import { CustomerModel } from '@interfaces/Customer.model';
 import { UserModel } from '@interfaces/User.model';
+
+import { validateEmail } from '@utils/Validator.utils';
 
 import { errorMessage } from '@constants/Constants.constants';
 
@@ -22,6 +26,8 @@ interface KPCreateAccountProps {
 }
 
 const KPCreateAccount: FC<KPCreateAccountProps> = (props) => {
+    const [, fetchExistsEmail] = useAxios<boolean>();
+
     const [form] = useForm<UserModel>();
 
     const onFinish = (values: UserModel) => {
@@ -29,6 +35,26 @@ const KPCreateAccount: FC<KPCreateAccountProps> = (props) => {
             ...values,
             customer: props.data,
         });
+    };
+
+    const existsEmailAddress = async (value: string) => {
+        try {
+            await validateEmail(value);
+            const response = await fetchExistsEmail({
+                method: 'GET',
+                path: '/customer/web/exists-email',
+                queries: {
+                    email: value,
+                },
+            });
+
+            if (response.isSuccess && response.data)
+                return Promise.reject(
+                    'El correo electrónico ya se encuentra registrado.',
+                );
+        } catch (error) {
+            console.log('[ERROR]', error);
+        }
     };
 
     return (
@@ -67,6 +93,12 @@ const KPCreateAccount: FC<KPCreateAccountProps> = (props) => {
                                 {
                                     required: true,
                                     message: errorMessage,
+                                },
+                                {
+                                    validator: (_, value) => validateEmail(value),
+                                },
+                                {
+                                    validator: (_, value) => existsEmailAddress(value),
                                 },
                             ]}
                         >

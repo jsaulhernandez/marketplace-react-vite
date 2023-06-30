@@ -1,4 +1,6 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+
+import ReactInputMask from 'react-input-mask';
 
 import { Checkbox, Form, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -10,7 +12,10 @@ import dayjs, { Dayjs } from 'dayjs';
 import KPButton from '@components/KPButton';
 import KPInput from '@components/KPInput';
 
+import useAxios from '@hooks/useAxios.hook';
+
 import { CustomerModel } from '@interfaces/Customer.model';
+import { TypeDocumentModel } from '@interfaces/TypeDocument.model';
 
 import { errorMessage } from '@constants/Constants.constants';
 
@@ -22,7 +27,19 @@ interface KPInformationProps {
 }
 
 const KPInformation: FC<KPInformationProps> = (props) => {
+    const [stateTypesDocuments, fetchTypesDocuments] = useAxios<TypeDocumentModel[]>();
+    const [, fetchValidateDocument] = useAxios<boolean>();
+
     const [form] = useForm<CustomerModel>();
+
+    const [document, setTypeDocument] = useState<TypeDocumentModel>();
+
+    useEffect(() => {
+        fetchTypesDocuments({
+            method: 'GET',
+            path: '/type-document/web/active',
+        });
+    }, []);
 
     const onFinish = (values: CustomerModel) => {
         if (values.dateBirth) values.dateBirth = dayjs(values.dateBirth).toISOString();
@@ -35,6 +52,33 @@ const KPInformation: FC<KPInformationProps> = (props) => {
 
     const onDisabledDates = (date: Dayjs) => {
         return date && date > dayjs().subtract(18, 'years').endOf('year');
+    };
+
+    const onChangeDocument = (id: string) => {
+        setTypeDocument(stateTypesDocuments.data?.find((td) => td.id?.toString() === id));
+    };
+
+    const existsCustomerDocument = async (value: string) => {
+        try {
+            const length =
+                document?.masking.replaceAll('-', '').replaceAll('_', '').length ?? 0;
+            const valueLength = value.replaceAll('-', '').replaceAll('_', '').length;
+
+            if (valueLength < length) return;
+
+            const response = await fetchValidateDocument({
+                method: 'GET',
+                path: '/customer/web/exists-document',
+                queries: {
+                    document: value,
+                },
+            });
+
+            if (response.isSuccess && response.data)
+                return Promise.reject('El documento ya se encuentra registrado.');
+        } catch (error) {
+            console.log('[ERROR]', error);
+        }
     };
 
     return (
@@ -146,8 +190,15 @@ const KPInformation: FC<KPInformationProps> = (props) => {
                                 },
                             ]}
                         >
-                            <Select allowClear>
-                                <Select.Option key={1}>DUI</Select.Option>
+                            <Select
+                                allowClear
+                                placeholder="Seleccionar documento"
+                                loading={stateTypesDocuments.isLoading}
+                                onChange={onChangeDocument}
+                            >
+                                {stateTypesDocuments.data?.map((td) => (
+                                    <Select.Option key={td.id}>{td.name}</Select.Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </div>
@@ -166,9 +217,24 @@ const KPInformation: FC<KPInformationProps> = (props) => {
                                     required: true,
                                     message: errorMessage,
                                 },
+                                {
+                                    len: document?.masking.length || 0,
+                                    message: 'El documento es incorrecto',
+                                },
+                                {
+                                    validator: (_, value) =>
+                                        existsCustomerDocument(value),
+                                },
                             ]}
                         >
-                            <KPInput />
+                            <ReactInputMask
+                                mask={document?.masking || ''}
+                                maskChar={null}
+                                placeholder={document?.masking ?? ''}
+                            >
+                                {/* @ts-ignore */}
+                                {(input) => <KPInput />}
+                            </ReactInputMask>
                         </Form.Item>
                     </div>
 
