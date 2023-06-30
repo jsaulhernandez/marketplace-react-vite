@@ -41,6 +41,16 @@ const KPInformation: FC<KPInformationProps> = (props) => {
         });
     }, []);
 
+    useEffect(() => {
+        if (stateTypesDocuments.data && props.data?.typeDocument) {
+            setTypeDocument(
+                stateTypesDocuments.data?.find(
+                    (td) => td.id?.toString() === props.data?.typeDocument.id?.toString(),
+                ),
+            );
+        }
+    }, [stateTypesDocuments.isSuccess]);
+
     const onFinish = (values: CustomerModel) => {
         if (values.dateBirth) values.dateBirth = dayjs(values.dateBirth).toISOString();
 
@@ -97,6 +107,7 @@ const KPInformation: FC<KPInformationProps> = (props) => {
                     dateBirth: props.data?.dateBirth
                         ? dayjs(props.data?.dateBirth)
                         : null,
+                    document: props.data?.document,
                 }}
             >
                 <div className="kp-row">
